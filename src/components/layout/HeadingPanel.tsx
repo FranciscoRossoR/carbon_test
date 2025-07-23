@@ -20,7 +20,7 @@ export default observer(class HeadingPanel extends React.Component<IHeadingProps
                         <Heading>Waiting for players</Heading>
                     </> : null}
             </VStack>
-        );
+        )
 
     }
 
