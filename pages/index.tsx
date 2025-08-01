@@ -6,6 +6,7 @@ import gameState from 'pages/store'
 import { Flex } from "@chakra-ui/react"
 import HeadingPanel from "src/components/layout/HeadingPanel"
 import SummaryPanel from "src/components/layout/SummaryPanel"
+import MarketPanel from "src/components/layout/MarketPanel"
 
 export default observer(class Play extends React.Component<{}, {}> {
 
@@ -22,6 +23,11 @@ export default observer(class Play extends React.Component<{}, {}> {
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
                 <HeadingPanel flex="1 1 100%" />
+                {gameState.status === "playing" ?
+                    <Flex justifyContent="center" align="stretch" wrap="wrap">
+                        <MarketPanel flex="0 1 100% " />
+                    </Flex>
+                : null}
                 <SummaryPanel />
             </>
         )

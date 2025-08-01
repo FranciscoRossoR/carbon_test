@@ -36,7 +36,9 @@ export default observer(function SummaryPanel(props: IPanelProps) {
                     <HStack p="1em" spacing="1em">
                         {!gameState.isMaxPlayersReached ?
                             <>
-                                <Button bgColor="brand.500" onClick={(e) => { onAddPlayer(e) }}>Add player</Button>
+                                <Button bgColor="brand.500" onClick={(e) => { onAddPlayer(e) }}>
+                                    Add player
+                                </Button>
                                 {/* <NewPlayerDrawer isOpen={isOpen} onClose={onClose} /> */}
                             </>
                         : null}
@@ -56,7 +58,7 @@ function onAddPlayer(event: React.MouseEvent<HTMLButtonElement>) {
 }
 
 function onStart(event: React.MouseEvent<HTMLButtonElement>) {
-    // Lorem ipsum
+    gameState.startGame();
 }
 
 // interface IDrawerProps {
