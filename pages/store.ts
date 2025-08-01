@@ -1,12 +1,13 @@
 import GameState from "framework/entities/gameState";
 import Player from "framework/entities/player";
+import CarbonCityZeroPlayer from "src/entities/carboncityzero/carbonCityZeroPlayer";
 import CarbonCityZeroState from "src/entities/carboncityzero/carbonCityZeroState";
 
-const players = [new Player("player1"),
-    new Player("player2"),
-    new Player("player3")
+const players = [new CarbonCityZeroPlayer("player1"),
+    new CarbonCityZeroPlayer("player2"),
+    new CarbonCityZeroPlayer("player3")
 ]
 
-var gameState = new CarbonCityZeroState(1, 4, players, [], "open");
+var gameState = new CarbonCityZeroState(players);
 
 export default gameState;
