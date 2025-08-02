@@ -90,8 +90,5 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
 })
 
 reaction(() => gameState.turn, () => {
-    console.log("TURN", gameState.turn)
-    gameState.currentPlayer.drawDeck.moveCard(
-        gameState.currentPlayer.drawDeck.head,
-        gameState.currentPlayer.drawnCards)
+    gameState.currentPlayer.drawCards(2)
 })
