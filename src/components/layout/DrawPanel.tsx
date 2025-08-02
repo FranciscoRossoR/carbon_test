@@ -17,12 +17,19 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
 
     public render() {
 
+        // Player
         const currentPlayer = gameState.currentPlayer as CarbonCityZeroPlayer
+        // Draw Deck
         const drawDeck = currentPlayer.drawDeck
-        const deckSize = drawDeck.size
-        const card = drawDeck.head
+        const drawDeckSize = drawDeck.size
+        const drawDeckCard = drawDeck.head
+        // Drawn Cards
         const drawnCards = currentPlayer.drawnCards
         const actions = gameState.availableActions
+        // Recycle Pile
+        const recyclePile = currentPlayer.recyclePile
+        const recyclePileSize = recyclePile.size
+        const recyclePileCard = recyclePile.head
 
         const deckWidth = '70px'
         const deckStyle = {
@@ -55,8 +62,8 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                 <Center>
                     <HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
-                            <Card sx={deckStyle} {...card} />
-                            <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{deckSize}</Badge>
+                            <Card sx={deckStyle} {...drawDeckCard} />
+                            <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{drawDeckSize}</Badge>
                         </Box>
                         <Center w='10em'>
                             {action ? <Button key={action.actionName} sx={actionButtonStyle} m="1em" onClick={() => gameState.executeAction(action)}>{action.actionName}</Button> : null}
@@ -69,6 +76,10 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                                 </React.Fragment>
                             ))}
                         </HStack>
+                        <Box m="1em" position="relative" w={deckWidth}>
+                            <Card sx={deckStyle} {...recyclePileCard} color="gray.500"/>
+                            <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{recyclePileSize}</Badge>
+                        </Box>
                     </HStack>
                 </Center>
             </Box>

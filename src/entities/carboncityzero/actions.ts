@@ -12,12 +12,7 @@ export class PassAction extends GameAction {
     }
     
     public execute(state: CarbonCityZeroState) : CarbonCityZeroState {
-        // console.log("current", state.currentPlayer.name)
-        // console.log("next", state.nextPlayer.name)
-        // state.nextPlayer.drawDeck.moveCard(state.nextPlayer.drawDeck.head, state.nextPlayer.drawnCards)
-        // var card = state.nextPlayer.drawDeck.head
-        // state.nextPlayer.drawDeck.removeCard(card)
-        // state.nextPlayer.drawDeck.addCard(card)
+        state.currentPlayer.discardAllDrawnCards();
         return state.passTurn()
     }
     

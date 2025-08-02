@@ -40,4 +40,13 @@ export default class CarbonCityZeroPlayer extends Player {
         })
     }
 
+    public discardAllDrawnCards() {
+        for (let i = 0; i <= this.drawnCards.size; i++) {
+            this.drawnCards.moveCard(
+                this.drawnCards.head,
+                this.recyclePile
+            )
+        }
+    }
+
 }

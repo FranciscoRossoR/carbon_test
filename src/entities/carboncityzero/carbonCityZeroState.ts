@@ -43,6 +43,7 @@ export default class CarbonCityZeroState extends GameState {
             turn: observable,
             currentPlayer: computed,
             nextPlayer: computed,
+            previousPlayer: computed,
             passTurn: action
         })
     }
@@ -57,6 +58,10 @@ export default class CarbonCityZeroState extends GameState {
 
     public get nextPlayer(): CarbonCityZeroPlayer {
         return this.getPlayer(this.turn + 1 >= this.players.length ? 0 : this.turn + 1)
+    }
+
+    public get previousPlayer(): CarbonCityZeroPlayer {
+        return this.getPlayer(this.turn - 1 < 0 ? this.players.length - 1 : this.turn)
     }
 
     protected computeAvailableActions(): GameAction[] {
