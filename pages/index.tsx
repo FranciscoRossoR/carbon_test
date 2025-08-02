@@ -7,6 +7,7 @@ import { Flex } from "@chakra-ui/react"
 import HeadingPanel from "src/components/layout/HeadingPanel"
 import SummaryPanel from "src/components/layout/SummaryPanel"
 import MarketPanel from "src/components/layout/MarketPanel"
+import DrawPanel from "src/components/layout/DrawPanel"
 
 export default observer(class Play extends React.Component<{}, {}> {
 
@@ -26,6 +27,7 @@ export default observer(class Play extends React.Component<{}, {}> {
                 {gameState.status === "playing" ?
                     <Flex justifyContent="center" align="stretch" wrap="wrap">
                         <MarketPanel flex="0 1 100% " />
+                        <DrawPanel flex="0 1 100%" />
                     </Flex>
                 : null}
                 <SummaryPanel />

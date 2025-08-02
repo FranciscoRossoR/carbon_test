@@ -3,14 +3,13 @@ import { observer } from "mobx-react";
 import gameState from "pages/store";
 import React from "react";
 import Card from 'src/components/PlayingCard'
-import CarbonCityZeroPlayer from "src/entities/carboncityzero/carbonCityZeroPlayer";
 
-type ICardsPanelProps = {
+type IMarketPanelProps = {
 } & FlexProps
 
-export default observer(class MarketPanel extends React.Component<ICardsPanelProps, {}> {
+export default observer(class MarketPanel extends React.Component<IMarketPanelProps, {}> {
 
-    public constructor(props: ICardsPanelProps) {
+    public constructor(props: IMarketPanelProps) {
         super(props)
     }
 

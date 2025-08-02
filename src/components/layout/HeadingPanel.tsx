@@ -13,12 +13,20 @@ export default observer(class HeadingPanel extends React.Component<IHeadingProps
 
     public render() {
 
+        const currentPlayer = gameState.currentPlayer
+
         return (
             <VStack>
                 {(gameState.status === "open") ?
                     <>
                         <Heading>Waiting for players</Heading>
-                    </> : null}
+                    </>
+                : null}
+                {(gameState.status === "playing") ?
+                    <>
+                        <Heading>{currentPlayer.name}</Heading>
+                    </>
+                : null}
             </VStack>
         )
 

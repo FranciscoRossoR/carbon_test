@@ -6,7 +6,8 @@ import CarbonCityZeroPlayer from "./carbonCityZeroPlayer";
 import UniqueGameElement from "framework/entities/gameElement";
 import ComplexityAnalyst from "framework/entities/complexityAnalyst";
 import OrderedCardHolder from "framework/entities/orderedcardholder";
-import { computed, makeObservable, observable, override } from "mobx";
+import { action, computed, makeObservable, observable, override } from "mobx";
+import { PassAction } from "./actions";
 
 export default class CarbonCityZeroState extends GameState {
 
@@ -31,7 +32,7 @@ export default class CarbonCityZeroState extends GameState {
         this.marketDeck = new CardHolder<Card>(cards)
         this.marketDeck.shuffle()
         this.landfillPile = new OrderedCardHolder<Card>([], (a,b) => 1)  // PLACEHOLDER
-        this.turn = 0
+        this.turn = -1
         makeObservable(this, {
             availableActions: override,
             status: override,
@@ -40,7 +41,9 @@ export default class CarbonCityZeroState extends GameState {
             marketDeck: observable,
             landfillPile: observable,
             turn: observable,
-            currentPlayer: computed
+            currentPlayer: computed,
+            nextPlayer: computed,
+            passTurn: action
         })
     }
 
@@ -52,8 +55,34 @@ export default class CarbonCityZeroState extends GameState {
         return this.getPlayer(this.turn)
     }
 
+    public get nextPlayer(): CarbonCityZeroPlayer {
+        return this.getPlayer(this.turn + 1 >= this.players.length ? 0 : this.turn + 1)
+    }
+
     protected computeAvailableActions(): GameAction[] {
-        throw new Error("Method not implemented.");
+        const res: GameAction[] = []
+        if (this.status === "playing") {
+            res.push(new PassAction())
+        }
+        return res
+    }
+
+    public passTurn(): CarbonCityZeroState {
+        this.turn ++
+        if (this.turn >= this.players.length) {
+            this.turn = 0
+        }
+        return this
+    }
+
+    public startGame() : boolean {
+        if (this.status === "open" && this.enoughPlayers) {
+            this.turn = 0
+            this.status = "playing"
+            return true
+        } else {
+            return false
+        }
     }
 
 }

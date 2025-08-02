@@ -10,6 +10,7 @@ export default class CarbonCityZeroPlayer extends Player {
 
     carbon: ResourcesPool<Resources>
     drawDeck: CardHolder<Card>
+    drawnCards: OrderedCardHolder<Card>
     recyclePile: OrderedCardHolder<Card>
 
     public constructor(name: string) {
@@ -28,10 +29,13 @@ export default class CarbonCityZeroPlayer extends Player {
             new Card("Remote Properties 1"),
         ]
         this.drawDeck = new CardHolder<Card>(cards) // PLACEHOLDER
+        this.drawDeck.shuffle()
+        this.drawnCards = new OrderedCardHolder<Card>([], (a,b) => 1)  // PLACEHOLDER
         this.recyclePile = new OrderedCardHolder<Card>([], (a,b) => 1)  // PLACEHOLDER
         makeObservable(this, {
             name: override,
             carbon: observable,
+            drawnCards: observable,
             recyclePile: observable
         })
     }
