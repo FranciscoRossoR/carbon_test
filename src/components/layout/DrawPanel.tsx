@@ -3,7 +3,7 @@ import { reaction } from "mobx"
 import { observer } from "mobx-react"
 import gameState from "pages/store"
 import React from "react"
-import Card from 'src/components/PlayingCard'
+import PlayingCard from 'src/components/PlayingCard'
 import CarbonCityZeroPlayer from "src/entities/carboncityzero/carbonCityZeroPlayer"
 
 type IDrawPanelProps = {
@@ -47,7 +47,6 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
             backgroundColor: '#fff',
             right: '-1.25em'
         }
-
         const actionButtonStyle = {
             bg: 'brand.500',
             _hover: {
@@ -62,22 +61,30 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                 <Center>
                     <HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
-                            <Card sx={deckStyle} {...drawDeckCard} />
+                            <PlayingCard sx={deckStyle} name={drawDeckCard?.name}/>
                             <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{drawDeckSize}</Badge>
                         </Box>
                         <Center w='10em'>
                             {action ? <Button key={action.actionName} sx={actionButtonStyle} m="1em" onClick={() => gameState.executeAction(action)}>{action.actionName}</Button> : null}
                         </Center>
                         <HStack p="1em" spacing="0">
-                            {drawnCards.cards.map((c, i) => (
-                                <React.Fragment key={c._uid}>
-                                    <Spacer w="1em" />
-                                    <Card {...c} />
-                                </React.Fragment>
-                            ))}
+                            {drawnCards.cards.map((c, i) => {
+                                const handleCardClick = () => {
+                                    if (c.hasCardAction) {
+                                        c.cardAction?.()
+                                        c.setHasCardAction(false)
+                                    }
+                                }
+                                return (
+                                    <React.Fragment key={c._uid}>
+                                        <Spacer w="1em" />
+                                        <PlayingCard name={c.name} hasCardActionProps={c.hasCardAction} onClick={handleCardClick} />
+                                    </React.Fragment>
+                                )
+                            })}
                         </HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
-                            <Card sx={deckStyle} {...recyclePileCard} color="gray.500"/>
+                            <PlayingCard sx={deckStyle} name={recyclePileCard?.name} color="gray.500"/>
                             <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{recyclePileSize}</Badge>
                         </Box>
                     </HStack>
@@ -88,6 +95,12 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
     }
 
 })
+
+function safeProps<T extends object>(obj: T): Partial<T> {
+        const entries = Object.entries(obj).filter(
+            ([_, value]) => typeof value !== 'function')
+        return Object.fromEntries(entries) as Partial<T>
+    }
 
 reaction(() => gameState.turn, () => {
     gameState.currentPlayer.drawCards(4)

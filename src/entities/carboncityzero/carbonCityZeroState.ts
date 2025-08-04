@@ -8,30 +8,31 @@ import ComplexityAnalyst from "framework/entities/complexityAnalyst";
 import OrderedCardHolder from "framework/entities/orderedcardholder";
 import { action, computed, makeObservable, observable, override } from "mobx";
 import { PassAction } from "./actions";
+import { CarbonCityZeroCard } from "./carbonCityZeroCard";
 
 export default class CarbonCityZeroState extends GameState {
 
-    marketDeck: CardHolder<Card>
-    landfillPile: OrderedCardHolder<Card>
+    marketDeck: CardHolder<CarbonCityZeroCard>
+    landfillPile: OrderedCardHolder<CarbonCityZeroCard>
     turn: number
 
     public constructor(players?: CarbonCityZeroPlayer[], gameElements?: UniqueGameElement[], status?: GameStatus, complexAnalyst?: ComplexityAnalyst) {
         gameElements = []
         super(1, 4, players ? players : [], gameElements, status, complexAnalyst)
         const cards = [
-                    new Card("Budget 1"),
-                    new Card("Budget 2"),
-                    new Card("Budget 3"),
-                    new Card("Budget 4"),
-                    new Card("Budget 5"),
-                    new Card("Global Market 1"),
-                    new Card("Global Market 2"),
-                    new Card("Poor Housing Stock 1"),
-                    new Card("Remote Properties 1"),
+                    new CarbonCityZeroCard("Budget 1"),
+                    new CarbonCityZeroCard("Budget 2"),
+                    new CarbonCityZeroCard("Budget 3"),
+                    new CarbonCityZeroCard("Budget 4"),
+                    new CarbonCityZeroCard("Budget 5"),
+                    new CarbonCityZeroCard("Global Market 1"),
+                    new CarbonCityZeroCard("Global Market 2"),
+                    new CarbonCityZeroCard("Poor Housing Stock 1"),
+                    new CarbonCityZeroCard("Remote Properties 1"),
                 ]
-        this.marketDeck = new CardHolder<Card>(cards)
+        this.marketDeck = new CardHolder<CarbonCityZeroCard>(cards)
         this.marketDeck.shuffle()
-        this.landfillPile = new OrderedCardHolder<Card>([], (a,b) => 1)  // PLACEHOLDER
+        this.landfillPile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)  // PLACEHOLDER
         this.turn = -1
         makeObservable(this, {
             availableActions: override,

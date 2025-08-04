@@ -5,33 +5,34 @@ import OrderedCardHolder from "framework/entities/orderedcardholder";
 import Card from "framework/entities/card";
 import { makeObservable, observable, override } from "mobx";
 import CardHolder from "framework/entities/cardholder";
+import { CarbonCityZeroCard } from "./carbonCityZeroCard";
 
 export default class CarbonCityZeroPlayer extends Player {
 
     carbon: ResourcesPool<Resources>
-    drawDeck: CardHolder<Card>
-    drawnCards: OrderedCardHolder<Card>
-    recyclePile: OrderedCardHolder<Card>
+    drawDeck: CardHolder<CarbonCityZeroCard>
+    drawnCards: OrderedCardHolder<CarbonCityZeroCard>
+    recyclePile: OrderedCardHolder<CarbonCityZeroCard>
 
     public constructor(name: string) {
         super(name)
         this.carbon = new ResourcesPool()
         this.carbon.addResources(carbonType, 40)
         const cards = [
-            new Card("Budget 1"),
-            new Card("Budget 2"),
-            new Card("Budget 3"),
-            new Card("Budget 4"),
-            new Card("Budget 5"),
-            new Card("Global Market 1"),
-            new Card("Global Market 2"),
-            new Card("Poor Housing Stock 1"),
-            new Card("Remote Properties 1"),
+            new CarbonCityZeroCard("Budget 1", true),
+            new CarbonCityZeroCard("Budget 2"),
+            new CarbonCityZeroCard("Budget 3", true),
+            new CarbonCityZeroCard("Budget 4"),
+            new CarbonCityZeroCard("Budget 5", true),
+            new CarbonCityZeroCard("Global Market 1", true),
+            new CarbonCityZeroCard("Global Market 2"),
+            new CarbonCityZeroCard("Poor Housing Stock 1", true),
+            new CarbonCityZeroCard("Remote Properties 1", true),
         ]
-        this.drawDeck = new CardHolder<Card>(cards) // PLACEHOLDER
+        this.drawDeck = new CardHolder<CarbonCityZeroCard>(cards) // PLACEHOLDER
         this.drawDeck.shuffle()
-        this.drawnCards = new OrderedCardHolder<Card>([], (a,b) => 1)  // PLACEHOLDER
-        this.recyclePile = new OrderedCardHolder<Card>([], (a,b) => 1)  // PLACEHOLDER
+        this.drawnCards = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)  // PLACEHOLDER
+        this.recyclePile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)  // PLACEHOLDER
         makeObservable(this, {
             name: override,
             carbon: observable,
