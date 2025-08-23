@@ -1,8 +1,10 @@
-import { Badge, Box, Center, FlexProps, HStack } from "@chakra-ui/react";
+import { Badge, Box, Center, FlexProps, HStack, Spacer } from "@chakra-ui/react";
 import { observer } from "mobx-react";
 import gameState from "pages/store";
 import React from "react";
+import PlayingCard from "src/components/PlayingCard";
 import Card from 'src/components/PlayingCard'
+import { CarbonCityZeroCard } from "src/entities/carboncityzero/carbonCityZeroCard";
 
 type IMarketPanelProps = {
 } & FlexProps
@@ -15,8 +17,11 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
 
     public render() {
 
-        const deckSize = gameState.marketDeck.size
-        const card = gameState.marketDeck.head
+        // Market Deck
+        const marketDeckSize = gameState.marketDeck.size
+        const marketDeckHead = gameState.marketDeck.head
+        // Marketplace
+        const marketplace = gameState.marketplace
 
         const deckWidth = '70px'
         const deckStyle = {
@@ -41,9 +46,19 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                 <Center>
                     <HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
-                            <Card sx={deckStyle} {...card} />
-                            <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{deckSize}</Badge>
+                            <Card sx={deckStyle} {...marketDeckHead} />
+                            <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{marketDeckSize}</Badge>
                         </Box>
+                        <HStack p="1em" spacing="0">
+                            {marketplace.cards.map((c, i) => {
+                                return (
+                                    <React.Fragment key={c._uid}>
+                                        <Spacer w="1em" />
+                                        <PlayingCard name={c.name} marketCardProps={true} />
+                                    </React.Fragment>
+                                )
+                            })}
+                        </HStack>
                     </HStack>
                 </Center>
             </Box>

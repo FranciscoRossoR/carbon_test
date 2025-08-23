@@ -1,13 +1,13 @@
-import { Box, BoxProps, Heading, ThemingProps, useStyleConfig } from "@chakra-ui/react"
+import { border, Box, BoxProps, Heading, ThemingProps, useStyleConfig } from "@chakra-ui/react"
 import { mergeWith } from '@chakra-ui/utils';
 import { ICard } from "framework/entities/card"
 
 
-type ICardProps = ICard & ThemingProps & BoxProps & { hasCardActionProps?: boolean }
+type ICardProps = ICard & ThemingProps & BoxProps & { hasCardActionProps?: boolean } & { marketCardProps? : boolean }
 
 const PlayingCard = (props: ICardProps) => {
 
-    const { name, size, variant, sx, onClick, hasCardActionProps,  ...boxProps } = props
+    const { name, size, variant, sx, onClick, hasCardActionProps, marketCardProps,  ...boxProps } = props
 
     // Build the card style from the particular app style (styles), general card style
     const PlayingCardStyle = useStyleConfig('PlayingCard', { size, variant })
@@ -19,15 +19,24 @@ const PlayingCard = (props: ICardProps) => {
     }
     const hasCardActionStyle = hasCardActionProps ? {
         border: '2px solid blue',
-        cursor:'pointer',
+        cursor: 'pointer',
         _hover: {
             transform: 'translateY(-2px)',
             boxShadow: 'lg'
         }  
     } : {
     }
+    const marketCardStyle = marketCardProps ? {
+        cursor: 'pointer',
+        _hover: {
+            transform: 'translateY(-2px)',
+            boxShadow: 'lg'
+        }
+    } : {
 
-    const boxStyle = mergeWith({}, PlayingCardStyle, cardStyle, hasCardActionStyle, boxProps, sx)
+    }
+
+    const boxStyle = mergeWith({}, PlayingCardStyle, cardStyle, hasCardActionStyle, marketCardStyle, boxProps, sx)
 
     // Card text style
     const textStyle = {

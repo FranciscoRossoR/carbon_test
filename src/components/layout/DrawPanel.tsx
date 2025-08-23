@@ -96,11 +96,11 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
 
 })
 
-function safeProps<T extends object>(obj: T): Partial<T> {
-        const entries = Object.entries(obj).filter(
-            ([_, value]) => typeof value !== 'function')
-        return Object.fromEntries(entries) as Partial<T>
-    }
+// function safeProps<T extends object>(obj: T): Partial<T> {
+//         const entries = Object.entries(obj).filter(
+//             ([_, value]) => typeof value !== 'function')
+//         return Object.fromEntries(entries) as Partial<T>
+//     }
 
 reaction(() => gameState.turn, () => {
     gameState.currentPlayer.drawCards(4)

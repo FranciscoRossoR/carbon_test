@@ -13,6 +13,7 @@ import { CarbonCityZeroCard } from "./carbonCityZeroCard";
 export default class CarbonCityZeroState extends GameState {
 
     marketDeck: CardHolder<CarbonCityZeroCard>
+    marketplace: OrderedCardHolder<CarbonCityZeroCard>
     landfillPile: OrderedCardHolder<CarbonCityZeroCard>
     turn: number
 
@@ -32,7 +33,8 @@ export default class CarbonCityZeroState extends GameState {
                 ]
         this.marketDeck = new CardHolder<CarbonCityZeroCard>(cards)
         this.marketDeck.shuffle()
-        this.landfillPile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)  // PLACEHOLDER
+        this.marketplace = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)   // PLACEHOLDER
+        this.landfillPile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)   // PLACEHOLDER
         this.turn = -1
         makeObservable(this, {
             availableActions: override,
@@ -40,6 +42,7 @@ export default class CarbonCityZeroState extends GameState {
             gameElements: override,
             history: override,
             marketDeck: observable,
+            marketplace: observable,
             landfillPile: observable,
             turn: observable,
             currentPlayer: computed,
@@ -85,9 +88,32 @@ export default class CarbonCityZeroState extends GameState {
         if (this.status === "open" && this.enoughPlayers) {
             this.turn = 0
             this.status = "playing"
+            this.drawCards(4)
             return true
         } else {
             return false
+        }
+    }
+
+    public drawCards(amount: number) {
+        for (let i = 0 ; i < amount ; i ++) {
+            // Check if Market Deck is empty
+            if (this.marketDeck.size == 0) {
+                // Move Landfill Pile into Market Deck
+                for (let j = 0 ; j != this.landfillPile.size; j) {
+                    this.landfillPile.moveCard(
+                        this.landfillPile.head,
+                        this.marketDeck
+                    )
+                }
+                // Shuffle Market Deck
+                this.marketDeck.shuffle
+            }
+            // Draw a card
+            this.marketDeck.moveCard(
+                this.marketDeck.head,
+                this.marketplace
+            )
         }
     }
 
