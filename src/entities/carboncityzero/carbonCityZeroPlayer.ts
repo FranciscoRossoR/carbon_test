@@ -43,6 +43,19 @@ export default class CarbonCityZeroPlayer extends Player {
 
     public drawCards(amount: number) {
         for (let i = 0 ; i < amount ; i ++) {
+            // Check if Draw Deck is empty
+            if (this.drawDeck.size == 0) {
+                // Move Recycle Pile into Draw Deck
+                for (let j = 0 ; j != this.recyclePile.size ; j) {
+                    this.recyclePile.moveCard(
+                        this.recyclePile.head,
+                        this.drawDeck
+                    )
+                }
+                // Shuffle Draw Deck
+                this.drawDeck.shuffle()
+            }
+            // Draw a card
             this.drawDeck.moveCard(
                 this.drawDeck.head,
                 this.drawnCards)
