@@ -15,26 +15,29 @@ export default class CarbonCityZeroState extends GameState {
     marketDeck: CardHolder<CarbonCityZeroCard>
     marketplace: OrderedCardHolder<CarbonCityZeroCard>
     landfillPile: OrderedCardHolder<CarbonCityZeroCard>
+    marketSize: number
     turn: number
 
     public constructor(players?: CarbonCityZeroPlayer[], gameElements?: UniqueGameElement[], status?: GameStatus, complexAnalyst?: ComplexityAnalyst) {
         gameElements = []
         super(1, 4, players ? players : [], gameElements, status, complexAnalyst)
         const cards = [
-                    new CarbonCityZeroCard("Budget 1"),
-                    new CarbonCityZeroCard("Budget 2"),
-                    new CarbonCityZeroCard("Budget 3"),
-                    new CarbonCityZeroCard("Budget 4"),
-                    new CarbonCityZeroCard("Budget 5"),
-                    new CarbonCityZeroCard("Global Market 1"),
-                    new CarbonCityZeroCard("Global Market 2"),
-                    new CarbonCityZeroCard("Poor Housing Stock 1"),
-                    new CarbonCityZeroCard("Remote Properties 1"),
+                    new CarbonCityZeroCard("Market Card 1", true),
+                    new CarbonCityZeroCard("Market Card 2"),
+                    new CarbonCityZeroCard("Market Card 3", true),
+                    new CarbonCityZeroCard("Market Card 4"),
+                    new CarbonCityZeroCard("Market Card 5", true),
+                    new CarbonCityZeroCard("Market Card 6"),
+                    new CarbonCityZeroCard("Market Card 7", true),
+                    new CarbonCityZeroCard("Market Card 8"),
+                    new CarbonCityZeroCard("Market Card 9", true),
+                    new CarbonCityZeroCard("Market Card 10"),
                 ]
         this.marketDeck = new CardHolder<CarbonCityZeroCard>(cards)
         this.marketDeck.shuffle()
         this.marketplace = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)   // PLACEHOLDER
         this.landfillPile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)   // PLACEHOLDER
+        this.marketSize = 4
         this.turn = -1
         makeObservable(this, {
             availableActions: override,
@@ -88,7 +91,7 @@ export default class CarbonCityZeroState extends GameState {
         if (this.status === "open" && this.enoughPlayers) {
             this.turn = 0
             this.status = "playing"
-            this.drawCards(4)
+            this.drawCards(this.marketSize)
             return true
         } else {
             return false
@@ -115,6 +118,13 @@ export default class CarbonCityZeroState extends GameState {
                 this.marketplace
             )
         }
+    }
+
+    public buyCard(card: CarbonCityZeroCard) {
+        this.marketplace.moveCard(
+            card,
+            this.currentPlayer.recyclePile
+        )
     }
 
 }
