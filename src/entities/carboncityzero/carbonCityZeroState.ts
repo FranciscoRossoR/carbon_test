@@ -13,26 +13,32 @@ import { CarbonCityZeroCard } from "./carbonCityZeroCard";
 export default class CarbonCityZeroState extends GameState {
 
     marketDeck: CardHolder<CarbonCityZeroCard>
+    marketplace: OrderedCardHolder<CarbonCityZeroCard>
     landfillPile: OrderedCardHolder<CarbonCityZeroCard>
+    marketSize: number
     turn: number
 
     public constructor(players?: CarbonCityZeroPlayer[], gameElements?: UniqueGameElement[], status?: GameStatus, complexAnalyst?: ComplexityAnalyst) {
         gameElements = []
         super(1, 4, players ? players : [], gameElements, status, complexAnalyst)
         const cards = [
-                    new CarbonCityZeroCard("Budget 1"),
-                    new CarbonCityZeroCard("Budget 2"),
-                    new CarbonCityZeroCard("Budget 3"),
-                    new CarbonCityZeroCard("Budget 4"),
-                    new CarbonCityZeroCard("Budget 5"),
-                    new CarbonCityZeroCard("Global Market 1"),
-                    new CarbonCityZeroCard("Global Market 2"),
-                    new CarbonCityZeroCard("Poor Housing Stock 1"),
-                    new CarbonCityZeroCard("Remote Properties 1"),
+                    new CarbonCityZeroCard("Market Card 1", true),
+                    new CarbonCityZeroCard("Market Card 2"),
+                    new CarbonCityZeroCard("Market Card 3", true),
+                    new CarbonCityZeroCard("Market Card 4"),
+                    new CarbonCityZeroCard("Market Card 5", true),
+                    new CarbonCityZeroCard("Market Card 6"),
+                    new CarbonCityZeroCard("Market Card 7", true),
+                    new CarbonCityZeroCard("Market Card 8"),
+                    new CarbonCityZeroCard("Market Card 9", true),
+                    new CarbonCityZeroCard("Market Card 10"),
                 ]
         this.marketDeck = new CardHolder<CarbonCityZeroCard>(cards)
         this.marketDeck.shuffle()
-        this.landfillPile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)  // PLACEHOLDER
+        this.marketplace = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)   // PLACEHOLDER
+        this.landfillPile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)   // PLACEHOLDER
+        this.landfillPile.addCard(new CarbonCityZeroCard("Landfill Placeholder Card"))  // PLACEHOLDER
+        this.marketSize = 4
         this.turn = -1
         makeObservable(this, {
             availableActions: override,
@@ -40,6 +46,7 @@ export default class CarbonCityZeroState extends GameState {
             gameElements: override,
             history: override,
             marketDeck: observable,
+            marketplace: observable,
             landfillPile: observable,
             turn: observable,
             currentPlayer: computed,
@@ -85,10 +92,40 @@ export default class CarbonCityZeroState extends GameState {
         if (this.status === "open" && this.enoughPlayers) {
             this.turn = 0
             this.status = "playing"
+            this.drawCards(this.marketSize)
             return true
         } else {
             return false
         }
+    }
+
+    public drawCards(amount: number) {
+        for (let i = 0 ; i < amount ; i ++) {
+            // Check if Market Deck is empty
+            if (this.marketDeck.size == 0) {
+                // Move Landfill Pile into Market Deck
+                for (let j = 0 ; j != this.landfillPile.size; j) {
+                    this.landfillPile.moveCard(
+                        this.landfillPile.head,
+                        this.marketDeck
+                    )
+                }
+                // Shuffle Market Deck
+                this.marketDeck.shuffle
+            }
+            // Draw a card
+            this.marketDeck.moveCard(
+                this.marketDeck.head,
+                this.marketplace
+            )
+        }
+    }
+
+    public buyCard(card: CarbonCityZeroCard) {
+        this.marketplace.moveCard(
+            card,
+            this.currentPlayer.recyclePile
+        )
     }
 
 }

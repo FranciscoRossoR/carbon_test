@@ -1,8 +1,11 @@
-import { Badge, Box, Center, FlexProps, HStack } from "@chakra-ui/react";
+import { Badge, Box, Center, FlexProps, HStack, Spacer } from "@chakra-ui/react";
+import { reaction } from "mobx";
 import { observer } from "mobx-react";
 import gameState from "pages/store";
 import React from "react";
+import PlayingCard from "src/components/PlayingCard";
 import Card from 'src/components/PlayingCard'
+import { CarbonCityZeroCard } from "src/entities/carboncityzero/carbonCityZeroCard";
 
 type IMarketPanelProps = {
 } & FlexProps
@@ -15,8 +18,16 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
 
     public render() {
 
-        const deckSize = gameState.marketDeck.size
-        const card = gameState.marketDeck.head
+        // Market Deck
+        const marketDeck = gameState.marketDeck
+        const marketDeckSize = marketDeck.size
+        const marketDeckCard = marketDeck.head
+        // Marketplace
+        const marketplace = gameState.marketplace
+        // Landfill Pile
+        const landfillPile = gameState.landfillPile
+        const landfillPileSize = landfillPile.size
+        const landfillPileCard = landfillPile.head
 
         const deckWidth = '70px'
         const deckStyle = {
@@ -41,8 +52,25 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                 <Center>
                     <HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
-                            <Card sx={deckStyle} {...card} />
-                            <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{deckSize}</Badge>
+                            <PlayingCard sx={deckStyle} name={marketDeckCard?.name} />
+                            <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{marketDeckSize}</Badge>
+                        </Box>
+                        <HStack p="1em" spacing="0">
+                            {marketplace.cards.map((c, i) => {
+                                const handleCardClick = () => {
+                                    gameState.buyCard(c)
+                                }
+                                return (
+                                    <React.Fragment key={c._uid}>
+                                        <Spacer w="1em" />
+                                        <PlayingCard name={c.name} marketCardProps={true} onClick={handleCardClick} />
+                                    </React.Fragment>
+                                )
+                            })}
+                        </HStack>
+                        <Box m="1em" position="relative" w={deckWidth}>
+                            <PlayingCard sx={deckStyle} name={landfillPileCard?.name} color="gray.500" />
+                            <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{landfillPileSize}</Badge>
                         </Box>
                     </HStack>
                 </Center>
@@ -51,4 +79,8 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
 
     }
 
+})
+
+reaction(() => gameState.marketplace.size, () => {
+    gameState.drawCards(gameState.marketSize - gameState.marketplace.size)
 })
