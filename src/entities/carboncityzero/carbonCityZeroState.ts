@@ -37,6 +37,7 @@ export default class CarbonCityZeroState extends GameState {
         this.marketDeck.shuffle()
         this.marketplace = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)   // PLACEHOLDER
         this.landfillPile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)   // PLACEHOLDER
+        this.landfillPile.addCard(new CarbonCityZeroCard("Landfill Placeholder Card"))  // PLACEHOLDER
         this.marketSize = 4
         this.turn = -1
         makeObservable(this, {
