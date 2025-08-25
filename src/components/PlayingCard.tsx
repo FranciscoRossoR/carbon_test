@@ -1,4 +1,4 @@
-import { border, Box, BoxProps, Heading, ThemingProps, useStyleConfig } from "@chakra-ui/react"
+import { border, Box, BoxProps, Heading, Text, ThemingProps, useStyleConfig } from "@chakra-ui/react"
 import { mergeWith } from '@chakra-ui/utils';
 import { ICard } from "framework/entities/card"
 
@@ -47,10 +47,16 @@ const PlayingCard = (props: ICardProps) => {
         width: '100%'
     }
 
+    // Cost style
+    const costStyle = {
+        position: 'absolute',
+        right: 0
+    }
+
     return (
         <Box sx={boxStyle} onClick={onClick} {...boxProps}>
-            <Heading sx={textStyle}>{cost}</Heading>
-            <Heading sx={textStyle}>{name}</Heading>
+            <Text sx={costStyle}>{cost}</Text>
+            <Text sx={textStyle}>{name}</Text>
         </Box>
     )
 
