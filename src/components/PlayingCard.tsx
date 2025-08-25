@@ -3,11 +3,11 @@ import { mergeWith } from '@chakra-ui/utils';
 import { ICarbonCityZeroCard } from "src/entities/carboncityzero/carbonCityZeroCard";
 
 
-type ICardProps = ICarbonCityZeroCard & ThemingProps & BoxProps & { hasCardActionProps?: boolean } & { marketCardProps? : boolean }
+type ICardProps = ICarbonCityZeroCard & ThemingProps & BoxProps & { hasCardActionProps?: boolean } & { marketCardProps? : boolean } & { phase?: number }
 
 const PlayingCard = (props: ICardProps) => {
 
-    const { name, cost, income, size, variant, sx, onClick, hasCardActionProps, marketCardProps,  ...boxProps } = props
+    const { name, cost, income, size, variant, sx, onClick, hasCardActionProps, marketCardProps, phase,  ...boxProps } = props
 
     // Build the card style from the particular app style (styles), general card style
     const PlayingCardStyle = useStyleConfig('PlayingCard', { size, variant })
@@ -17,7 +17,7 @@ const PlayingCard = (props: ICardProps) => {
         position: 'relative',
         borderRadius: '10px'
     }
-    const hasCardActionStyle = hasCardActionProps ? {
+    const hasCardActionStyle = hasCardActionProps && phase==0 ? {
         border: '2px solid blue',
         cursor: 'pointer',
         _hover: {
@@ -26,14 +26,13 @@ const PlayingCard = (props: ICardProps) => {
         }  
     } : {
     }
-    const marketCardStyle = marketCardProps ? {
+    const marketCardStyle = marketCardProps && phase==1 ? {
         cursor: 'pointer',
         _hover: {
             transform: 'translateY(-2px)',
             boxShadow: 'lg'
         }
     } : {
-
     }
 
     const boxStyle = mergeWith({}, PlayingCardStyle, cardStyle, hasCardActionStyle, marketCardStyle, boxProps, sx)

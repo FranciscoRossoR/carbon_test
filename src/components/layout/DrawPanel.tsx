@@ -71,7 +71,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                         <HStack p="1em" spacing="0">
                             {drawnCards.cards.map((c, i) => {
                                 const handleCardClick = () => {
-                                    if (c.hasCardAction) {
+                                    if (c.hasCardAction && gameState.phase==0) {
                                         c.cardAction?.()
                                         c.setHasCardAction(false)
                                     }
@@ -79,7 +79,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                                 return (
                                     <React.Fragment key={c._uid}>
                                         <Spacer w="1em" />
-                                        <PlayingCard name={c.name} cost={c.cost} income={c.income} hasCardActionProps={c.hasCardAction} onClick={handleCardClick} />
+                                        <PlayingCard name={c.name} cost={c.cost} income={c.income} hasCardActionProps={c.hasCardAction} phase={gameState.phase} onClick={handleCardClick} />
                                     </React.Fragment>
                                 )
                             })}

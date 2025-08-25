@@ -52,18 +52,18 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                 <Center>
                     <HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
-                            <PlayingCard sx={deckStyle} name={marketDeckCard?.name} cost={marketDeckCard?.cost} income={marketDeckCard?.income}/>
+                            <PlayingCard sx={deckStyle} name={marketDeckCard?.name} cost={marketDeckCard?.cost} income={marketDeckCard?.income} />
                             <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{marketDeckSize}</Badge>
                         </Box>
                         <HStack p="1em" spacing="0">
                             {marketplace.cards.map((c, i) => {
                                 const handleCardClick = () => {
-                                    gameState.buyCard(c)
+                                    gameState.phase==1 ? gameState.buyCard(c) : null
                                 }
                                 return (
                                     <React.Fragment key={c._uid}>
                                         <Spacer w="1em" />
-                                        <PlayingCard name={c.name} cost={c.cost} income={c.income} marketCardProps={true} onClick={handleCardClick} />
+                                        <PlayingCard name={c.name} cost={c.cost} income={c.income} marketCardProps={true} phase={gameState.phase} onClick={handleCardClick} />
                                     </React.Fragment>
                                 )
                             })}
