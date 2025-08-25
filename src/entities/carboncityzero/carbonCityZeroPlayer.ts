@@ -13,6 +13,7 @@ export default class CarbonCityZeroPlayer extends Player {
     drawDeck: CardHolder<CarbonCityZeroCard>
     drawnCards: OrderedCardHolder<CarbonCityZeroCard>
     recyclePile: OrderedCardHolder<CarbonCityZeroCard>
+    income: number
 
     public constructor(name: string) {
         super(name)
@@ -33,11 +34,13 @@ export default class CarbonCityZeroPlayer extends Player {
         this.drawDeck.shuffle()
         this.drawnCards = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)  // PLACEHOLDER
         this.recyclePile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)  // PLACEHOLDER
+        this.income = 0
         makeObservable(this, {
             name: override,
             carbon: observable,
             drawnCards: observable,
-            recyclePile: observable
+            recyclePile: observable,
+            income: observable
         })
     }
 

@@ -4,6 +4,7 @@ import { observer } from "mobx-react";
 import gameState from "pages/store";
 import React, { RefObject, useRef } from "react";
 import PlayerProfile from "../PlayerProfile";
+import CarbonCityZeroPlayer from "src/entities/carboncityzero/carbonCityZeroPlayer";
 
 export interface IPanelProps {}
 
@@ -23,10 +24,12 @@ export default observer(function SummaryPanel(props: IPanelProps) {
         <Box ref={boxRef} __css={isMiniVersion ? sticky : {}} bgColor="brand.50">
             <Flex bgColor="brand.50" justifyContent="center">
                 {gameState.players.map((p: Player, index: number) => {
+                    const ccp = p as CarbonCityZeroPlayer
                     const isCrurrent = true
                     const info = new Map<string, string>()
+                    info.set("Income", ccp.income.toString())
                     return (
-                        <PlayerProfile m="10px" key={"PlayerProfile" + p.name} name={p.name} color={p.color} info={info} active={isCrurrent}/>
+                        <PlayerProfile m="10px" key={"PlayerProfile" + ccp.name} name={ccp.name} color={ccp.color} info={info} active={isCrurrent}/>
                     )
                 })
                 }
