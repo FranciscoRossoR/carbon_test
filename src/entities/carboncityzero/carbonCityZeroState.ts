@@ -22,7 +22,7 @@ export default class CarbonCityZeroState extends GameState {
         gameElements = []
         super(1, 4, players ? players : [], gameElements, status, complexAnalyst)
         const cards = [
-                    new CarbonCityZeroCard("Market Card 1", true),
+                    new CarbonCityZeroCard("Market Card 1", true, undefined, 5),
                     new CarbonCityZeroCard("Market Card 2"),
                     new CarbonCityZeroCard("Market Card 3", true),
                     new CarbonCityZeroCard("Market Card 4"),

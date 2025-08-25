@@ -7,7 +7,7 @@ type ICardProps = ICard & ThemingProps & BoxProps & { hasCardActionProps?: boole
 
 const PlayingCard = (props: ICardProps) => {
 
-    const { name, size, variant, sx, onClick, hasCardActionProps, marketCardProps,  ...boxProps } = props
+    const { name, cost, size, variant, sx, onClick, hasCardActionProps, marketCardProps,  ...boxProps } = props
 
     // Build the card style from the particular app style (styles), general card style
     const PlayingCardStyle = useStyleConfig('PlayingCard', { size, variant })
@@ -49,6 +49,7 @@ const PlayingCard = (props: ICardProps) => {
 
     return (
         <Box sx={boxStyle} onClick={onClick} {...boxProps}>
+            <Heading sx={textStyle}>{cost}</Heading>
             <Heading sx={textStyle}>{name}</Heading>
         </Box>
     )

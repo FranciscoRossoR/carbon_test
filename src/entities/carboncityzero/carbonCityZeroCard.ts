@@ -5,12 +5,13 @@ export class CarbonCityZeroCard extends Card {
 
     hasCardAction: boolean
     cardAction?: () => void
+    cost: number
 
-    public constructor(name: string, hasAction: boolean = false, cardAction?: () => void) {
+    public constructor(name: string, hasAction: boolean = false, cardAction?: () => void, cost: number = 0) {
         super(name)
         this.hasCardAction = hasAction
-        // PLACEHOLDER
-        if (this.hasCardAction) {this.cardAction = () => {alert("ACTION")}}
+        if (this.hasCardAction) {this.cardAction = () => {alert("ACTION")}} // PLACEHOLDER
+        this.cost = cost
 
         makeObservable(this, {
             hasCardAction: observable,
