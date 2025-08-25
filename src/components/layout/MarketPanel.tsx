@@ -69,7 +69,7 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                             })}
                         </HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
-                            <PlayingCard sx={deckStyle} name={landfillPileCard?.name} cost={landfillPileCard?.cost} income={landfillPileCard.income} color="gray.500" />
+                            <PlayingCard sx={deckStyle} name={landfillPileCard?.name} cost={landfillPileCard?.cost} income={landfillPileCard?.income} color="gray.500" />
                             <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{landfillPileSize}</Badge>
                         </Box>
                     </HStack>
