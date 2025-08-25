@@ -54,7 +54,8 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                 boxShadow: 'lg'
             }
         }
-        const action = actions.find((action) => action.actionName === 'Pass')
+        
+        const action = actions.at(0)
 
         return (
             <Box {...this.props} p="1em">

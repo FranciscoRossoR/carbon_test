@@ -3,6 +3,28 @@ import CarbonCityZeroPlayer from "./carbonCityZeroPlayer";
 import GameState from "framework/entities/gameState";
 import CarbonCityZeroState from "./carbonCityZeroState";
 
+export class BuyAction extends GameAction {
+
+    public constructor() {
+        super("Buy")
+    }
+
+    public execute(state: CarbonCityZeroState): CarbonCityZeroState {
+        return state.goToBuyPhase()
+    }
+
+    // PLACEHOLDER
+    public undo(state: GameState): GameState {
+        throw new Error("Method not implemented.");
+    }
+    
+    // PLACEHOLDER
+    public toString(): string {
+        return "Buying phase"
+    }
+    
+}
+
 export class PassAction extends GameAction {
     
     private player?: CarbonCityZeroPlayer
@@ -12,7 +34,7 @@ export class PassAction extends GameAction {
     }
     
     public execute(state: CarbonCityZeroState) : CarbonCityZeroState {
-        state.currentPlayer.discardAllDrawnCards();
+        state.currentPlayer.discardAllDrawnCards()
         return state.passTurn()
     }
     

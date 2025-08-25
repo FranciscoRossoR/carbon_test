@@ -7,7 +7,7 @@ import UniqueGameElement from "framework/entities/gameElement";
 import ComplexityAnalyst from "framework/entities/complexityAnalyst";
 import OrderedCardHolder from "framework/entities/orderedcardholder";
 import { action, computed, makeObservable, observable, override } from "mobx";
-import { PassAction } from "./actions";
+import { BuyAction, PassAction } from "./actions";
 import { CarbonCityZeroCard } from "./carbonCityZeroCard";
 
 export default class CarbonCityZeroState extends GameState {
@@ -17,6 +17,7 @@ export default class CarbonCityZeroState extends GameState {
     landfillPile: OrderedCardHolder<CarbonCityZeroCard>
     marketSize: number
     turn: number
+    phase: number
 
     public constructor(players?: CarbonCityZeroPlayer[], gameElements?: UniqueGameElement[], status?: GameStatus, complexAnalyst?: ComplexityAnalyst) {
         gameElements = []
@@ -40,6 +41,7 @@ export default class CarbonCityZeroState extends GameState {
         this.landfillPile.addCard(new CarbonCityZeroCard("Landfill Placeholder Card"))  // PLACEHOLDER
         this.marketSize = 4
         this.turn = -1
+        this.phase = 0
         makeObservable(this, {
             availableActions: override,
             status: override,
@@ -49,10 +51,12 @@ export default class CarbonCityZeroState extends GameState {
             marketplace: observable,
             landfillPile: observable,
             turn: observable,
+            phase: observable,
             currentPlayer: computed,
             nextPlayer: computed,
             previousPlayer: computed,
-            passTurn: action
+            passTurn: action,
+            goToBuyPhase: action
         })
     }
 
@@ -75,7 +79,11 @@ export default class CarbonCityZeroState extends GameState {
     protected computeAvailableActions(): GameAction[] {
         const res: GameAction[] = []
         if (this.status === "playing") {
-            res.push(new PassAction())
+            if (this.phase === 0) {
+                res.push(new BuyAction())
+            } else if (this.phase === 1) {
+                res.push(new PassAction())
+            }
         }
         return res
     }
@@ -85,6 +93,12 @@ export default class CarbonCityZeroState extends GameState {
         if (this.turn >= this.players.length) {
             this.turn = 0
         }
+        this.phase = 0
+        return this
+    }
+
+    public goToBuyPhase(): CarbonCityZeroState {
+        this.phase = 1
         return this
     }
 
