@@ -61,7 +61,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                 <Center>
                     <HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
-                            <PlayingCard sx={deckStyle} name={drawDeckCard?.name} cost={drawDeckCard?.cost}/>
+                            <PlayingCard sx={deckStyle} name={drawDeckCard?.name} cost={drawDeckCard?.cost} income={drawDeckCard?.income} />
                             <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{drawDeckSize}</Badge>
                         </Box>
                         <Center w='10em'>
@@ -78,13 +78,13 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                                 return (
                                     <React.Fragment key={c._uid}>
                                         <Spacer w="1em" />
-                                        <PlayingCard name={c.name} cost={c.cost} hasCardActionProps={c.hasCardAction} onClick={handleCardClick} />
+                                        <PlayingCard name={c.name} cost={c.cost} income={c.income} hasCardActionProps={c.hasCardAction} onClick={handleCardClick} />
                                     </React.Fragment>
                                 )
                             })}
                         </HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
-                            <PlayingCard sx={deckStyle} name={recyclePileCard?.name} cost={recyclePileCard?.cost} color="gray.500"/>
+                            <PlayingCard sx={deckStyle} name={recyclePileCard?.name} cost={recyclePileCard?.cost} income={recyclePileCard?.income} color="gray.500"/>
                             <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{recyclePileSize}</Badge>
                         </Box>
                     </HStack>

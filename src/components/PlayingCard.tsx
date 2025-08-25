@@ -1,13 +1,13 @@
 import { border, Box, BoxProps, Heading, Text, ThemingProps, useStyleConfig } from "@chakra-ui/react"
 import { mergeWith } from '@chakra-ui/utils';
-import { ICard } from "framework/entities/card"
+import { ICarbonCityZeroCard } from "src/entities/carboncityzero/carbonCityZeroCard";
 
 
-type ICardProps = ICard & ThemingProps & BoxProps & { hasCardActionProps?: boolean } & { marketCardProps? : boolean }
+type ICardProps = ICarbonCityZeroCard & ThemingProps & BoxProps & { hasCardActionProps?: boolean } & { marketCardProps? : boolean }
 
 const PlayingCard = (props: ICardProps) => {
 
-    const { name, cost, size, variant, sx, onClick, hasCardActionProps, marketCardProps,  ...boxProps } = props
+    const { name, cost, income, size, variant, sx, onClick, hasCardActionProps, marketCardProps,  ...boxProps } = props
 
     // Build the card style from the particular app style (styles), general card style
     const PlayingCardStyle = useStyleConfig('PlayingCard', { size, variant })
@@ -53,10 +53,18 @@ const PlayingCard = (props: ICardProps) => {
         right: 0
     }
 
+    // Income Style
+    const incomeStyle = {
+        position: 'absolute',
+        right: 0,
+        bottom: 0
+    }
+
     return (
         <Box sx={boxStyle} onClick={onClick} {...boxProps}>
             <Text sx={costStyle}>{cost}</Text>
             <Text sx={textStyle}>{name}</Text>
+            <Text sx={incomeStyle}>{income}</Text>
         </Box>
     )
 

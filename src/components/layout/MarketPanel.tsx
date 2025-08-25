@@ -52,7 +52,7 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                 <Center>
                     <HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
-                            <PlayingCard sx={deckStyle} name={marketDeckCard?.name} cost={marketDeckCard?.cost}/>
+                            <PlayingCard sx={deckStyle} name={marketDeckCard?.name} cost={marketDeckCard?.cost} income={marketDeckCard?.income}/>
                             <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{marketDeckSize}</Badge>
                         </Box>
                         <HStack p="1em" spacing="0">
@@ -63,13 +63,13 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                                 return (
                                     <React.Fragment key={c._uid}>
                                         <Spacer w="1em" />
-                                        <PlayingCard name={c.name} cost={c.cost} marketCardProps={true} onClick={handleCardClick} />
+                                        <PlayingCard name={c.name} cost={c.cost} income={c.income} marketCardProps={true} onClick={handleCardClick} />
                                     </React.Fragment>
                                 )
                             })}
                         </HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
-                            <PlayingCard sx={deckStyle} name={landfillPileCard?.name} cost={landfillPileCard?.cost} color="gray.500" />
+                            <PlayingCard sx={deckStyle} name={landfillPileCard?.name} cost={landfillPileCard?.cost} income={landfillPileCard.income} color="gray.500" />
                             <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{landfillPileSize}</Badge>
                         </Box>
                     </HStack>
