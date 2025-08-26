@@ -57,19 +57,22 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                         </Box>
                         <HStack p="1em" spacing="0">
                             {marketplace.cards.map((c, i) => {
+                                const canBeBought = c.cost <= gameState.currentPlayer.income && gameState.phase==1
                                 const handleCardClick = () => {
-                                    if (gameState.phase==1) {
-                                        if (c.cost <= gameState.currentPlayer.income) {
-                                            gameState.buyCard(c)
-                                        } else {
-                                            alert("You can't afford this card")
-                                        }
+                                    if (canBeBought) {
+                                        gameState.buyCard(c)
                                     }
                                 }
                                 return (
                                     <React.Fragment key={c._uid}>
                                         <Spacer w="1em" />
-                                        <PlayingCard name={c.name} cost={c.cost} income={c.income} marketCardProps={true} phase={gameState.phase} onClick={handleCardClick} />
+                                        <PlayingCard
+                                            name={c.name}
+                                            cost={c.cost}
+                                            income={c.income}
+                                            interactableCardProps={canBeBought}
+                                            onClick={handleCardClick}
+                                        />
                                     </React.Fragment>
                                 )
                             })}
