@@ -20,15 +20,16 @@ export default class CarbonCityZeroPlayer extends Player {
         this.carbon = new ResourcesPool()
         this.carbon.addResources(carbonType, 40)
         const cards = [
-            new CarbonCityZeroCard("Budget 1", true),
-            new CarbonCityZeroCard("Budget 2", undefined, undefined, undefined, 1),
-            new CarbonCityZeroCard("Budget 3", true),
-            new CarbonCityZeroCard("Budget 4", undefined, undefined, undefined, 1),
-            new CarbonCityZeroCard("Budget 5", true),
-            new CarbonCityZeroCard("Global Market 1", true),
-            new CarbonCityZeroCard("Global Market 2", undefined, undefined, undefined, 1),
-            new CarbonCityZeroCard("Poor Housing Stock 1", true),
-            new CarbonCityZeroCard("Remote Properties 1", true),
+            //                                              hasAc   ac          co  i   ca
+            new CarbonCityZeroCard("Budget 1",              false,  undefined,  1,  1,  0),
+            new CarbonCityZeroCard("Budget 2",              false,  undefined,  1,  1,  0),
+            new CarbonCityZeroCard("Budget 3",              false,  undefined,  1,  1,  0),
+            new CarbonCityZeroCard("Budget 4",              false,  undefined,  1,  1,  0),
+            new CarbonCityZeroCard("Budget 5",              false,  undefined,  1,  1,  0),
+            new CarbonCityZeroCard("Global Market 1",       true,   undefined,  1,  1,  1),
+            new CarbonCityZeroCard("Global Market 2",       true,   undefined,  1,  1,  1),
+            new CarbonCityZeroCard("Poor Housing Stock 1",  true,   undefined,  0,  0,  1),
+            new CarbonCityZeroCard("Remote Properties 1",   true,   undefined,  0,  0,  0),
         ]
         this.drawDeck = new CardHolder<CarbonCityZeroCard>(cards) // PLACEHOLDER
         this.drawDeck.shuffle()
