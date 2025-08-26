@@ -22,17 +22,19 @@ export default class CarbonCityZeroState extends GameState {
     public constructor(players?: CarbonCityZeroPlayer[], gameElements?: UniqueGameElement[], status?: GameStatus, complexAnalyst?: ComplexityAnalyst) {
         gameElements = []
         super(1, 4, players ? players : [], gameElements, status, complexAnalyst)
+        // PLACEHOLDER
         const cards = [
-                    new CarbonCityZeroCard("Market Card 1", true, undefined, 3, 3),
-                    new CarbonCityZeroCard("Market Card 2"),
-                    new CarbonCityZeroCard("Market Card 3", true),
-                    new CarbonCityZeroCard("Market Card 4"),
-                    new CarbonCityZeroCard("Market Card 5", true),
-                    new CarbonCityZeroCard("Market Card 6"),
-                    new CarbonCityZeroCard("Market Card 7", true),
-                    new CarbonCityZeroCard("Market Card 8"),
-                    new CarbonCityZeroCard("Market Card 9", true),
-                    new CarbonCityZeroCard("Market Card 10"),
+                    //                                      hasAction   action      c   i
+                    new CarbonCityZeroCard("Market Card 1", true,       undefined,  1,  1),
+                    new CarbonCityZeroCard("Market Card 2", undefined,  undefined,  2,  2),
+                    new CarbonCityZeroCard("Market Card 3", true,       undefined,  3,  3),
+                    new CarbonCityZeroCard("Market Card 4", undefined,  undefined,  1,  1),
+                    new CarbonCityZeroCard("Market Card 5", true,       undefined,  2,  2),
+                    new CarbonCityZeroCard("Market Card 6", undefined,  undefined,  3,  3),
+                    new CarbonCityZeroCard("Market Card 7", true,       undefined,  1,  1),
+                    new CarbonCityZeroCard("Market Card 8", undefined,  undefined,  2,  2),
+                    new CarbonCityZeroCard("Market Card 9", true,       undefined,  3,  3),
+                    new CarbonCityZeroCard("Market Card 10",undefined,  undefined,  1,  1),
                 ]
         this.marketDeck = new CardHolder<CarbonCityZeroCard>(cards)
         this.marketDeck.shuffle()
@@ -140,10 +142,12 @@ export default class CarbonCityZeroState extends GameState {
     }
 
     public buyCard(card: CarbonCityZeroCard) {
+        let player = this.currentPlayer
         this.marketplace.moveCard(
             card,
-            this.currentPlayer.recyclePile
+            player.recyclePile
         )
+        player.setIncome(player.income - card.cost)
     }
 
 }
