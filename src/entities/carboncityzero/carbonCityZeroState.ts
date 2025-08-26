@@ -23,7 +23,7 @@ export default class CarbonCityZeroState extends GameState {
         gameElements = []
         super(1, 4, players ? players : [], gameElements, status, complexAnalyst)
         const cards = [
-                    new CarbonCityZeroCard("Market Card 1", true, undefined, 5, 5),
+                    new CarbonCityZeroCard("Market Card 1", true, undefined, 3, 3),
                     new CarbonCityZeroCard("Market Card 2"),
                     new CarbonCityZeroCard("Market Card 3", true),
                     new CarbonCityZeroCard("Market Card 4"),
@@ -89,6 +89,8 @@ export default class CarbonCityZeroState extends GameState {
     }
 
     public passTurn(): CarbonCityZeroState {
+        let player = this.currentPlayer
+        player.setIncome(0)
         this.turn ++
         if (this.turn >= this.players.length) {
             this.turn = 0
@@ -99,6 +101,8 @@ export default class CarbonCityZeroState extends GameState {
 
     public goToBuyPhase(): CarbonCityZeroState {
         this.phase = 1
+        let player = this.currentPlayer
+        player.setIncome(player.getTotalIncome())
         return this
     }
 
