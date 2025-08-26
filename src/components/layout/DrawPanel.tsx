@@ -54,14 +54,15 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                 boxShadow: 'lg'
             }
         }
-        const action = actions.find((action) => action.actionName === 'Pass')
+        
+        const action = actions.at(0)
 
         return (
             <Box {...this.props} p="1em">
                 <Center>
                     <HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
-                            <PlayingCard sx={deckStyle} name={drawDeckCard?.name}/>
+                            <PlayingCard sx={deckStyle} name={drawDeckCard?.name} cost={drawDeckCard?.cost} income={drawDeckCard?.income} />
                             <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{drawDeckSize}</Badge>
                         </Box>
                         <Center w='10em'>
@@ -69,8 +70,9 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                         </Center>
                         <HStack p="1em" spacing="0">
                             {drawnCards.cards.map((c, i) => {
+                                const canActivate = c.hasCardAction && gameState.phase==0
                                 const handleCardClick = () => {
-                                    if (c.hasCardAction) {
+                                    if (canActivate) {
                                         c.cardAction?.()
                                         c.setHasCardAction(false)
                                     }
@@ -78,13 +80,19 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                                 return (
                                     <React.Fragment key={c._uid}>
                                         <Spacer w="1em" />
-                                        <PlayingCard name={c.name} hasCardActionProps={c.hasCardAction} onClick={handleCardClick} />
+                                        <PlayingCard
+                                            name={c.name}
+                                            cost={c.cost}
+                                            income={c.income}
+                                            interactableCardProps={canActivate}
+                                            onClick={handleCardClick}
+                                        />
                                     </React.Fragment>
                                 )
                             })}
                         </HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
-                            <PlayingCard sx={deckStyle} name={recyclePileCard?.name} color="gray.500"/>
+                            <PlayingCard sx={deckStyle} name={recyclePileCard?.name} cost={recyclePileCard?.cost} income={recyclePileCard?.income} color="gray.500"/>
                             <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{recyclePileSize}</Badge>
                         </Box>
                     </HStack>

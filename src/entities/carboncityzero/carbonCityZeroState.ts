@@ -7,7 +7,7 @@ import UniqueGameElement from "framework/entities/gameElement";
 import ComplexityAnalyst from "framework/entities/complexityAnalyst";
 import OrderedCardHolder from "framework/entities/orderedcardholder";
 import { action, computed, makeObservable, observable, override } from "mobx";
-import { PassAction } from "./actions";
+import { BuyAction, PassAction } from "./actions";
 import { CarbonCityZeroCard } from "./carbonCityZeroCard";
 
 export default class CarbonCityZeroState extends GameState {
@@ -17,21 +17,24 @@ export default class CarbonCityZeroState extends GameState {
     landfillPile: OrderedCardHolder<CarbonCityZeroCard>
     marketSize: number
     turn: number
+    phase: number
 
     public constructor(players?: CarbonCityZeroPlayer[], gameElements?: UniqueGameElement[], status?: GameStatus, complexAnalyst?: ComplexityAnalyst) {
         gameElements = []
         super(1, 4, players ? players : [], gameElements, status, complexAnalyst)
+        // PLACEHOLDER
         const cards = [
-                    new CarbonCityZeroCard("Market Card 1", true),
-                    new CarbonCityZeroCard("Market Card 2"),
-                    new CarbonCityZeroCard("Market Card 3", true),
-                    new CarbonCityZeroCard("Market Card 4"),
-                    new CarbonCityZeroCard("Market Card 5", true),
-                    new CarbonCityZeroCard("Market Card 6"),
-                    new CarbonCityZeroCard("Market Card 7", true),
-                    new CarbonCityZeroCard("Market Card 8"),
-                    new CarbonCityZeroCard("Market Card 9", true),
-                    new CarbonCityZeroCard("Market Card 10"),
+                    //                                      hasAction   action      c   i
+                    new CarbonCityZeroCard("Market Card 1", true,       undefined,  1,  1),
+                    new CarbonCityZeroCard("Market Card 2", undefined,  undefined,  2,  2),
+                    new CarbonCityZeroCard("Market Card 3", true,       undefined,  3,  3),
+                    new CarbonCityZeroCard("Market Card 4", undefined,  undefined,  1,  1),
+                    new CarbonCityZeroCard("Market Card 5", true,       undefined,  2,  2),
+                    new CarbonCityZeroCard("Market Card 6", undefined,  undefined,  3,  3),
+                    new CarbonCityZeroCard("Market Card 7", true,       undefined,  1,  1),
+                    new CarbonCityZeroCard("Market Card 8", undefined,  undefined,  2,  2),
+                    new CarbonCityZeroCard("Market Card 9", true,       undefined,  3,  3),
+                    new CarbonCityZeroCard("Market Card 10",undefined,  undefined,  1,  1),
                 ]
         this.marketDeck = new CardHolder<CarbonCityZeroCard>(cards)
         this.marketDeck.shuffle()
@@ -40,6 +43,7 @@ export default class CarbonCityZeroState extends GameState {
         this.landfillPile.addCard(new CarbonCityZeroCard("Landfill Placeholder Card"))  // PLACEHOLDER
         this.marketSize = 4
         this.turn = -1
+        this.phase = 0
         makeObservable(this, {
             availableActions: override,
             status: override,
@@ -49,10 +53,12 @@ export default class CarbonCityZeroState extends GameState {
             marketplace: observable,
             landfillPile: observable,
             turn: observable,
+            phase: observable,
             currentPlayer: computed,
             nextPlayer: computed,
             previousPlayer: computed,
-            passTurn: action
+            passTurn: action,
+            goToBuyPhase: action
         })
     }
 
@@ -75,16 +81,30 @@ export default class CarbonCityZeroState extends GameState {
     protected computeAvailableActions(): GameAction[] {
         const res: GameAction[] = []
         if (this.status === "playing") {
-            res.push(new PassAction())
+            if (this.phase === 0) {
+                res.push(new BuyAction())
+            } else if (this.phase === 1) {
+                res.push(new PassAction())
+            }
         }
         return res
     }
 
     public passTurn(): CarbonCityZeroState {
+        let player = this.currentPlayer
+        player.setIncome(0)
         this.turn ++
         if (this.turn >= this.players.length) {
             this.turn = 0
         }
+        this.phase = 0
+        return this
+    }
+
+    public goToBuyPhase(): CarbonCityZeroState {
+        this.phase = 1
+        let player = this.currentPlayer
+        player.setIncome(player.getTotalIncome())
         return this
     }
 
@@ -122,10 +142,12 @@ export default class CarbonCityZeroState extends GameState {
     }
 
     public buyCard(card: CarbonCityZeroCard) {
+        let player = this.currentPlayer
         this.marketplace.moveCard(
             card,
-            this.currentPlayer.recyclePile
+            player.recyclePile
         )
+        player.setIncome(player.income - card.cost)
     }
 
 }
