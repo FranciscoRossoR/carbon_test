@@ -1,4 +1,4 @@
-import { FlexProps, Heading, VStack } from "@chakra-ui/react";
+import { FlexProps, Heading, Text, VStack } from "@chakra-ui/react";
 import { reaction } from "mobx";
 import { observer } from "mobx-react";
 import gameState from "pages/store";
@@ -39,6 +39,7 @@ reaction(
     () => gameState.currentPlayer.carbon <= 0,
     (currentPlayerWins) => {
         if (currentPlayerWins) {
+            gameState.setWinner(gameState.currentPlayer)
             gameState.setStatus("finished")
         }
     }

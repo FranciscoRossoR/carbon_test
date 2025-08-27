@@ -18,6 +18,7 @@ export default class CarbonCityZeroState extends GameState {
     marketSize: number
     turn: number
     phase: number
+    winner?: CarbonCityZeroPlayer
 
     public constructor(players?: CarbonCityZeroPlayer[], gameElements?: UniqueGameElement[], status?: GameStatus, complexAnalyst?: ComplexityAnalyst) {
         gameElements = []
@@ -58,6 +59,7 @@ export default class CarbonCityZeroState extends GameState {
             nextPlayer: computed,
             previousPlayer: computed,
             setStatus: action,
+            setWinner: action,
             passTurn: action,
             goToBuyPhase: action
         })
@@ -65,6 +67,10 @@ export default class CarbonCityZeroState extends GameState {
 
     public setStatus(status: GameStatus) {
         this.status = status
+    }
+
+    public setWinner(winner: CarbonCityZeroPlayer) {
+        this.winner = winner
     }
 
     public getPlayer(index: number): CarbonCityZeroPlayer {
