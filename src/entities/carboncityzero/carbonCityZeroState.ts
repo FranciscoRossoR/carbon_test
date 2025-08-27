@@ -6,7 +6,7 @@ import CarbonCityZeroPlayer from "./carbonCityZeroPlayer";
 import UniqueGameElement from "framework/entities/gameElement";
 import ComplexityAnalyst from "framework/entities/complexityAnalyst";
 import OrderedCardHolder from "framework/entities/orderedcardholder";
-import { action, computed, makeObservable, observable, override } from "mobx";
+import { action, computed, makeObservable, observable, override, reaction } from "mobx";
 import { BuyAction, PassAction } from "./actions";
 import { CarbonCityZeroCard } from "./carbonCityZeroCard";
 
@@ -18,6 +18,7 @@ export default class CarbonCityZeroState extends GameState {
     marketSize: number
     turn: number
     phase: number
+    winner?: CarbonCityZeroPlayer
 
     public constructor(players?: CarbonCityZeroPlayer[], gameElements?: UniqueGameElement[], status?: GameStatus, complexAnalyst?: ComplexityAnalyst) {
         gameElements = []
@@ -33,7 +34,7 @@ export default class CarbonCityZeroState extends GameState {
                     new CarbonCityZeroCard("Market Card 6", undefined,  undefined,  3,  3,  1),
                     new CarbonCityZeroCard("Market Card 7", true,       undefined,  1,  1,  -1),
                     new CarbonCityZeroCard("Market Card 8", undefined,  undefined,  2,  2,  0),
-                    new CarbonCityZeroCard("Market Card 9", true,       undefined,  3,  3,  1),
+                    new CarbonCityZeroCard("Blessing",      undefined,  undefined,  0,  0,  -200),
                     new CarbonCityZeroCard("Nuke",          undefined,  undefined,  0,  0,  200),
                 ]
         this.marketDeck = new CardHolder<CarbonCityZeroCard>(cards)
@@ -57,9 +58,19 @@ export default class CarbonCityZeroState extends GameState {
             currentPlayer: computed,
             nextPlayer: computed,
             previousPlayer: computed,
+            setStatus: action,
+            setWinner: action,
             passTurn: action,
             goToBuyPhase: action
         })
+    }
+
+    public setStatus(status: GameStatus) {
+        this.status = status
+    }
+
+    public setWinner(winner: CarbonCityZeroPlayer) {
+        this.winner = winner
     }
 
     public getPlayer(index: number): CarbonCityZeroPlayer {

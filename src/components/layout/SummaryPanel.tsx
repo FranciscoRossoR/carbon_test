@@ -24,20 +24,25 @@ export default observer(function SummaryPanel(props: IPanelProps) {
         <Box ref={boxRef} __css={isMiniVersion ? sticky : {}} bgColor="brand.50">
             <Flex bgColor="brand.50" justifyContent="center">
                 {gameState.players.map((p: Player, index: number) => {
-                    const ccp = p as CarbonCityZeroPlayer
-                    const isCrurrent = true
+                    const cczp = p as CarbonCityZeroPlayer
+                    const isHighlighted =
+                        gameState.status === "finished" ?
+                            gameState.winner === cczp ?
+                                true
+                            : false
+                        : gameState.turn === index
                     const info = new Map<string, string>()
                     info
-                        .set("Carbon", ccp.carbon.toString())
-                        .set("Income", ccp.income.toString())
+                        .set("Carbon", cczp.carbon.toString())
+                        .set("Income", cczp.income.toString())
                     return (
                         <PlayerProfile
                             m="10px"
-                            key={"PlayerProfile" + ccp.name}
-                            name={ccp.name}
-                            color={ccp.color}
+                            key={"PlayerProfile" + cczp.name}
+                            name={cczp.name}
+                            color={cczp.color}
                             info={info}
-                            active={isCrurrent}
+                            highlighted={isHighlighted}
                         />
                     )
                 })
