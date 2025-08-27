@@ -42,9 +42,9 @@ export default observer(class HeadingPanel extends React.Component<IHeadingProps
 })
 
 reaction(
-    () => gameState.currentPlayer.carbon <= 0,
-    (currentPlayerWins) => {
-        if (currentPlayerWins) {
+    () => gameState.currentPlayer?.carbon ?? Infinity,
+    (carbon) => {
+        if (carbon <= 0) {
             gameState.setWinner(gameState.currentPlayer)
             gameState.setStatus("finished")
         }
