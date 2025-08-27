@@ -27,6 +27,12 @@ export default observer(class HeadingPanel extends React.Component<IHeadingProps
                     <>
                         <Heading>{currentPlayer.name}</Heading>
                     </>
+                : null} 
+                {(gameState.status === "finished") ?
+                    <>
+                        <Heading>Game finished</Heading>
+                        <Text>Winner: {gameState.winner?.name}</Text>
+                    </>
                 : null}
             </VStack>
         )
