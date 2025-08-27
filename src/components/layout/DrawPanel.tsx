@@ -62,11 +62,29 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                 <Center>
                     <HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
-                            <PlayingCard sx={deckStyle} name={drawDeckCard?.name} cost={drawDeckCard?.cost} income={drawDeckCard?.income} />
-                            <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{drawDeckSize}</Badge>
+                            <PlayingCard
+                                sx={deckStyle}
+                                name={drawDeckCard?.name}
+                                cost={drawDeckCard?.cost}
+                                income={drawDeckCard?.income}
+                                carbon={drawDeckCard?.carbon}
+                            />
+                            <Badge
+                                variant="outline"
+                                colorScheme="brand"
+                                sx={badgeStyle}>
+                                    {drawDeckSize}
+                            </Badge>
                         </Box>
                         <Center w='10em'>
-                            {action ? <Button key={action.actionName} sx={actionButtonStyle} m="1em" onClick={() => gameState.executeAction(action)}>{action.actionName}</Button> : null}
+                            {action ?
+                            <Button
+                                key={action.actionName}
+                                sx={actionButtonStyle}
+                                m="1em" onClick={() => gameState.executeAction(action)}>
+                                    {action.actionName}
+                            </Button>
+                            : null}
                         </Center>
                         <HStack p="1em" spacing="0">
                             {drawnCards.cards.map((c, i) => {
@@ -84,6 +102,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                                             name={c.name}
                                             cost={c.cost}
                                             income={c.income}
+                                            carbon={c.carbon}
                                             interactableCardProps={canActivate}
                                             onClick={handleCardClick}
                                         />
@@ -92,8 +111,19 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                             })}
                         </HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
-                            <PlayingCard sx={deckStyle} name={recyclePileCard?.name} cost={recyclePileCard?.cost} income={recyclePileCard?.income} color="gray.500"/>
-                            <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{recyclePileSize}</Badge>
+                            <PlayingCard
+                                sx={deckStyle}
+                                name={recyclePileCard?.name}
+                                cost={recyclePileCard?.cost}
+                                income={recyclePileCard?.income}
+                                carbon={recyclePileCard?.carbon}
+                                color="gray.500"/>
+                            <Badge
+                                variant="outline"
+                                colorScheme="brand"
+                                sx={badgeStyle}>
+                                    {recyclePileSize}
+                            </Badge>
                         </Box>
                     </HStack>
                 </Center>

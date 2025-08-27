@@ -34,7 +34,9 @@ export class PassAction extends GameAction {
     }
     
     public execute(state: CarbonCityZeroState) : CarbonCityZeroState {
-        state.currentPlayer.discardAllDrawnCards()
+        let player = state.currentPlayer
+        player.addDrawnCardsCarbon()
+        player.discardAllDrawnCards()
         return state.passTurn()
     }
     

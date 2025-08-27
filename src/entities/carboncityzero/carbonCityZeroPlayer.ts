@@ -1,6 +1,5 @@
 import Player from "framework/entities/player";
 import ResourcesPool from "framework/entities/resourcesPool";
-import { carbonType, Resources } from "./common";
 import OrderedCardHolder from "framework/entities/orderedcardholder";
 import Card from "framework/entities/card";
 import { action, makeObservable, observable, override } from "mobx";
@@ -9,38 +8,38 @@ import { CarbonCityZeroCard } from "./carbonCityZeroCard";
 
 export default class CarbonCityZeroPlayer extends Player {
 
-    carbon: ResourcesPool<Resources>
     drawDeck: CardHolder<CarbonCityZeroCard>
     drawnCards: OrderedCardHolder<CarbonCityZeroCard>
     recyclePile: OrderedCardHolder<CarbonCityZeroCard>
     income: number
+    carbon: number
 
     public constructor(name: string) {
         super(name)
-        this.carbon = new ResourcesPool()
-        this.carbon.addResources(carbonType, 40)
         const cards = [
-            new CarbonCityZeroCard("Budget 1", true),
-            new CarbonCityZeroCard("Budget 2", undefined, undefined, undefined, 1),
-            new CarbonCityZeroCard("Budget 3", true),
-            new CarbonCityZeroCard("Budget 4", undefined, undefined, undefined, 1),
-            new CarbonCityZeroCard("Budget 5", true),
-            new CarbonCityZeroCard("Global Market 1", true),
-            new CarbonCityZeroCard("Global Market 2", undefined, undefined, undefined, 1),
-            new CarbonCityZeroCard("Poor Housing Stock 1", true),
-            new CarbonCityZeroCard("Remote Properties 1", true),
+            //                                              hasAc   ac          co  i   ca
+            new CarbonCityZeroCard("Budget 1",              false,  undefined,  1,  1,  0),
+            new CarbonCityZeroCard("Budget 2",              false,  undefined,  1,  1,  0),
+            new CarbonCityZeroCard("Budget 3",              false,  undefined,  1,  1,  0),
+            new CarbonCityZeroCard("Budget 4",              false,  undefined,  1,  1,  0),
+            new CarbonCityZeroCard("Budget 5",              false,  undefined,  1,  1,  0),
+            new CarbonCityZeroCard("Global Market 1",       true,   undefined,  1,  1,  1),
+            new CarbonCityZeroCard("Global Market 2",       true,   undefined,  1,  1,  1),
+            new CarbonCityZeroCard("Poor Housing Stock 1",  true,   undefined,  0,  0,  1),
+            new CarbonCityZeroCard("Remote Properties 1",   true,   undefined,  0,  0,  0),
         ]
         this.drawDeck = new CardHolder<CarbonCityZeroCard>(cards) // PLACEHOLDER
         this.drawDeck.shuffle()
         this.drawnCards = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)  // PLACEHOLDER
         this.recyclePile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)  // PLACEHOLDER
         this.income = 0
+        this.carbon = 40
         makeObservable(this, {
             name: override,
-            carbon: observable,
             drawnCards: observable,
             recyclePile: observable,
             income: observable,
+            carbon: observable,
             drawCards: action,
             discardAllDrawnCards: action,
             setIncome: action,
@@ -86,6 +85,13 @@ export default class CarbonCityZeroPlayer extends Player {
         return this.drawnCards.cards.reduce((total, card) => {
             return total + (card.income ?? 0)
         }, 0)
+    }
+
+    public addDrawnCardsCarbon() {
+        let totalDrawnCardsCarbon = this.drawnCards.cards.reduce((total, card) =>{
+            return total + (card.carbon ?? 0)
+        }, 0)
+        this.carbon = Math.min(49, this.carbon + totalDrawnCardsCarbon)
     }
 
 }

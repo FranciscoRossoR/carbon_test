@@ -7,7 +7,18 @@ type ICardProps = ICarbonCityZeroCard & ThemingProps & BoxProps & { interactable
 
 const PlayingCard = (props: ICardProps) => {
 
-    const { name, cost, income, size, variant, sx, onClick, interactableCardProps,  ...boxProps } = props
+    const {
+        name,
+        cost,
+        income,
+        carbon,
+        size,
+        variant,
+        sx,
+        onClick,
+        interactableCardProps,
+        ...boxProps
+    } = props
 
     // Build the card style from the particular app style (styles), general card style
     const PlayingCardStyle = useStyleConfig('PlayingCard', { size, variant })
@@ -51,11 +62,19 @@ const PlayingCard = (props: ICardProps) => {
         bottom: 0
     }
 
+    // Carbon Style
+    const carbonStyle = {
+        position: 'absolute',
+        left: 0,
+        bottom:0
+    }
+
     return (
         <Box sx={boxStyle} onClick={onClick} {...boxProps}>
             <Text sx={costStyle}>{cost}</Text>
             <Text sx={textStyle}>{name}</Text>
             <Text sx={incomeStyle}>{income}</Text>
+            <Text sx={carbonStyle}>{carbon}</Text>
         </Box>
     )
 

@@ -52,12 +52,24 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                 <Center>
                     <HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
-                            <PlayingCard sx={deckStyle} name={marketDeckCard?.name} cost={marketDeckCard?.cost} income={marketDeckCard?.income} />
-                            <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{marketDeckSize}</Badge>
+                            <PlayingCard 
+                                sx={deckStyle}
+                                name={marketDeckCard?.name}
+                                cost={marketDeckCard?.cost}
+                                income={marketDeckCard?.income}
+                                carbon={marketDeckCard?.carbon}
+                            />
+                            <Badge
+                                variant="outline"
+                                colorScheme="brand"
+                                sx={badgeStyle}>
+                                    {marketDeckSize}
+                            </Badge>
                         </Box>
                         <HStack p="1em" spacing="0">
                             {marketplace.cards.map((c, i) => {
-                                const canBeBought = c.cost <= gameState.currentPlayer.income && gameState.phase==1
+                                const canBeBought = c.cost <= gameState.currentPlayer.income &&
+                                    gameState.phase==1
                                 const handleCardClick = () => {
                                     if (canBeBought) {
                                         gameState.buyCard(c)
@@ -70,6 +82,7 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                                             name={c.name}
                                             cost={c.cost}
                                             income={c.income}
+                                            carbon={c.carbon}
                                             interactableCardProps={canBeBought}
                                             onClick={handleCardClick}
                                         />
@@ -78,8 +91,19 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                             })}
                         </HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
-                            <PlayingCard sx={deckStyle} name={landfillPileCard?.name} cost={landfillPileCard?.cost} income={landfillPileCard?.income} color="gray.500" />
-                            <Badge variant="outline" colorScheme="brand" sx={badgeStyle}>{landfillPileSize}</Badge>
+                            <PlayingCard
+                                sx={deckStyle}
+                                name={landfillPileCard?.name} 
+                                cost={landfillPileCard?.cost}
+                                income={landfillPileCard?.income}
+                                carbon={landfillPileCard?.carbon}
+                                color="gray.500" />
+                            <Badge
+                                variant="outline"
+                                colorScheme="brand"
+                                sx={badgeStyle}>
+                                    {landfillPileSize}
+                            </Badge>
                         </Box>
                     </HStack>
                 </Center>
