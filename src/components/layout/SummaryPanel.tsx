@@ -27,9 +27,18 @@ export default observer(function SummaryPanel(props: IPanelProps) {
                     const ccp = p as CarbonCityZeroPlayer
                     const isCrurrent = true
                     const info = new Map<string, string>()
-                    info.set("Income", ccp.income.toString())
+                    info
+                        .set("Carbon", ccp.carbon.toString())
+                        .set("Income", ccp.income.toString())
                     return (
-                        <PlayerProfile m="10px" key={"PlayerProfile" + ccp.name} name={ccp.name} color={ccp.color} info={info} active={isCrurrent}/>
+                        <PlayerProfile
+                            m="10px"
+                            key={"PlayerProfile" + ccp.name}
+                            name={ccp.name}
+                            color={ccp.color}
+                            info={info}
+                            active={isCrurrent}
+                        />
                     )
                 })
                 }
@@ -46,7 +55,9 @@ export default observer(function SummaryPanel(props: IPanelProps) {
                             </>
                         : null}
                         {gameState.enoughPlayers ?
-                            <Button bgColor="brand.500" onClick={(e) => { onStart(e) }}>Start</Button>
+                            <Button bgColor="brand.500" onClick={(e) => { onStart(e) }}>
+                                Start
+                            </Button>
                         : null}
                     </HStack>
                 </Center>

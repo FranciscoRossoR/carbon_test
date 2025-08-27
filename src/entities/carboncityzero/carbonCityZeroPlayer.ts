@@ -1,6 +1,5 @@
 import Player from "framework/entities/player";
 import ResourcesPool from "framework/entities/resourcesPool";
-import { carbonType, Resources } from "./common";
 import OrderedCardHolder from "framework/entities/orderedcardholder";
 import Card from "framework/entities/card";
 import { action, makeObservable, observable, override } from "mobx";
@@ -9,16 +8,14 @@ import { CarbonCityZeroCard } from "./carbonCityZeroCard";
 
 export default class CarbonCityZeroPlayer extends Player {
 
-    carbon: ResourcesPool<Resources>
     drawDeck: CardHolder<CarbonCityZeroCard>
     drawnCards: OrderedCardHolder<CarbonCityZeroCard>
     recyclePile: OrderedCardHolder<CarbonCityZeroCard>
     income: number
+    carbon: number
 
     public constructor(name: string) {
         super(name)
-        this.carbon = new ResourcesPool()
-        this.carbon.addResources(carbonType, 40)
         const cards = [
             //                                              hasAc   ac          co  i   ca
             new CarbonCityZeroCard("Budget 1",              false,  undefined,  1,  1,  0),
@@ -36,6 +33,7 @@ export default class CarbonCityZeroPlayer extends Player {
         this.drawnCards = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)  // PLACEHOLDER
         this.recyclePile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)  // PLACEHOLDER
         this.income = 0
+        this.carbon = 40
         makeObservable(this, {
             name: override,
             carbon: observable,
