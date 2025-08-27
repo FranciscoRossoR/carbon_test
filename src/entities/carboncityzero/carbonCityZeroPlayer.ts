@@ -36,10 +36,10 @@ export default class CarbonCityZeroPlayer extends Player {
         this.carbon = 40
         makeObservable(this, {
             name: override,
-            carbon: observable,
             drawnCards: observable,
             recyclePile: observable,
             income: observable,
+            carbon: observable,
             drawCards: action,
             discardAllDrawnCards: action,
             setIncome: action,
@@ -85,6 +85,13 @@ export default class CarbonCityZeroPlayer extends Player {
         return this.drawnCards.cards.reduce((total, card) => {
             return total + (card.income ?? 0)
         }, 0)
+    }
+
+    public addDrawnCardsCarbon() {
+        let totalDrawnCardsCarbon = this.drawnCards.cards.reduce((total, card) =>{
+            return total + (card.carbon ?? 0)
+        }, 0)
+        this.carbon = Math.min(49, this.carbon + totalDrawnCardsCarbon)
     }
 
 }

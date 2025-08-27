@@ -34,7 +34,7 @@ export default class CarbonCityZeroState extends GameState {
                     new CarbonCityZeroCard("Market Card 7", true,       undefined,  1,  1,  -1),
                     new CarbonCityZeroCard("Market Card 8", undefined,  undefined,  2,  2,  0),
                     new CarbonCityZeroCard("Market Card 9", true,       undefined,  3,  3,  1),
-                    new CarbonCityZeroCard("Market Card 10",undefined,  undefined,  1,  1,  -1),
+                    new CarbonCityZeroCard("Nuke",          undefined,  undefined,  0,  0,  200),
                 ]
         this.marketDeck = new CardHolder<CarbonCityZeroCard>(cards)
         this.marketDeck.shuffle()
