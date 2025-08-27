@@ -16,20 +16,20 @@ import Player from "framework/entities/player";
 type IPlayerProfile = Player & {
     image?: string;
     info?: Map<string, string>;
-    active: boolean;
+    highlighted: boolean;
 } & ThemingProps & BoxProps;
 
 export default function PlayerProfile(props: IPlayerProfile) {
 
-    const {color, name, image, active, info, ...boxProps} = props;
+    const {color, name, image, highlighted, info, ...boxProps} = props;
 
     const boxStyle = {
         width: '180px',
         backgroundColor: useColorModeValue('white', 'gray.800'),
-        boxShadow: active ? '2xl' : 'md', 
+        boxShadow: highlighted ? '2xl' : 'md', 
         rounded: 'md',
         overflow: 'hidden',
-        border: active ? '4px solid' : '0px solid',
+        border: highlighted ? '4px solid' : '0px solid',
         borderColor: useColorModeValue('brand.600', 'white'),
     }
 
