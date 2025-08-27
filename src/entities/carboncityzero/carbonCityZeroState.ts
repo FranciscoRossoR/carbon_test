@@ -58,15 +58,11 @@ export default class CarbonCityZeroState extends GameState {
             currentPlayer: computed,
             nextPlayer: computed,
             previousPlayer: computed,
-            setStatus: action,
+            winGame: action,
             setWinner: action,
             passTurn: action,
             goToBuyPhase: action
         })
-    }
-
-    public setStatus(status: GameStatus) {
-        this.status = status
     }
 
     public setWinner(winner: CarbonCityZeroPlayer) {
@@ -102,8 +98,6 @@ export default class CarbonCityZeroState extends GameState {
     }
 
     public passTurn(): CarbonCityZeroState {
-        let player = this.currentPlayer
-        player.setIncome(0)
         this.turn ++
         if (this.turn >= this.players.length) {
             this.turn = 0
@@ -159,6 +153,11 @@ export default class CarbonCityZeroState extends GameState {
             player.recyclePile
         )
         player.setIncome(player.income - card.cost)
+    }
+
+    public winGame(player: CarbonCityZeroPlayer) {
+        this.setWinner(player)
+        this.status = "finished"
     }
 
 }

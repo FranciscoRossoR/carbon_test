@@ -1,5 +1,4 @@
 import { FlexProps, Heading, Text, VStack } from "@chakra-ui/react";
-import { reaction } from "mobx";
 import { observer } from "mobx-react";
 import gameState from "pages/store";
 import React from "react";
@@ -40,13 +39,3 @@ export default observer(class HeadingPanel extends React.Component<IHeadingProps
     }
 
 })
-
-reaction(
-    () => gameState.currentPlayer?.carbon ?? Infinity,
-    (carbon) => {
-        if (carbon <= 0) {
-            gameState.setWinner(gameState.currentPlayer)
-            gameState.setStatus("finished")
-        }
-    }
-)

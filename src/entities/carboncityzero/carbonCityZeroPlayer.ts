@@ -5,6 +5,7 @@ import Card from "framework/entities/card";
 import { action, makeObservable, observable, override } from "mobx";
 import CardHolder from "framework/entities/cardholder";
 import { CarbonCityZeroCard } from "./carbonCityZeroCard";
+import gameState from "pages/store";
 
 export default class CarbonCityZeroPlayer extends Player {
 
@@ -92,6 +93,9 @@ export default class CarbonCityZeroPlayer extends Player {
             return total + (card.carbon ?? 0)
         }, 0)
         this.carbon = Math.min(49, this.carbon + totalDrawnCardsCarbon)
+        if (this.carbon <= 0) {
+            gameState.winGame(this)
+        }
     }
 
 }
