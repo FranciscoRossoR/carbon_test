@@ -96,7 +96,7 @@ export default class CarbonCityZeroPlayer extends Player {
         let modifier = this.getLinkAbilityModifiers(cards)
         // Calculate total carbon from cards
         if (!this.factoriesIncreaseCarbon) {
-            cards = cards.filter(card => !card.getIsFactory)
+            cards = cards.filter(card => !card.getIsFactory())
         }
         let totalDrawnCardsCarbon = cards.reduce((total, card) =>{
             return total + (card.carbon ?? 0)
@@ -104,6 +104,8 @@ export default class CarbonCityZeroPlayer extends Player {
         // Set carbon to the new total OR the max if it's exceeded (49)
         let totalCarbon = this.carbon + totalDrawnCardsCarbon + modifier
         this.carbon = Math.min(49, totalCarbon)
+        // Reactivate factories
+        this.factoriesIncreaseCarbon = true
         // Check if game is won
         if (this.carbon <= 0) {
             gameState.winGame(this)
