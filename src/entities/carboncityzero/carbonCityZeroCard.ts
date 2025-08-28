@@ -1,5 +1,5 @@
 import Card, { ICard } from "framework/entities/card";
-import { makeObservable, observable, action } from "mobx";
+import { makeObservable, observable, action, computed } from "mobx";
 
 export enum Sector {
     Starter = 0,
@@ -41,7 +41,7 @@ export class CarbonCityZeroCard extends Card {
             sector: Sector = Sector.Playtest,
             linkAbility?: LinkAbility,
             hasAction: boolean = false,
-            cardAction?: () => void
+            cardAction?: () => void,
         ) {
         super(name)
         this.cost = cost
@@ -58,8 +58,12 @@ export class CarbonCityZeroCard extends Card {
         })
     }
 
-    setHasCardAction(value: boolean) {
+    public setHasCardAction(value: boolean) {
         this.hasCardAction = value
+    }
+
+    public getIsFactory(): boolean {
+        return this.sector === Sector.Industry && this.carbon > 0
     }
 
 }
