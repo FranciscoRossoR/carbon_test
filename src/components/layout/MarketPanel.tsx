@@ -58,6 +58,7 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                                 cost={marketDeckCard?.cost}
                                 income={marketDeckCard?.income}
                                 carbon={marketDeckCard?.carbon}
+                                sector={marketDeckCard?.sector}
                             />
                             <Badge
                                 variant="outline"
@@ -83,6 +84,7 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                                             cost={c.cost}
                                             income={c.income}
                                             carbon={c.carbon}
+                                            sector={c.sector}
                                             interactableCardProps={canBeBought}
                                             onClick={handleCardClick}
                                         />
@@ -97,6 +99,7 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                                 cost={landfillPileCard?.cost}
                                 income={landfillPileCard?.income}
                                 carbon={landfillPileCard?.carbon}
+                                sector={landfillPileCard?.sector}
                                 color="gray.500" />
                             <Badge
                                 variant="outline"

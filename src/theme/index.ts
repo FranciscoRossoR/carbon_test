@@ -26,15 +26,28 @@ const theme = extendTheme({
     components: {
         PlayingCard: {
             baseStyle: (colorMode: ColorMode) => ({
-                bg: colorMode === 'dark' ? 'white' : 'cards.500',
                 borderColor: 'cards.100',
                 borderWidth: '1px',
                 borderStyle: 'solid',
-                color: colorMode === 'dark' ? 'cards.100' : 'cards.100',
+                color: 'cards.100',
                 boxShadow: '0px 0px 10px rgba(0, 0, 0.8, 0.1)',
                 h: '100px',
                 w: '70px',
             }),
+            variants: {
+                0: {
+                    bg: "pink.100"
+                },
+                1: {
+                    bg: "orange.200"
+                },
+                2: {
+                    bg: "green.200"
+                },
+                3: {
+                    bg: "blue.200"
+                }
+            }
         },
     },
 

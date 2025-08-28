@@ -12,7 +12,8 @@ export enum Sector {
 export interface ICarbonCityZeroCard extends ICard {
     cost: number,
     income: number,
-    carbon: number
+    carbon: number,
+    sector: Sector
 }
 
 export class CarbonCityZeroCard extends Card {
