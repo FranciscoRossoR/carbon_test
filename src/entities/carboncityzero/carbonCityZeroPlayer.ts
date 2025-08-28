@@ -18,16 +18,16 @@ export default class CarbonCityZeroPlayer extends Player {
     public constructor(name: string) {
         super(name)
         const cards = [
-            //                                              hasAc   ac          co  i   ca
-            new CarbonCityZeroCard("Budget 1",              false,  undefined,  1,  1,  0),
-            new CarbonCityZeroCard("Budget 2",              false,  undefined,  1,  1,  0),
-            new CarbonCityZeroCard("Budget 3",              false,  undefined,  1,  1,  0),
-            new CarbonCityZeroCard("Budget 4",              false,  undefined,  1,  1,  0),
-            new CarbonCityZeroCard("Budget 5",              false,  undefined,  1,  1,  0),
-            new CarbonCityZeroCard("Global Market 1",       true,   undefined,  1,  1,  1),
-            new CarbonCityZeroCard("Global Market 2",       true,   undefined,  1,  1,  1),
-            new CarbonCityZeroCard("Poor Housing Stock 1",  true,   undefined,  0,  0,  1),
-            new CarbonCityZeroCard("Remote Properties 1",   true,   undefined,  0,  0,  0),
+            //                      name                    co  i   ca  s   hasAc   cardAction                                         
+            new CarbonCityZeroCard("Budget 1",              1,  1,  0,  0),
+            new CarbonCityZeroCard("Budget 2",              1,  1,  0,  0),
+            new CarbonCityZeroCard("Budget 3",              1,  1,  0,  0),
+            new CarbonCityZeroCard("Budget 4",              1,  1,  0,  0),
+            new CarbonCityZeroCard("Budget 5",              1,  1,  0,  0),
+            new CarbonCityZeroCard("Global Market 1",       1,  1,  1,  0,  true),
+            new CarbonCityZeroCard("Global Market 2",       1,  1,  1,  0,  true),
+            new CarbonCityZeroCard("Poor Housing Stock 1",  0,  0,  1,  0,  true),
+            new CarbonCityZeroCard("Remote Properties 1",   0,  0,  0,  0,  true),
         ]
         this.drawDeck = new CardHolder<CarbonCityZeroCard>(cards) // PLACEHOLDER
         this.drawDeck.shuffle()

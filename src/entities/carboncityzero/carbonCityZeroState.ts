@@ -25,17 +25,17 @@ export default class CarbonCityZeroState extends GameState {
         super(1, 4, players ? players : [], gameElements, status, complexAnalyst)
         // PLACEHOLDER
         const cards = [
-                    //                                      hasAction   action      co  i   ca
-                    new CarbonCityZeroCard("Market Card 1", true,       undefined,  1,  1,  -1),
-                    new CarbonCityZeroCard("Market Card 2", undefined,  undefined,  2,  2,  0),
-                    new CarbonCityZeroCard("Market Card 3", true,       undefined,  3,  3,  1),
-                    new CarbonCityZeroCard("Market Card 4", undefined,  undefined,  1,  1,  -1),
-                    new CarbonCityZeroCard("Market Card 5", true,       undefined,  2,  2,  0),
-                    new CarbonCityZeroCard("Market Card 6", undefined,  undefined,  3,  3,  1),
-                    new CarbonCityZeroCard("Market Card 7", true,       undefined,  1,  1,  -1),
-                    new CarbonCityZeroCard("Market Card 8", undefined,  undefined,  2,  2,  0),
-                    new CarbonCityZeroCard("Blessing",      undefined,  undefined,  0,  0,  -200),
-                    new CarbonCityZeroCard("Nuke",          undefined,  undefined,  0,  0,  200),
+                    //                      name            co  i   ca  s   hasAc
+                    new CarbonCityZeroCard("Market Card 1", 1,  1,  -1, 1,  true),
+                    new CarbonCityZeroCard("Market Card 2", 2,  2,  0,  2),
+                    new CarbonCityZeroCard("Market Card 3", 3,  3,  1,  3,  true),
+                    new CarbonCityZeroCard("Market Card 4", 1,  1,  -1, 1,  true),
+                    new CarbonCityZeroCard("Market Card 5", 2,  2,  0,  2),
+                    new CarbonCityZeroCard("Market Card 6", 3,  3,  1,  3,  true),
+                    new CarbonCityZeroCard("Market Card 7", 1,  1,  -1, 1,  true),
+                    new CarbonCityZeroCard("Market Card 8", 2,  2,  0,  2),
+                    new CarbonCityZeroCard("Blessing",      0,  0,  -200),
+                    new CarbonCityZeroCard("Nuke",          0,  0,  200),
                 ]
         this.marketDeck = new CardHolder<CarbonCityZeroCard>(cards)
         this.marketDeck.shuffle()
