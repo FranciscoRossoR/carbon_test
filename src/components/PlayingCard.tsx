@@ -13,6 +13,7 @@ const PlayingCard = (props: ICardProps) => {
         income,
         carbon,
         sector,
+        linkAbility,
         size,
         variant,
         sx,
@@ -77,6 +78,12 @@ const PlayingCard = (props: ICardProps) => {
         top: 0
     }
 
+    const linkAbilityStyle = {
+        position: 'absolute',
+        left: '50%',
+        bottom: 0
+    }
+
     return (
         <Box sx={boxStyle} onClick={onClick} {...boxProps}>
             <Text sx={costStyle}>{cost}</Text>
@@ -84,6 +91,7 @@ const PlayingCard = (props: ICardProps) => {
             <Text sx={incomeStyle}>{income}</Text>
             <Text sx={carbonStyle}>{carbon}</Text>
             <Text sx={sectorStyle}>{sector}</Text>
+            <Text sx={linkAbilityStyle}>{linkAbility}</Text>
         </Box>
     )
 

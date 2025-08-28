@@ -69,6 +69,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                                 income={drawDeckCard?.income}
                                 carbon={drawDeckCard?.carbon}
                                 sector={drawDeckCard?.sector}
+                                linkAbility={drawDeckCard?.linkAbility}
                             />
                             <Badge
                                 variant="outline"
@@ -105,6 +106,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                                             income={c.income}
                                             carbon={c.carbon}
                                             sector={c.sector}
+                                            linkAbility={c.linkAbility}
                                             interactableCardProps={canActivate}
                                             onClick={handleCardClick}
                                         />
@@ -120,6 +122,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                                 income={recyclePileCard?.income}
                                 carbon={recyclePileCard?.carbon}
                                 sector={recyclePileCard?.sector}
+                                linkAbility={recyclePileCard?.linkAbility}
                                 color="gray.500"/>
                             <Badge
                                 variant="outline"

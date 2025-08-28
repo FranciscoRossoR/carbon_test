@@ -19,7 +19,8 @@ export interface ICarbonCityZeroCard extends ICard {
     cost: number,
     income: number,
     carbon: number,
-    sector: Sector
+    sector: Sector,
+    linkAbility?: LinkAbility
 }
 
 export class CarbonCityZeroCard extends Card {
