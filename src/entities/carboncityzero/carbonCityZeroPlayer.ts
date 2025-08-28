@@ -4,7 +4,7 @@ import OrderedCardHolder from "framework/entities/orderedcardholder";
 import Card from "framework/entities/card";
 import { action, makeObservable, observable, override } from "mobx";
 import CardHolder from "framework/entities/cardholder";
-import { CarbonCityZeroCard } from "./carbonCityZeroCard";
+import { CarbonCityZeroCard, LinkAbility, Sector } from "./carbonCityZeroCard";
 import gameState from "pages/store";
 
 export default class CarbonCityZeroPlayer extends Player {
@@ -14,20 +14,21 @@ export default class CarbonCityZeroPlayer extends Player {
     recyclePile: OrderedCardHolder<CarbonCityZeroCard>
     income: number
     carbon: number
+    factoriesIncreaseCarbon: boolean
 
     public constructor(name: string) {
         super(name)
         const cards = [
-            //                                              hasAc   ac          co  i   ca
-            new CarbonCityZeroCard("Budget 1",              false,  undefined,  1,  1,  0),
-            new CarbonCityZeroCard("Budget 2",              false,  undefined,  1,  1,  0),
-            new CarbonCityZeroCard("Budget 3",              false,  undefined,  1,  1,  0),
-            new CarbonCityZeroCard("Budget 4",              false,  undefined,  1,  1,  0),
-            new CarbonCityZeroCard("Budget 5",              false,  undefined,  1,  1,  0),
-            new CarbonCityZeroCard("Global Market 1",       true,   undefined,  1,  1,  1),
-            new CarbonCityZeroCard("Global Market 2",       true,   undefined,  1,  1,  1),
-            new CarbonCityZeroCard("Poor Housing Stock 1",  true,   undefined,  0,  0,  1),
-            new CarbonCityZeroCard("Remote Properties 1",   true,   undefined,  0,  0,  0),
+            //                      name                    co  i   ca  s   linkAb      hasAc   cAc                                         
+            new CarbonCityZeroCard("Budget 1",              1,  1,  0,  0),
+            new CarbonCityZeroCard("Budget 2",              1,  1,  0,  0),
+            new CarbonCityZeroCard("Budget 3",              1,  1,  0,  0),
+            new CarbonCityZeroCard("Budget 4",              1,  1,  0,  0),
+            new CarbonCityZeroCard("Budget 5",              1,  1,  0,  0),
+            new CarbonCityZeroCard("Global Market 1",       1,  1,  1,  0,  undefined,  true),
+            new CarbonCityZeroCard("Global Market 2",       1,  1,  1,  0,  undefined,  true),
+            new CarbonCityZeroCard("Poor Housing Stock 1",  0,  0,  1,  0,  undefined,  true),
+            new CarbonCityZeroCard("Remote Properties 1",   0,  0,  0,  0,  undefined,  true),
         ]
         this.drawDeck = new CardHolder<CarbonCityZeroCard>(cards) // PLACEHOLDER
         this.drawDeck.shuffle()
@@ -35,6 +36,7 @@ export default class CarbonCityZeroPlayer extends Player {
         this.recyclePile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)  // PLACEHOLDER
         this.income = 0
         this.carbon = 40
+        this.factoriesIncreaseCarbon = true
         makeObservable(this, {
             name: override,
             drawnCards: observable,
@@ -89,13 +91,63 @@ export default class CarbonCityZeroPlayer extends Player {
     }
 
     public addDrawnCardsCarbon() {
-        let totalDrawnCardsCarbon = this.drawnCards.cards.reduce((total, card) =>{
+        let cards = this.drawnCards.cards
+        // Check Link Ability modifiers
+        let modifier = this.getLinkAbilityModifiers(cards)
+        // Calculate total carbon from cards
+        if (!this.factoriesIncreaseCarbon) {
+            cards = cards.filter(card => !card.getIsFactory())
+        }
+        let totalDrawnCardsCarbon = cards.reduce((total, card) =>{
             return total + (card.carbon ?? 0)
         }, 0)
-        this.carbon = Math.min(49, this.carbon + totalDrawnCardsCarbon)
+        // Set carbon to the new total OR the max if it's exceeded (49)
+        let totalCarbon = this.carbon + totalDrawnCardsCarbon + modifier
+        this.carbon = Math.min(49, totalCarbon)
+        // Reactivate factories
+        this.factoriesIncreaseCarbon = true
+        // Check if game is won
         if (this.carbon <= 0) {
             gameState.winGame(this)
         }
+    }
+
+    public getLinkAbilityModifiers(cards: CarbonCityZeroCard[]): number {
+        let modifier = 0
+        let linkAbilities = this.getLinkAbilities(cards)
+        for (let i = 0 ; i < linkAbilities.length ; i++) {
+            let linkAbility = linkAbilities[i]
+            switch(linkAbility) {
+                case 1:
+                    modifier -= 1
+                    break
+                case 2:
+                    modifier -= 2
+                    break
+                case 3:
+                    this.factoriesIncreaseCarbon = false
+                    break
+                default:
+                    modifier -= 700
+                    break
+            }
+        }
+        return modifier
+    }
+
+    public getLinkAbilities(cards: CarbonCityZeroCard[]): LinkAbility[] {
+        let linkAbilities: LinkAbility[] = []
+        for (let i = 0 ; i < cards.length ; i++) {
+            let card = cards[i]
+            if (card.linkAbility && this.getHasMoreThanOneOfSector(card.sector)) {
+                linkAbilities.push(card.linkAbility)
+            }
+        }
+        return linkAbilities
+    }
+
+    public getHasMoreThanOneOfSector(sector: Sector): boolean {
+        return this.drawnCards.cards.filter(c => c.sector === sector).length > 1
     }
 
 }

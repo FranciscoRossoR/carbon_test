@@ -12,6 +12,8 @@ const PlayingCard = (props: ICardProps) => {
         cost,
         income,
         carbon,
+        sector,
+        linkAbility,
         size,
         variant,
         sx,
@@ -21,7 +23,7 @@ const PlayingCard = (props: ICardProps) => {
     } = props
 
     // Build the card style from the particular app style (styles), general card style
-    const PlayingCardStyle = useStyleConfig('PlayingCard', { size, variant })
+    const PlayingCardStyle = useStyleConfig('PlayingCard', { size, variant: sector })
     const cardStyle = {
         display: 'block',
         '& > *': { textAlign: 'center' },
@@ -69,12 +71,27 @@ const PlayingCard = (props: ICardProps) => {
         bottom:0
     }
 
+    // Sector Style
+    const sectorStyle = {
+        position: 'absolute',
+        left: 0,
+        top: 0
+    }
+
+    const linkAbilityStyle = {
+        position: 'absolute',
+        left: '50%',
+        bottom: 0
+    }
+
     return (
         <Box sx={boxStyle} onClick={onClick} {...boxProps}>
             <Text sx={costStyle}>{cost}</Text>
             <Text sx={textStyle}>{name}</Text>
             <Text sx={incomeStyle}>{income}</Text>
             <Text sx={carbonStyle}>{carbon}</Text>
+            <Text sx={sectorStyle}>{sector}</Text>
+            <Text sx={linkAbilityStyle}>{linkAbility}</Text>
         </Box>
     )
 
