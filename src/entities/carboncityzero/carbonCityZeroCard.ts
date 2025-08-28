@@ -9,6 +9,12 @@ export enum Sector {
     Playtest
 }
 
+export enum LinkAbility {
+    DecreaseCarbon1 = 1,
+    DecreaseCarbon2,
+    AnnulFactoryCarbon
+}
+
 export interface ICarbonCityZeroCard extends ICard {
     cost: number,
     income: number,
@@ -22,6 +28,7 @@ export class CarbonCityZeroCard extends Card {
     income: number
     carbon: number
     sector: Sector
+    linkAbility?: LinkAbility
     hasCardAction: boolean
     cardAction?: () => void
 
@@ -31,6 +38,7 @@ export class CarbonCityZeroCard extends Card {
             income: number = 0,
             carbon: number = 0,
             sector: Sector = Sector.Playtest,
+            linkAbility?: LinkAbility,
             hasAction: boolean = false,
             cardAction?: () => void
         ) {
@@ -39,6 +47,7 @@ export class CarbonCityZeroCard extends Card {
         this.income = income
         this.carbon = carbon
         this.sector = sector
+        this.linkAbility = linkAbility
         this.hasCardAction = hasAction
         if (this.hasCardAction) {this.cardAction = () => {alert("ACTION")}} // PLACEHOLDER
 
