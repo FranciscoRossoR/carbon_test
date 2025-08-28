@@ -18,16 +18,16 @@ export default class CarbonCityZeroPlayer extends Player {
     public constructor(name: string) {
         super(name)
         const cards = [
-            //                      name                    co  i   ca  s   hasAc   cardAction                                         
+            //                      name                    co  i   ca  s   linkAb      hasAc   cAc                                         
             new CarbonCityZeroCard("Budget 1",              1,  1,  0,  0),
             new CarbonCityZeroCard("Budget 2",              1,  1,  0,  0),
             new CarbonCityZeroCard("Budget 3",              1,  1,  0,  0),
             new CarbonCityZeroCard("Budget 4",              1,  1,  0,  0),
             new CarbonCityZeroCard("Budget 5",              1,  1,  0,  0),
-            new CarbonCityZeroCard("Global Market 1",       1,  1,  1,  0,  true),
-            new CarbonCityZeroCard("Global Market 2",       1,  1,  1,  0,  true),
-            new CarbonCityZeroCard("Poor Housing Stock 1",  0,  0,  1,  0,  true),
-            new CarbonCityZeroCard("Remote Properties 1",   0,  0,  0,  0,  true),
+            new CarbonCityZeroCard("Global Market 1",       1,  1,  1,  0,  undefined,  true),
+            new CarbonCityZeroCard("Global Market 2",       1,  1,  1,  0,  undefined,  true),
+            new CarbonCityZeroCard("Poor Housing Stock 1",  0,  0,  1,  0,  undefined,  true),
+            new CarbonCityZeroCard("Remote Properties 1",   0,  0,  0,  0,  undefined,  true),
         ]
         this.drawDeck = new CardHolder<CarbonCityZeroCard>(cards) // PLACEHOLDER
         this.drawDeck.shuffle()

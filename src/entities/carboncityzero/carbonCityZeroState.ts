@@ -25,14 +25,14 @@ export default class CarbonCityZeroState extends GameState {
         super(1, 4, players ? players : [], gameElements, status, complexAnalyst)
         // PLACEHOLDER
         const cards = [
-                    //                      name            co  i   ca  s   hasAc
-                    new CarbonCityZeroCard("Market Card 1", 1,  1,  -1, 1,  true),
+                    //                      name            co  i   ca  s   linkAb      hasAc   cAc 
+                    new CarbonCityZeroCard("Market Card 1", 1,  1,  -1, 1,  1,          true),
                     new CarbonCityZeroCard("Market Card 2", 2,  2,  0,  2),
-                    new CarbonCityZeroCard("Market Card 3", 3,  3,  1,  3,  true),
-                    new CarbonCityZeroCard("Market Card 4", 1,  1,  -1, 1,  true),
+                    new CarbonCityZeroCard("Market Card 3", 3,  3,  1,  3,  2,          true),
+                    new CarbonCityZeroCard("Market Card 4", 1,  1,  -1, 1,  3,          true),
                     new CarbonCityZeroCard("Market Card 5", 2,  2,  0,  2),
-                    new CarbonCityZeroCard("Market Card 6", 3,  3,  1,  3,  true),
-                    new CarbonCityZeroCard("Market Card 7", 1,  1,  -1, 1,  true),
+                    new CarbonCityZeroCard("Market Card 6", 3,  3,  1,  3,  undefined,  true),
+                    new CarbonCityZeroCard("Market Card 7", 1,  1,  -1, 1,  undefined,  true),
                     new CarbonCityZeroCard("Market Card 8", 2,  2,  0,  2),
                     new CarbonCityZeroCard("Blessing",      0,  0,  -200),
                     new CarbonCityZeroCard("Nuke",          0,  0,  200),
