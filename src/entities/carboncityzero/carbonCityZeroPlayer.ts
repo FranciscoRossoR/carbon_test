@@ -43,10 +43,12 @@ export default class CarbonCityZeroPlayer extends Player {
             recyclePile: observable,
             income: observable,
             carbon: observable,
+            factoriesIncreaseCarbon: observable,
             drawCards: action,
             discardAllDrawnCards: action,
             setIncome: action,
-            getTotalIncome: observable
+            getTotalIncome: observable,
+            setFactoriesIncreaseCarbon: action
         })
     }
 
@@ -147,6 +149,10 @@ export default class CarbonCityZeroPlayer extends Player {
 
     public getHasMoreThanOneOfSector(sector: Sector): boolean {
         return this.drawnCards.cards.filter(c => c.sector === sector).length > 1
+    }
+
+    public setFactoriesIncreaseCarbon(factoriesIncreaseCarbon: boolean) {
+        this.factoriesIncreaseCarbon = factoriesIncreaseCarbon
     }
 
 }
