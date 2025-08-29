@@ -85,10 +85,14 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                         </Center>
                         <HStack p="1em" spacing="0">
                             {drawnCards.cards.map((c, i) => {
-                                const canActivate = c.specialRule && gameState.phase==0
+                                const canActivate =
+                                    c.specialRule &&
+                                    !c.hasActivated &&
+                                    gameState.phase==0
                                 const handleCardClick = () => {
                                     if (canActivate) {
-                                        alert("ACTION")
+                                        alert("ACTION") // PLACEHOLDER
+                                        c.setHasActivated(true)
                                     }
                                 }
                                 return (
