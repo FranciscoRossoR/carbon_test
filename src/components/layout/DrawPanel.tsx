@@ -91,8 +91,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                                     gameState.phase==0
                                 const handleCardClick = () => {
                                     if (canActivate) {
-                                        alert("ACTION") // PLACEHOLDER
-                                        c.setHasActivated(true)
+                                        c.activate()
                                     }
                                 }
                                 return (

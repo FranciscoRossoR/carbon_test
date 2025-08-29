@@ -1,5 +1,6 @@
 import Card, { ICard } from "framework/entities/card";
 import { makeObservable, observable, action, computed } from "mobx";
+import gameState from "pages/store";
 
 export enum Sector {
     Starter = 0,
@@ -67,7 +68,8 @@ export class CarbonCityZeroCard extends Card {
 
         makeObservable(this, {
             hasActivated: observable,
-            setHasActivated: action
+            setHasActivated: action,
+            activate: action
         })
     }
 
@@ -77,6 +79,19 @@ export class CarbonCityZeroCard extends Card {
 
     public getIsFactory(): boolean {
         return this.sector === Sector.Industry && this.carbon > 0
+    }
+
+    public activate() {
+        let player = gameState.currentPlayer
+        switch(this.specialRule) {
+            case 1 :
+                player.drawCards(1)
+                break
+            default :
+                alert("ACTION")
+                break
+        }
+        this.setHasActivated(true)
     }
 
 }
