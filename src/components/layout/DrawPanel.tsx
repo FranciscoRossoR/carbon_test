@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import gameState from "pages/store"
 import React from "react"
 import PlayingCard from 'src/components/PlayingCard'
-import CarbonCityZeroPlayer from "src/entities/carboncityzero/carbonCityZeroPlayer"
+import CarbonCityZeroPlayer, { Status } from "src/entities/carboncityzero/carbonCityZeroPlayer"
 
 type IDrawPanelProps = {
 } & FlexProps
@@ -85,13 +85,21 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                         </Center>
                         <HStack p="1em" spacing="0">
                             {drawnCards.cards.map((c, i) => {
+                                const player = gameState.currentPlayer
                                 const canActivate =
-                                    c.specialRule &&
-                                    !c.hasActivated &&
-                                    gameState.phase==0
+                                    (
+                                        c.specialRule &&
+                                        !c.hasActivated &&
+                                        gameState.phase==0
+                                    ) ||
+                                    player.status === Status.LandfillDrawnCard
                                 const handleCardClick = () => {
                                     if (canActivate) {
-                                        c.activate()
+                                        if (player.status === Status.LandfillDrawnCard){
+                                            c.landfillDrawnCard()
+                                        } else {
+                                            c.activate()
+                                        }
                                     }
                                 }
                                 return (

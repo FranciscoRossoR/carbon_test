@@ -1,6 +1,7 @@
 import Card, { ICard } from "framework/entities/card";
 import { makeObservable, observable, action, computed } from "mobx";
 import gameState from "pages/store";
+import { Status } from "./carbonCityZeroPlayer";
 
 export enum Sector {
     Starter = 0,
@@ -20,7 +21,7 @@ export enum SpecialRule {
     DrawCard1 = 1,
     DrawCard2,
     AnnulFactoryCarbon,
-    LandillPlayedCard,
+    LandfillDrawnCard,
     LandfillMarketCard,
     BuyToTop
     // PENDING
@@ -55,7 +56,6 @@ export class CarbonCityZeroCard extends Card {
             sector: Sector = Sector.Playtest,
             specialRule?: SpecialRule,
             linkAbility?: LinkAbility,
-            hasActivated: boolean = false
         ) {
         super(name)
         this.cost = cost
@@ -64,7 +64,7 @@ export class CarbonCityZeroCard extends Card {
         this.sector = sector
         this.specialRule = specialRule
         this.linkAbility = linkAbility
-        this.hasActivated = hasActivated
+        this.hasActivated = false
 
         makeObservable(this, {
             hasActivated: observable,
@@ -93,11 +93,20 @@ export class CarbonCityZeroCard extends Card {
             case 3:
                 player.setFactoriesIncreaseCarbon(false)
                 break
+            case 4:
+                player.setStatus(Status.LandfillDrawnCard)
+                break
             default :
                 alert("ACTION")
                 break
         }
         this.setHasActivated(true)
+    }
+
+    public landfillDrawnCard() {
+        let player = gameState.currentPlayer
+        player.drawnCards.moveCard(this, player.recyclePile)
+        player.setStatus(Status.Regular)
     }
 
 }

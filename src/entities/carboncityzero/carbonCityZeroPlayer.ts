@@ -7,6 +7,12 @@ import CardHolder from "framework/entities/cardholder";
 import { CarbonCityZeroCard, LinkAbility, Sector } from "./carbonCityZeroCard";
 import gameState from "pages/store";
 
+export enum Status {
+    Regular = 0,
+    LandfillDrawnCard,
+    LandfillMarketCard,
+}
+
 export default class CarbonCityZeroPlayer extends Player {
 
     drawDeck: CardHolder<CarbonCityZeroCard>
@@ -15,6 +21,7 @@ export default class CarbonCityZeroPlayer extends Player {
     income: number
     carbon: number
     factoriesIncreaseCarbon: boolean
+    status: Status
 
     public constructor(name: string) {
         super(name)
@@ -37,6 +44,7 @@ export default class CarbonCityZeroPlayer extends Player {
         this.income = 0
         this.carbon = 40
         this.factoriesIncreaseCarbon = true
+        this.status = Status.Regular
         makeObservable(this, {
             name: override,
             drawnCards: observable,
@@ -44,11 +52,13 @@ export default class CarbonCityZeroPlayer extends Player {
             income: observable,
             carbon: observable,
             factoriesIncreaseCarbon: observable,
+            status: observable,
             drawCards: action,
             discardAllDrawnCards: action,
             setIncome: action,
             getTotalIncome: observable,
-            setFactoriesIncreaseCarbon: action
+            setFactoriesIncreaseCarbon: action,
+            setStatus: action
         })
     }
 
@@ -153,6 +163,10 @@ export default class CarbonCityZeroPlayer extends Player {
 
     public setFactoriesIncreaseCarbon(factoriesIncreaseCarbon: boolean) {
         this.factoriesIncreaseCarbon = factoriesIncreaseCarbon
+    }
+
+    public setStatus(status: Status) {
+        this.status = status
     }
 
 }
