@@ -87,6 +87,9 @@ export class CarbonCityZeroCard extends Card {
             case 1 :
                 player.drawCards(1)
                 break
+            case 2:
+                player.drawCards(2)
+                break
             default :
                 alert("ACTION")
                 break
