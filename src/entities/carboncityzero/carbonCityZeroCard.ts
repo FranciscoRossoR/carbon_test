@@ -108,7 +108,7 @@ export class CarbonCityZeroCard extends Card {
 
     public landfillDrawnCard() {
         let player = gameState.currentPlayer
-        player.drawnCards.moveCard(this, player.recyclePile)
+        player.drawnCards.moveCard(this, gameState.landfillPile)
         player.setStatus(Status.Regular)
     }
 
