@@ -96,6 +96,9 @@ export class CarbonCityZeroCard extends Card {
             case 4:
                 player.setStatus(Status.LandfillDrawnCard)
                 break
+            case 5:
+                player.setStatus(Status.LandfillMarketCard)
+                break
             default :
                 alert("ACTION")
                 break
@@ -106,6 +109,12 @@ export class CarbonCityZeroCard extends Card {
     public landfillDrawnCard() {
         let player = gameState.currentPlayer
         player.drawnCards.moveCard(this, player.recyclePile)
+        player.setStatus(Status.Regular)
+    }
+
+    public landfillMarketCard() {
+        let player = gameState.currentPlayer
+        gameState.marketplace.moveCard(this, gameState.landfillPile)
         player.setStatus(Status.Regular)
     }
 

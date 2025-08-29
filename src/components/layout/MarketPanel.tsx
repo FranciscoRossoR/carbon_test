@@ -6,6 +6,7 @@ import React from "react";
 import PlayingCard from "src/components/PlayingCard";
 import Card from 'src/components/PlayingCard'
 import { CarbonCityZeroCard } from "src/entities/carboncityzero/carbonCityZeroCard";
+import { Status } from "src/entities/carboncityzero/carbonCityZeroPlayer";
 
 type IMarketPanelProps = {
 } & FlexProps
@@ -65,11 +66,20 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                         </Box>
                         <HStack p="1em" spacing="0">
                             {marketplace.cards.map((c, i) => {
-                                const canBeBought = c.cost <= gameState.currentPlayer.income &&
+                                const player = gameState.currentPlayer
+                                const canBeBought =
+                                (
+                                    c.cost <= gameState.currentPlayer.income &&
                                     gameState.phase==1
+                                ) ||
+                                player.status === Status.LandfillMarketCard
                                 const handleCardClick = () => {
                                     if (canBeBought) {
-                                        gameState.buyCard(c)
+                                        if (player.status === Status.LandfillMarketCard) {
+                                            c.landfillMarketCard()
+                                        } else {
+                                            gameState.buyCard(c)
+                                        }
                                     }
                                 }
                                 return (
