@@ -90,6 +90,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                                     (
                                         c.specialRule &&
                                         !c.hasActivated &&
+                                        player.status != Status.LandfillMarketCard &&
                                         gameState.phase==0
                                     ) ||
                                     player.status === Status.LandfillDrawnCard
