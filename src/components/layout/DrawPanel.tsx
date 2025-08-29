@@ -64,12 +64,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                         <Box m="1em" position="relative" w={deckWidth}>
                             <PlayingCard
                                 sx={deckStyle}
-                                name={drawDeckCard?.name}
-                                cost={drawDeckCard?.cost}
-                                income={drawDeckCard?.income}
-                                carbon={drawDeckCard?.carbon}
-                                sector={drawDeckCard?.sector}
-                                linkAbility={drawDeckCard?.linkAbility}
+                                {...drawDeckCard}
                             />
                             <Badge
                                 variant="outline"
@@ -90,23 +85,17 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                         </Center>
                         <HStack p="1em" spacing="0">
                             {drawnCards.cards.map((c, i) => {
-                                const canActivate = c.hasCardAction && gameState.phase==0
+                                const canActivate = c.specialRule && gameState.phase==0
                                 const handleCardClick = () => {
                                     if (canActivate) {
-                                        c.cardAction?.()
-                                        c.setHasCardAction(false)
+                                        alert("ACTION")
                                     }
                                 }
                                 return (
                                     <React.Fragment key={c._uid}>
                                         <Spacer w="1em" />
                                         <PlayingCard
-                                            name={c.name}
-                                            cost={c.cost}
-                                            income={c.income}
-                                            carbon={c.carbon}
-                                            sector={c.sector}
-                                            linkAbility={c.linkAbility}
+                                            {...c}
                                             interactableCardProps={canActivate}
                                             onClick={handleCardClick}
                                         />
@@ -116,13 +105,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                         </HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
                             <PlayingCard
-                                sx={deckStyle}
-                                name={recyclePileCard?.name}
-                                cost={recyclePileCard?.cost}
-                                income={recyclePileCard?.income}
-                                carbon={recyclePileCard?.carbon}
-                                sector={recyclePileCard?.sector}
-                                linkAbility={recyclePileCard?.linkAbility}
+                                {...recyclePileCard}
                                 color="gray.500"/>
                             <Badge
                                 variant="outline"

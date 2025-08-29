@@ -54,12 +54,7 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                         <Box m="1em" position="relative" w={deckWidth}>
                             <PlayingCard 
                                 sx={deckStyle}
-                                name={marketDeckCard?.name}
-                                cost={marketDeckCard?.cost}
-                                income={marketDeckCard?.income}
-                                carbon={marketDeckCard?.carbon}
-                                sector={marketDeckCard?.sector}
-                                linkAbility={marketDeckCard?.linkAbility}
+                                {...marketDeckCard}
                             />
                             <Badge
                                 variant="outline"
@@ -81,12 +76,7 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                                     <React.Fragment key={c._uid}>
                                         <Spacer w="1em" />
                                         <PlayingCard
-                                            name={c.name}
-                                            cost={c.cost}
-                                            income={c.income}
-                                            carbon={c.carbon}
-                                            sector={c.sector}
-                                            linkAbility={c.linkAbility}
+                                            {...c}
                                             interactableCardProps={canBeBought}
                                             onClick={handleCardClick}
                                         />
@@ -97,12 +87,7 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                         <Box m="1em" position="relative" w={deckWidth}>
                             <PlayingCard
                                 sx={deckStyle}
-                                name={landfillPileCard?.name} 
-                                cost={landfillPileCard?.cost}
-                                income={landfillPileCard?.income}
-                                carbon={landfillPileCard?.carbon}
-                                sector={landfillPileCard?.sector}
-                                linkAbility={landfillPileCard?.linkAbility}
+                                {...landfillPileCard}
                                 color="gray.500" />
                             <Badge
                                 variant="outline"
