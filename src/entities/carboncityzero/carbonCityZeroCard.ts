@@ -99,6 +99,9 @@ export class CarbonCityZeroCard extends Card {
             case 5:
                 player.setStatus(Status.LandfillMarketCard)
                 break
+            case 6:
+                player.setBuyToTop(true)
+                break
             default :
                 alert("ACTION")
                 break

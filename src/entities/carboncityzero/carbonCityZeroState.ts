@@ -148,10 +148,12 @@ export default class CarbonCityZeroState extends GameState {
 
     public buyCard(card: CarbonCityZeroCard) {
         let player = this.currentPlayer
-        this.marketplace.moveCard(
-            card,
-            player.recyclePile
-        )
+        if (player.buyToTop) {
+            this.marketplace.moveCard(card, player.drawDeck)
+            player.setBuyToTop(false)
+        } else {
+            this.marketplace.moveCard(card, player.recyclePile)
+        }
         player.setIncome(player.income - card.cost)
     }
 

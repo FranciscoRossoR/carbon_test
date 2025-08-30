@@ -22,6 +22,7 @@ export default class CarbonCityZeroPlayer extends Player {
     carbon: number
     factoriesIncreaseCarbon: boolean
     status: Status
+    buyToTop: boolean
 
     public constructor(name: string) {
         super(name)
@@ -45,6 +46,7 @@ export default class CarbonCityZeroPlayer extends Player {
         this.carbon = 40
         this.factoriesIncreaseCarbon = true
         this.status = Status.Regular
+        this.buyToTop = false
         makeObservable(this, {
             name: override,
             drawnCards: observable,
@@ -53,12 +55,14 @@ export default class CarbonCityZeroPlayer extends Player {
             carbon: observable,
             factoriesIncreaseCarbon: observable,
             status: observable,
+            buyToTop: observable,
             drawCards: action,
             discardAllDrawnCards: action,
             setIncome: action,
             getTotalIncome: observable,
             setFactoriesIncreaseCarbon: action,
-            setStatus: action
+            setStatus: action,
+            setBuyToTop: action
         })
     }
 
@@ -167,6 +171,10 @@ export default class CarbonCityZeroPlayer extends Player {
 
     public setStatus(status: Status) {
         this.status = status
+    }
+
+    public setBuyToTop(buyToTop: boolean) {
+        this.buyToTop = buyToTop
     }
 
 }
