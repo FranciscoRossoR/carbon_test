@@ -130,14 +130,12 @@ export default class CarbonCityZeroState extends GameState {
             // Check if Market Deck is empty
             if (this.marketDeck.size == 0) {
                 // Move Landfill Pile into Market Deck
-                for (let j = 0 ; j != this.landfillPile.size; j) {
-                    this.landfillPile.moveCard(
-                        this.landfillPile.head,
-                        this.marketDeck
-                    )
+                let landfill = this.landfillPile
+                while (landfill.size > 0) {
+                    landfill.moveCard(landfill.head, this.marketDeck)
                 }
                 // Shuffle Market Deck
-                this.marketDeck.shuffle
+                this.marketDeck.shuffle()
             }
             // Draw a card
             this.marketDeck.moveCard(
