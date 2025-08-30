@@ -2,7 +2,7 @@ import Card from "framework/entities/card";
 import CardHolder from "framework/entities/cardholder";
 import GameAction from "framework/entities/gameAction";
 import GameState, { GameStatus } from "framework/entities/gameState";
-import CarbonCityZeroPlayer from "./carbonCityZeroPlayer";
+import CarbonCityZeroPlayer, { Status } from "./carbonCityZeroPlayer";
 import UniqueGameElement from "framework/entities/gameElement";
 import ComplexityAnalyst from "framework/entities/complexityAnalyst";
 import OrderedCardHolder from "framework/entities/orderedcardholder";
@@ -111,6 +111,7 @@ export default class CarbonCityZeroState extends GameState {
         this.phase = 1
         let player = this.currentPlayer
         player.setIncome(player.getTotalIncome())
+        player.setStatus(Status.Regular)
         return this
     }
 
