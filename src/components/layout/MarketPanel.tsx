@@ -6,6 +6,7 @@ import React from "react";
 import PlayingCard from "src/components/PlayingCard";
 import Card from 'src/components/PlayingCard'
 import { CarbonCityZeroCard } from "src/entities/carboncityzero/carbonCityZeroCard";
+import { Status } from "src/entities/carboncityzero/carbonCityZeroPlayer";
 
 type IMarketPanelProps = {
 } & FlexProps
@@ -54,12 +55,7 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                         <Box m="1em" position="relative" w={deckWidth}>
                             <PlayingCard 
                                 sx={deckStyle}
-                                name={marketDeckCard?.name}
-                                cost={marketDeckCard?.cost}
-                                income={marketDeckCard?.income}
-                                carbon={marketDeckCard?.carbon}
-                                sector={marketDeckCard?.sector}
-                                linkAbility={marketDeckCard?.linkAbility}
+                                {...marketDeckCard}
                             />
                             <Badge
                                 variant="outline"
@@ -70,23 +66,27 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                         </Box>
                         <HStack p="1em" spacing="0">
                             {marketplace.cards.map((c, i) => {
-                                const canBeBought = c.cost <= gameState.currentPlayer.income &&
+                                const player = gameState.currentPlayer
+                                const canBeBought =
+                                (
+                                    c.cost <= gameState.currentPlayer.income &&
                                     gameState.phase==1
+                                ) ||
+                                player.status === Status.LandfillMarketCard
                                 const handleCardClick = () => {
                                     if (canBeBought) {
-                                        gameState.buyCard(c)
+                                        if (player.status === Status.LandfillMarketCard) {
+                                            c.landfillMarketCard()
+                                        } else {
+                                            gameState.buyCard(c)
+                                        }
                                     }
                                 }
                                 return (
                                     <React.Fragment key={c._uid}>
                                         <Spacer w="1em" />
                                         <PlayingCard
-                                            name={c.name}
-                                            cost={c.cost}
-                                            income={c.income}
-                                            carbon={c.carbon}
-                                            sector={c.sector}
-                                            linkAbility={c.linkAbility}
+                                            {...c}
                                             interactableCardProps={canBeBought}
                                             onClick={handleCardClick}
                                         />
@@ -97,12 +97,7 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                         <Box m="1em" position="relative" w={deckWidth}>
                             <PlayingCard
                                 sx={deckStyle}
-                                name={landfillPileCard?.name} 
-                                cost={landfillPileCard?.cost}
-                                income={landfillPileCard?.income}
-                                carbon={landfillPileCard?.carbon}
-                                sector={landfillPileCard?.sector}
-                                linkAbility={landfillPileCard?.linkAbility}
+                                {...landfillPileCard}
                                 color="gray.500" />
                             <Badge
                                 variant="outline"

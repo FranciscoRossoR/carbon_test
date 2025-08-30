@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import gameState from "pages/store"
 import React from "react"
 import PlayingCard from 'src/components/PlayingCard'
-import CarbonCityZeroPlayer from "src/entities/carboncityzero/carbonCityZeroPlayer"
+import CarbonCityZeroPlayer, { Status } from "src/entities/carboncityzero/carbonCityZeroPlayer"
 
 type IDrawPanelProps = {
 } & FlexProps
@@ -64,12 +64,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                         <Box m="1em" position="relative" w={deckWidth}>
                             <PlayingCard
                                 sx={deckStyle}
-                                name={drawDeckCard?.name}
-                                cost={drawDeckCard?.cost}
-                                income={drawDeckCard?.income}
-                                carbon={drawDeckCard?.carbon}
-                                sector={drawDeckCard?.sector}
-                                linkAbility={drawDeckCard?.linkAbility}
+                                {...drawDeckCard}
                             />
                             <Badge
                                 variant="outline"
@@ -90,23 +85,29 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                         </Center>
                         <HStack p="1em" spacing="0">
                             {drawnCards.cards.map((c, i) => {
-                                const canActivate = c.hasCardAction && gameState.phase==0
+                                const player = gameState.currentPlayer
+                                const canActivate =
+                                    (
+                                        c.specialRule &&
+                                        !c.hasActivated &&
+                                        player.status != Status.LandfillMarketCard &&
+                                        gameState.phase==0
+                                    ) ||
+                                    player.status === Status.LandfillDrawnCard
                                 const handleCardClick = () => {
                                     if (canActivate) {
-                                        c.cardAction?.()
-                                        c.setHasCardAction(false)
+                                        if (player.status === Status.LandfillDrawnCard){
+                                            c.landfillDrawnCard()
+                                        } else {
+                                            c.activate()
+                                        }
                                     }
                                 }
                                 return (
                                     <React.Fragment key={c._uid}>
                                         <Spacer w="1em" />
                                         <PlayingCard
-                                            name={c.name}
-                                            cost={c.cost}
-                                            income={c.income}
-                                            carbon={c.carbon}
-                                            sector={c.sector}
-                                            linkAbility={c.linkAbility}
+                                            {...c}
                                             interactableCardProps={canActivate}
                                             onClick={handleCardClick}
                                         />
@@ -116,13 +117,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                         </HStack>
                         <Box m="1em" position="relative" w={deckWidth}>
                             <PlayingCard
-                                sx={deckStyle}
-                                name={recyclePileCard?.name}
-                                cost={recyclePileCard?.cost}
-                                income={recyclePileCard?.income}
-                                carbon={recyclePileCard?.carbon}
-                                sector={recyclePileCard?.sector}
-                                linkAbility={recyclePileCard?.linkAbility}
+                                {...recyclePileCard}
                                 color="gray.500"/>
                             <Badge
                                 variant="outline"

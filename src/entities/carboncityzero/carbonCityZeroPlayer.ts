@@ -7,6 +7,12 @@ import CardHolder from "framework/entities/cardholder";
 import { CarbonCityZeroCard, LinkAbility, Sector } from "./carbonCityZeroCard";
 import gameState from "pages/store";
 
+export enum Status {
+    Regular = 0,
+    LandfillDrawnCard,
+    LandfillMarketCard,
+}
+
 export default class CarbonCityZeroPlayer extends Player {
 
     drawDeck: CardHolder<CarbonCityZeroCard>
@@ -15,20 +21,22 @@ export default class CarbonCityZeroPlayer extends Player {
     income: number
     carbon: number
     factoriesIncreaseCarbon: boolean
+    status: Status
+    buyToTop: boolean
 
     public constructor(name: string) {
         super(name)
         const cards = [
-            //                      name                    co  i   ca  s   linkAb      hasAc   cAc                                         
+            //                      name                    co  i   ca  s   sR                                        
             new CarbonCityZeroCard("Budget 1",              1,  1,  0,  0),
             new CarbonCityZeroCard("Budget 2",              1,  1,  0,  0),
             new CarbonCityZeroCard("Budget 3",              1,  1,  0,  0),
             new CarbonCityZeroCard("Budget 4",              1,  1,  0,  0),
             new CarbonCityZeroCard("Budget 5",              1,  1,  0,  0),
-            new CarbonCityZeroCard("Global Market 1",       1,  1,  1,  0,  undefined,  true),
-            new CarbonCityZeroCard("Global Market 2",       1,  1,  1,  0,  undefined,  true),
-            new CarbonCityZeroCard("Poor Housing Stock 1",  0,  0,  1,  0,  undefined,  true),
-            new CarbonCityZeroCard("Remote Properties 1",   0,  0,  0,  0,  undefined,  true),
+            new CarbonCityZeroCard("Global Market 1",       1,  1,  1,  0,  5),
+            new CarbonCityZeroCard("Global Market 2",       1,  1,  1,  0,  5),
+            new CarbonCityZeroCard("Poor Housing Stock 1",  0,  0,  1,  0,  1),
+            new CarbonCityZeroCard("Remote Properties 1",   0,  0,  0,  0,  1),
         ]
         this.drawDeck = new CardHolder<CarbonCityZeroCard>(cards) // PLACEHOLDER
         this.drawDeck.shuffle()
@@ -37,16 +45,24 @@ export default class CarbonCityZeroPlayer extends Player {
         this.income = 0
         this.carbon = 40
         this.factoriesIncreaseCarbon = true
+        this.status = Status.Regular
+        this.buyToTop = false
         makeObservable(this, {
             name: override,
             drawnCards: observable,
             recyclePile: observable,
             income: observable,
             carbon: observable,
+            factoriesIncreaseCarbon: observable,
+            status: observable,
+            buyToTop: observable,
             drawCards: action,
             discardAllDrawnCards: action,
             setIncome: action,
-            getTotalIncome: observable
+            getTotalIncome: observable,
+            setFactoriesIncreaseCarbon: action,
+            setStatus: action,
+            setBuyToTop: action
         })
     }
 
@@ -72,11 +88,10 @@ export default class CarbonCityZeroPlayer extends Player {
     }
 
     public discardAllDrawnCards() {
-        for (let i = 0 ; i != this.drawnCards.size ; i) {
-            this.drawnCards.moveCard(
-                this.drawnCards.head,
-                this.recyclePile
-            )
+        while (this.drawnCards.size > 0) {
+            const card = this.drawnCards.head
+            card.setHasActivated(false)
+            this.drawnCards.moveCard(card, this.recyclePile)
         }
     }
 
@@ -148,6 +163,18 @@ export default class CarbonCityZeroPlayer extends Player {
 
     public getHasMoreThanOneOfSector(sector: Sector): boolean {
         return this.drawnCards.cards.filter(c => c.sector === sector).length > 1
+    }
+
+    public setFactoriesIncreaseCarbon(factoriesIncreaseCarbon: boolean) {
+        this.factoriesIncreaseCarbon = factoriesIncreaseCarbon
+    }
+
+    public setStatus(status: Status) {
+        this.status = status
+    }
+
+    public setBuyToTop(buyToTop: boolean) {
+        this.buyToTop = buyToTop
     }
 
 }

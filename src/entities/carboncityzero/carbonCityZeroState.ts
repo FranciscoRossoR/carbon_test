@@ -2,7 +2,7 @@ import Card from "framework/entities/card";
 import CardHolder from "framework/entities/cardholder";
 import GameAction from "framework/entities/gameAction";
 import GameState, { GameStatus } from "framework/entities/gameState";
-import CarbonCityZeroPlayer from "./carbonCityZeroPlayer";
+import CarbonCityZeroPlayer, { Status } from "./carbonCityZeroPlayer";
 import UniqueGameElement from "framework/entities/gameElement";
 import ComplexityAnalyst from "framework/entities/complexityAnalyst";
 import OrderedCardHolder from "framework/entities/orderedcardholder";
@@ -25,16 +25,16 @@ export default class CarbonCityZeroState extends GameState {
         super(1, 4, players ? players : [], gameElements, status, complexAnalyst)
         // PLACEHOLDER
         const cards = [
-                    //                      name            co  i   ca  s   linkAb      hasAc   cAc 
-                    new CarbonCityZeroCard("Industry 1",    1,  1,  0,  1,  3,          true),
-                    new CarbonCityZeroCard("Industry 2",    2,  2,  5,  1,  3               ),
-                    new CarbonCityZeroCard("Industry 3",    3,  3,  1,  1,  undefined,  true),
-                    new CarbonCityZeroCard("Domestic 1",    1,  1,  -2, 2,  1,          true),
-                    new CarbonCityZeroCard("Domestic 2",    2,  2,  -2, 2,  2               ),
-                    new CarbonCityZeroCard("Domestic 3",    3,  3,  -2, 2,  2,          true),
-                    new CarbonCityZeroCard("Government 1",  1,  1,  -1, 3,  1,          true),
-                    new CarbonCityZeroCard("Government 2",  2,  2,  0,  3,  2,              ),
-                    new CarbonCityZeroCard("Government 3",  2,  2,  0,  3,  3,              ),
+                    //                      name            co  i   ca  s   sr          lA
+                    new CarbonCityZeroCard("Industry 1",    1,  1,  0,  1,  1,          3   ),
+                    new CarbonCityZeroCard("Industry 2",    2,  2,  5,  1,  2,          3   ),
+                    new CarbonCityZeroCard("Industry 3",    3,  3,  1,  1,                  ),
+                    new CarbonCityZeroCard("Domestic 1",    1,  1,  -2, 2,  3,          1   ),
+                    new CarbonCityZeroCard("Domestic 2",    2,  2,  -2, 2,  4,          2   ),
+                    new CarbonCityZeroCard("Domestic 3",    3,  3,  -2, 2,  5,          2   ),
+                    new CarbonCityZeroCard("Government 1",  1,  1,  -1, 3,  6,          1   ),
+                    new CarbonCityZeroCard("Government 2",  2,  2,  0,  3,  1,              ),
+                    new CarbonCityZeroCard("Government 3",  2,  2,  0,  3,  undefined,  3   ),
                     new CarbonCityZeroCard("Blessing",      0,  0,  -200                    ),
                     new CarbonCityZeroCard("Nuke",          0,  0,  200                     ),
                 ]
@@ -111,6 +111,7 @@ export default class CarbonCityZeroState extends GameState {
         this.phase = 1
         let player = this.currentPlayer
         player.setIncome(player.getTotalIncome())
+        player.setStatus(Status.Regular)
         return this
     }
 
@@ -130,14 +131,12 @@ export default class CarbonCityZeroState extends GameState {
             // Check if Market Deck is empty
             if (this.marketDeck.size == 0) {
                 // Move Landfill Pile into Market Deck
-                for (let j = 0 ; j != this.landfillPile.size; j) {
-                    this.landfillPile.moveCard(
-                        this.landfillPile.head,
-                        this.marketDeck
-                    )
+                let landfill = this.landfillPile
+                while (landfill.size > 0) {
+                    landfill.moveCard(landfill.head, this.marketDeck)
                 }
                 // Shuffle Market Deck
-                this.marketDeck.shuffle
+                this.marketDeck.shuffle()
             }
             // Draw a card
             this.marketDeck.moveCard(
@@ -149,10 +148,12 @@ export default class CarbonCityZeroState extends GameState {
 
     public buyCard(card: CarbonCityZeroCard) {
         let player = this.currentPlayer
-        this.marketplace.moveCard(
-            card,
-            player.recyclePile
-        )
+        if (player.buyToTop) {
+            this.marketplace.moveCard(card, player.drawDeck)
+            player.setBuyToTop(false)
+        } else {
+            this.marketplace.moveCard(card, player.recyclePile)
+        }
         player.setIncome(player.income - card.cost)
     }
 
