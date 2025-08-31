@@ -46,6 +46,9 @@ const theme = extendTheme({
                 },
                 3: {
                     bg: "blue.200"
+                },
+                4: {
+                    bg: "yellow.200"
                 }
             }
         },
