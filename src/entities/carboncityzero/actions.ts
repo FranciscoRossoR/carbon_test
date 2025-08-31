@@ -1,5 +1,5 @@
 import GameAction from "framework/entities/gameAction";
-import CarbonCityZeroPlayer from "./carbonCityZeroPlayer";
+import CarbonCityZeroPlayer, { Search } from "./carbonCityZeroPlayer";
 import GameState from "framework/entities/gameState";
 import CarbonCityZeroState from "./carbonCityZeroState";
 
@@ -35,6 +35,7 @@ export class PassAction extends GameAction {
     
     public execute(state: CarbonCityZeroState) : CarbonCityZeroState {
         let player = state.currentPlayer
+        player.setSearch(Search.None)
         player.setIncome(0)
         player.addDrawnCardsCarbon()
         player.discardAllDrawnCards()

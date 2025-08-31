@@ -13,6 +13,12 @@ export enum Status {
     LandfillMarketCard,
 }
 
+export enum Search {
+    None = 0,
+    LandfillPile,
+    RecyclePile
+}
+
 export default class CarbonCityZeroPlayer extends Player {
 
     drawDeck: CardHolder<CarbonCityZeroCard>
@@ -23,6 +29,7 @@ export default class CarbonCityZeroPlayer extends Player {
     factoriesIncreaseCarbon: boolean
     status: Status
     buyToTop: boolean
+    search: Search
 
     public constructor(name: string) {
         super(name)
@@ -47,6 +54,7 @@ export default class CarbonCityZeroPlayer extends Player {
         this.factoriesIncreaseCarbon = true
         this.status = Status.Regular
         this.buyToTop = false
+        this.search = Search.None
         makeObservable(this, {
             name: override,
             drawnCards: observable,
@@ -56,13 +64,15 @@ export default class CarbonCityZeroPlayer extends Player {
             factoriesIncreaseCarbon: observable,
             status: observable,
             buyToTop: observable,
+            search: observable,
             drawCards: action,
             discardAllDrawnCards: action,
             setIncome: action,
             getTotalIncome: observable,
             setFactoriesIncreaseCarbon: action,
             setStatus: action,
-            setBuyToTop: action
+            setBuyToTop: action,
+            setSearch: action
         })
     }
 
@@ -175,6 +185,10 @@ export default class CarbonCityZeroPlayer extends Player {
 
     public setBuyToTop(buyToTop: boolean) {
         this.buyToTop = buyToTop
+    }
+
+    public setSearch(search: Search) {
+        this.search = search
     }
 
 }
