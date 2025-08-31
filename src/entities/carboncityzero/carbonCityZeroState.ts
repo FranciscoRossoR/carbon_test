@@ -8,7 +8,7 @@ import ComplexityAnalyst from "framework/entities/complexityAnalyst";
 import OrderedCardHolder from "framework/entities/orderedcardholder";
 import { action, computed, makeObservable, observable, override, reaction } from "mobx";
 import { BuyAction, PassAction } from "./actions";
-import { CarbonCityZeroCard } from "./carbonCityZeroCard";
+import { CarbonCityZeroCard, Sector } from "./carbonCityZeroCard";
 
 export default class CarbonCityZeroState extends GameState {
 
@@ -123,10 +123,20 @@ export default class CarbonCityZeroState extends GameState {
         if (this.status === "open" && this.enoughPlayers) {
             this.turn = 0
             this.status = "playing"
-            this.drawCards(this.marketSize)
+            this.startingDraw()
             return true
         } else {
             return false
+        }
+    }
+
+    public startingDraw() {
+        while (this.marketplace.size < this.marketSize) {
+            const card = this.marketDeck.head
+            const target = card.sector === Sector.Snag ?
+                this.landfillPile :
+                this.marketplace
+            this.marketDeck.moveCard(this.marketDeck.head, target)
         }
     }
 
