@@ -25,9 +25,9 @@ export enum SpecialRule {
     LandfillDrawnCard,
     LandfillMarketCard,
     BuyToTop,
-    SearchDrawDeck
-    // PENDING
-    // SearchMarketDeckForGlobal
+    SearchDrawDeck,
+    SearchMarketDeckForGlobal,
+    AnnulLinkAbilities
 }
 
 export interface ICarbonCityZeroCard extends ICard {
