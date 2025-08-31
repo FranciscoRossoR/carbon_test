@@ -20,7 +20,7 @@ export default observer(class SearchPanel extends React.Component<ISearchPanelPr
 
         const player = gameState.currentPlayer
         const playerSearch = player.search
-        let searchPile: OrderedCardHolder<CarbonCityZeroCard>
+        let searchPile: OrderedCardHolder<CarbonCityZeroCard> | undefined
         let searchName: string | undefined
         if (playerSearch == Search.LandfillPile) {
             searchPile = gameState.landfillPile
@@ -30,7 +30,7 @@ export default observer(class SearchPanel extends React.Component<ISearchPanelPr
             searchName = "Recycle Pile"
         }
 
-        if (playerSearch != Search.None) {
+        if (playerSearch != Search.None && searchPile && searchName) {
             return(
                 <Box {...this.props} p="1em" bgColor="brand.300">
     
@@ -38,7 +38,7 @@ export default observer(class SearchPanel extends React.Component<ISearchPanelPr
     
                     <Center>
                         <HStack p="1em" spacing="0">
-                            {gameState.landfillPile.cards.map((c, i) => {   // PLACEHOLDER PILE
+                            {searchPile.cards.map((c, i) => {   // PLACEHOLDER PILE
                                 return (
                                     <React.Fragment key={c._uid}>
                                         <Spacer w="1em" />

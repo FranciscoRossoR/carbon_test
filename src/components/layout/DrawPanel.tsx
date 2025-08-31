@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import gameState from "pages/store"
 import React from "react"
 import PlayingCard from 'src/components/PlayingCard'
-import CarbonCityZeroPlayer, { Status } from "src/entities/carboncityzero/carbonCityZeroPlayer"
+import CarbonCityZeroPlayer, { Search, Status } from "src/entities/carboncityzero/carbonCityZeroPlayer"
 
 type IDrawPanelProps = {
 } & FlexProps
@@ -57,6 +57,14 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
         
         const action = actions.at(0)
 
+        const player = gameState.currentPlayer
+
+        const handleRecyclePileClick = () => {
+            player.search == Search.RecyclePile ?
+                player.setSearch(Search.None) :
+                player.setSearch(Search.RecyclePile)
+        }
+
         return (
             <Box {...this.props} p="1em">
                 <Center>
@@ -85,7 +93,6 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                         </Center>
                         <HStack p="1em" spacing="0">
                             {drawnCards.cards.map((c, i) => {
-                                const player = gameState.currentPlayer
                                 const canActivate =
                                     (
                                         c.specialRule &&
@@ -115,7 +122,17 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                                 )
                             })}
                         </HStack>
-                        <Box m="1em" position="relative" w={deckWidth}>
+                        <Box
+                            m="1em"
+                            position="relative" 
+                            w={deckWidth}
+                            onClick={handleRecyclePileClick}
+                            cursor="pointer"
+                            _hover={{
+                                transform: 'translateY(-2px)',
+                                boxShadow: 'lg'
+                            }}
+                        >
                             <PlayingCard
                                 {...recyclePileCard}
                                 color="gray.500"/>
