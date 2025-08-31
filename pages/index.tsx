@@ -8,6 +8,7 @@ import HeadingPanel from "src/components/layout/HeadingPanel"
 import SummaryPanel from "src/components/layout/SummaryPanel"
 import MarketPanel from "src/components/layout/MarketPanel"
 import DrawPanel from "src/components/layout/DrawPanel"
+import SearchPanel from "src/components/layout/SearchPanel"
 
 export default observer(class Play extends React.Component<{}, {}> {
 
@@ -28,6 +29,7 @@ export default observer(class Play extends React.Component<{}, {}> {
                     <Flex justifyContent="center" align="stretch" wrap="wrap">
                         <MarketPanel flex="0 1 100% " />
                         <DrawPanel flex="0 1 100%" />
+                        <SearchPanel flex="0 1 100%" />
                     </Flex>
                 : null}
                 <SummaryPanel />
