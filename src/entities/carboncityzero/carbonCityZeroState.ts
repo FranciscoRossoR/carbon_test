@@ -152,13 +152,37 @@ export default class CarbonCityZeroState extends GameState {
                 // Shuffle Market Deck
                 this.marketDeck.shuffle()
             }
-            // Draw a card
-            this.marketDeck.moveCard(
-                this.marketDeck.head,
+            // Draw card
+            const card = this.marketDeck.head
+            const target = card.sector === Sector.Snag ? 
+                this.currentPlayer.recyclePile :
                 this.marketplace
-            )
+            this.marketDeck.moveCard(card, target)
         }
     }
+
+    // public drawCards(amount: number) {
+    //     for (let i = 0 ; i < amount ; i ++) {
+    //         // Check if Market Deck is empty
+    //         if (this.marketDeck.size == 0) {
+    //             // Move Landfill Pile into Market Deck
+    //             let landfill = this.landfillPile
+    //             while (landfill.size > 0) {
+    //                 landfill.moveCard(landfill.head, this.marketDeck)
+    //             }
+    //             // Shuffle Market Deck
+    //             this.marketDeck.shuffle()
+    //         }
+    //         // Draw card
+    //         const card = this.marketDeck.head
+    //         this.marketDeck.moveCard(card, this.marketplace)
+    //         // Give the card to current player if it's Snag
+    //         if (card.sector === Sector.Snag) {
+    //             const player = this.currentPlayer
+    //             this.marketplace.moveCard(card, player.recyclePile)
+    //         }
+    //     }
+    // }
 
     public buyCard(card: CarbonCityZeroCard) {
         let player = this.currentPlayer
