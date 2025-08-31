@@ -1,7 +1,7 @@
 import Card, { ICard } from "framework/entities/card";
 import { makeObservable, observable, action, computed } from "mobx";
 import gameState from "pages/store";
-import { Status } from "./carbonCityZeroPlayer";
+import { Search, Status } from "./carbonCityZeroPlayer";
 
 export enum Sector {
     Starter = 0,
@@ -23,9 +23,9 @@ export enum SpecialRule {
     AnnulFactoryCarbon,
     LandfillDrawnCard,
     LandfillMarketCard,
-    BuyToTop
+    BuyToTop,
+    SearchDrawDeck
     // PENDING
-    // SearchDrawDeck
     // SearchMarketDeckForGlobal
 }
 
@@ -102,6 +102,9 @@ export class CarbonCityZeroCard extends Card {
             case 6:
                 player.setBuyToTop(true)
                 break
+            case 7:
+                player.setSearch(Search.DrawDeck)
+                break
             default :
                 alert("ACTION")
                 break
@@ -119,6 +122,12 @@ export class CarbonCityZeroCard extends Card {
         let player = gameState.currentPlayer
         gameState.marketplace.moveCard(this, gameState.landfillPile)
         player.setStatus(Status.Regular)
+    }
+
+    public playFromDrawDeck() {
+        let player = gameState.currentPlayer
+        player.drawDeck.moveCard(this, player.drawnCards)
+        player.setSearch(Search.None)
     }
 
 }

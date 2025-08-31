@@ -2,7 +2,7 @@ import Card from "framework/entities/card";
 import CardHolder from "framework/entities/cardholder";
 import GameAction from "framework/entities/gameAction";
 import GameState, { GameStatus } from "framework/entities/gameState";
-import CarbonCityZeroPlayer, { Status } from "./carbonCityZeroPlayer";
+import CarbonCityZeroPlayer, { Search, Status } from "./carbonCityZeroPlayer";
 import UniqueGameElement from "framework/entities/gameElement";
 import ComplexityAnalyst from "framework/entities/complexityAnalyst";
 import OrderedCardHolder from "framework/entities/orderedcardholder";
@@ -33,7 +33,7 @@ export default class CarbonCityZeroState extends GameState {
                     new CarbonCityZeroCard("Domestic 2",    2,  2,  -2, 2,  4,          2   ),
                     new CarbonCityZeroCard("Domestic 3",    3,  3,  -2, 2,  5,          2   ),
                     new CarbonCityZeroCard("Government 1",  1,  1,  -1, 3,  6,          1   ),
-                    new CarbonCityZeroCard("Government 2",  2,  2,  0,  3,  1,              ),
+                    new CarbonCityZeroCard("Government 2",  2,  2,  0,  3,  7,              ),
                     new CarbonCityZeroCard("Government 3",  2,  2,  0,  3,  undefined,  3   ),
                     new CarbonCityZeroCard("Blessing",      0,  0,  -200                    ),
                     new CarbonCityZeroCard("Nuke",          0,  0,  200                     ),
@@ -112,6 +112,7 @@ export default class CarbonCityZeroState extends GameState {
         let player = this.currentPlayer
         player.setIncome(player.getTotalIncome())
         player.setStatus(Status.Regular)
+        player.setSearch(Search.None)
         return this
     }
 
