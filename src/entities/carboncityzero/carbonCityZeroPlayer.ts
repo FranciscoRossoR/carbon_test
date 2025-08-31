@@ -16,7 +16,8 @@ export enum Status {
 export enum Search {
     None = 0,
     LandfillPile,
-    RecyclePile
+    RecyclePile,
+    DrawDeck
 }
 
 export default class CarbonCityZeroPlayer extends Player {
