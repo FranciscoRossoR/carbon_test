@@ -8,6 +8,7 @@ export enum Sector {
     Industry,
     Domestic,
     Government,
+    Snag,
     Playtest
 }
 

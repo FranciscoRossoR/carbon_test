@@ -43,8 +43,8 @@ export default class CarbonCityZeroPlayer extends Player {
             new CarbonCityZeroCard("Budget 5",              1,  1,  0,  0),
             new CarbonCityZeroCard("Global Market 1",       1,  1,  1,  0,  5),
             new CarbonCityZeroCard("Global Market 2",       1,  1,  1,  0,  5),
-            new CarbonCityZeroCard("Poor Housing Stock 1",  0,  0,  1,  0,  1),
-            new CarbonCityZeroCard("Remote Properties 1",   0,  0,  0,  0,  1),
+            new CarbonCityZeroCard("Poor Housing Stock 1",  0,  0,  1,  4),
+            new CarbonCityZeroCard("Remote Properties 1",   0,  0,  0,  4),
         ]
         this.drawDeck = new CardHolder<CarbonCityZeroCard>(cards) // PLACEHOLDER
         this.drawDeck.shuffle()

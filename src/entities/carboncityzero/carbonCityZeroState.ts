@@ -8,7 +8,7 @@ import ComplexityAnalyst from "framework/entities/complexityAnalyst";
 import OrderedCardHolder from "framework/entities/orderedcardholder";
 import { action, computed, makeObservable, observable, override, reaction } from "mobx";
 import { BuyAction, PassAction } from "./actions";
-import { CarbonCityZeroCard } from "./carbonCityZeroCard";
+import { CarbonCityZeroCard, Sector } from "./carbonCityZeroCard";
 
 export default class CarbonCityZeroState extends GameState {
 
@@ -35,6 +35,9 @@ export default class CarbonCityZeroState extends GameState {
                     new CarbonCityZeroCard("Government 1",  1,  1,  -1, 3,  6,          1   ),
                     new CarbonCityZeroCard("Government 2",  2,  2,  0,  3,  7,              ),
                     new CarbonCityZeroCard("Government 3",  2,  2,  0,  3,  undefined,  3   ),
+                    new CarbonCityZeroCard("Snag 1",        0,  0,  1,  4                   ),
+                    new CarbonCityZeroCard("Snag 2",        0,  0,  1,  4                   ),
+                    new CarbonCityZeroCard("Snag 3",        0,  0,  1,  4                   ),
                     new CarbonCityZeroCard("Blessing",      0,  0,  -200                    ),
                     new CarbonCityZeroCard("Nuke",          0,  0,  200                     ),
                 ]
@@ -120,10 +123,20 @@ export default class CarbonCityZeroState extends GameState {
         if (this.status === "open" && this.enoughPlayers) {
             this.turn = 0
             this.status = "playing"
-            this.drawCards(this.marketSize)
+            this.startingDraw()
             return true
         } else {
             return false
+        }
+    }
+
+    public startingDraw() {
+        while (this.marketplace.size < this.marketSize) {
+            const card = this.marketDeck.head
+            const target = card.sector === Sector.Snag ?
+                this.landfillPile :
+                this.marketplace
+            this.marketDeck.moveCard(this.marketDeck.head, target)
         }
     }
 
@@ -139,13 +152,37 @@ export default class CarbonCityZeroState extends GameState {
                 // Shuffle Market Deck
                 this.marketDeck.shuffle()
             }
-            // Draw a card
-            this.marketDeck.moveCard(
-                this.marketDeck.head,
+            // Draw card
+            const card = this.marketDeck.head
+            const target = card.sector === Sector.Snag ? 
+                this.currentPlayer.recyclePile :
                 this.marketplace
-            )
+            this.marketDeck.moveCard(card, target)
         }
     }
+
+    // public drawCards(amount: number) {
+    //     for (let i = 0 ; i < amount ; i ++) {
+    //         // Check if Market Deck is empty
+    //         if (this.marketDeck.size == 0) {
+    //             // Move Landfill Pile into Market Deck
+    //             let landfill = this.landfillPile
+    //             while (landfill.size > 0) {
+    //                 landfill.moveCard(landfill.head, this.marketDeck)
+    //             }
+    //             // Shuffle Market Deck
+    //             this.marketDeck.shuffle()
+    //         }
+    //         // Draw card
+    //         const card = this.marketDeck.head
+    //         this.marketDeck.moveCard(card, this.marketplace)
+    //         // Give the card to current player if it's Snag
+    //         if (card.sector === Sector.Snag) {
+    //             const player = this.currentPlayer
+    //             this.marketplace.moveCard(card, player.recyclePile)
+    //         }
+    //     }
+    // }
 
     public buyCard(card: CarbonCityZeroCard) {
         let player = this.currentPlayer

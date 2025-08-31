@@ -1,5 +1,5 @@
 import { Badge, Box, Center, FlexProps, HStack, Spacer } from "@chakra-ui/react";
-import { reaction } from "mobx";
+import { autorun, reaction } from "mobx";
 import { observer } from "mobx-react";
 import gameState from "pages/store";
 import React from "react";
@@ -132,6 +132,14 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
 
 })
 
-reaction(() => gameState.marketplace.size, () => {
-    gameState.drawCards(gameState.marketSize - gameState.marketplace.size)
+// reaction(() => gameState.marketplace.size, () => {
+//     gameState.drawCards(gameState.marketSize - gameState.marketplace.size)
+// })
+
+autorun(() => {
+    if (!gameState.currentPlayer) return
+    const gap = gameState.marketSize - gameState.marketplace.size
+    if (gap > 0) {
+        gameState.drawCards(gap)
+    }
 })
