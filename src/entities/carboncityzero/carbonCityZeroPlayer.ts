@@ -4,7 +4,7 @@ import OrderedCardHolder from "framework/entities/orderedcardholder";
 import Card from "framework/entities/card";
 import { action, makeObservable, observable, override } from "mobx";
 import CardHolder from "framework/entities/cardholder";
-import { CarbonCityZeroCard, LinkAbility, Sector } from "./carbonCityZeroCard";
+import { CarbonCityZeroCard, LinkAbility, Sector, SpecialRule } from "./carbonCityZeroCard";
 import gameState from "pages/store";
 
 export enum Status {
@@ -141,6 +141,9 @@ export default class CarbonCityZeroPlayer extends Player {
     public getLinkAbilityModifiers(cards: CarbonCityZeroCard[]): number {
         let modifier = 0
         let linkAbilities = this.getLinkAbilities(cards)
+        if (cards.some(card => card.specialRule === SpecialRule.AnnulLinkAbilities)) {
+            return modifier
+        }
         for (let i = 0 ; i < linkAbilities.length ; i++) {
             let linkAbility = linkAbilities[i]
             switch(linkAbility) {
