@@ -6,7 +6,7 @@ import React from "react";
 import PlayingCard from "src/components/PlayingCard";
 import Card from 'src/components/PlayingCard'
 import { CarbonCityZeroCard } from "src/entities/carboncityzero/carbonCityZeroCard";
-import { Status } from "src/entities/carboncityzero/carbonCityZeroPlayer";
+import { Search, Status } from "src/entities/carboncityzero/carbonCityZeroPlayer";
 
 type IMarketPanelProps = {
 } & FlexProps
@@ -48,6 +48,14 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
             right: '-1.25em'
         }
 
+        const player = gameState.currentPlayer
+
+        const handleLandfillPileClick = () => {
+            player.search == Search.LandfillPile ?
+                player.setSearch(Search.None) :
+                player.setSearch(Search.LandfillPile)
+        }
+
         return (
             <Box {...this.props} p="1em">
                 <Center>
@@ -66,10 +74,9 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                         </Box>
                         <HStack p="1em" spacing="0">
                             {marketplace.cards.map((c, i) => {
-                                const player = gameState.currentPlayer
                                 const canBeBought =
                                 (
-                                    c.cost <= gameState.currentPlayer.income &&
+                                    c.cost <= player.income &&
                                     gameState.phase==1
                                 ) ||
                                 player.status === Status.LandfillMarketCard
@@ -94,18 +101,28 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                                 )
                             })}
                         </HStack>
-                        <Box m="1em" position="relative" w={deckWidth}>
-                            <PlayingCard
-                                sx={deckStyle}
-                                {...landfillPileCard}
-                                color="gray.500" />
-                            <Badge
-                                variant="outline"
-                                colorScheme="brand"
-                                sx={badgeStyle}>
-                                    {landfillPileSize}
-                            </Badge>
-                        </Box>
+                            <Box
+                                m="1em"
+                                position="relative"
+                                w={deckWidth}
+                                onClick={handleLandfillPileClick}
+                                cursor="pointer"
+                                _hover={{
+                                    transform: 'translateY(-2px)',
+                                    boxShadow: 'lg'
+                                }}
+                            >
+                                <PlayingCard
+                                    sx={deckStyle}
+                                    {...landfillPileCard}
+                                    color="gray.500" />
+                                <Badge
+                                    variant="outline"
+                                    colorScheme="brand"
+                                    sx={badgeStyle}>
+                                        {landfillPileSize}
+                                </Badge>
+                            </Box>
                     </HStack>
                 </Center>
             </Box>
