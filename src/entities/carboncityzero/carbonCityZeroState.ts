@@ -38,6 +38,9 @@ export default class CarbonCityZeroState extends GameState {
                     new CarbonCityZeroCard("Snag 1",        0,  0,  1,  4                   ),
                     new CarbonCityZeroCard("Snag 2",        0,  0,  1,  4                   ),
                     new CarbonCityZeroCard("Snag 3",        0,  0,  1,  4,  9               ),
+                    new CarbonCityZeroCard("Global 1",      0,  0,  0,  5,  10              ),
+                    new CarbonCityZeroCard("Global 2",      0,  0,  0,  5,  11              ),
+                    new CarbonCityZeroCard("Global 3",      0,  0,  0,  5,  12              ),
                     new CarbonCityZeroCard("Blessing",      0,  0,  -200                    ),
                     new CarbonCityZeroCard("Nuke",          0,  0,  200                     ),
                 ]

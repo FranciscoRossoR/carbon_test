@@ -9,6 +9,7 @@ export enum Sector {
     Domestic,
     Government,
     Snag,
+    Global,
     Playtest
 }
 
@@ -19,6 +20,7 @@ export enum LinkAbility {
 }
 
 export enum SpecialRule {
+    // Regular Special Rules
     DrawCard1 = 1,
     DrawCard2,
     AnnulFactoryCarbon,
@@ -27,7 +29,12 @@ export enum SpecialRule {
     BuyToTop,
     SearchDrawDeck,
     SearchMarketDeckForGlobal,
-    AnnulLinkAbilities
+    // Snag Special Rule
+    AnnulLinkAbilities,
+    // Global Special Rules
+    IncreaseMarketplace,
+    DecreaseCosts,
+    IncreaseDrawnCards
 }
 
 export interface ICarbonCityZeroCard extends ICard {
