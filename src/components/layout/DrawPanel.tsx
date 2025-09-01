@@ -161,5 +161,5 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
 //     }
 
 reaction(() => gameState.turn, () => {
-    gameState.currentPlayer.drawCards(4)
+    gameState.currentPlayer.drawCards(gameState.playerDrawAmount)
 })

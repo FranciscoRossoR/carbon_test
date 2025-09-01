@@ -157,3 +157,12 @@ reaction(() => gameState.globalSlot.head, () => {
         gameState.setMarketSize(5)
     }
 })
+
+reaction(() => gameState.globalSlot.head, () => {
+    const globalCard = gameState.globalSlot.head
+    if (globalCard.specialRule === SpecialRule.IncreaseDrawnCards) {
+        gameState.setPlayerDrawAmount(6)
+    } else {
+        gameState.setPlayerDrawAmount(5)
+    }
+})
