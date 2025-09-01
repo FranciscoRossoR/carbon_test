@@ -30,7 +30,7 @@ export default class CarbonCityZeroState extends GameState {
                     //                      name            co  i   ca  s   sr          lA
                     new CarbonCityZeroCard("Industry 1",    1,  1,  0,  1,  1,          3   ),
                     new CarbonCityZeroCard("Industry 2",    2,  2,  5,  1,  2,          3   ),
-                    new CarbonCityZeroCard("Industry 3",    3,  3,  1,  1,                  ),
+                    new CarbonCityZeroCard("Industry 3",    3,  3,  1,  1,  8,              ),
                     new CarbonCityZeroCard("Domestic 1",    1,  1,  -2, 2,  3,          1   ),
                     new CarbonCityZeroCard("Domestic 2",    2,  2,  -2, 2,  4,          2   ),
                     new CarbonCityZeroCard("Domestic 3",    3,  3,  -2, 2,  5,          2   ),
