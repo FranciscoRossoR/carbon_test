@@ -5,7 +5,7 @@ import gameState from "pages/store";
 import React from "react";
 import PlayingCard from "src/components/PlayingCard";
 import Card from 'src/components/PlayingCard'
-import { CarbonCityZeroCard } from "src/entities/carboncityzero/carbonCityZeroCard";
+import { CarbonCityZeroCard, SpecialRule } from "src/entities/carboncityzero/carbonCityZeroCard";
 import { Search, Status } from "src/entities/carboncityzero/carbonCityZeroPlayer";
 
 type IMarketPanelProps = {
@@ -146,5 +146,14 @@ autorun(() => {
     const gap = gameState.marketSize - gameState.marketplace.size
     if (gap > 0) {
         gameState.drawCards(gap)
+    }
+})
+
+reaction(() => gameState.globalSlot.head, () => {
+    const globalCard = gameState.globalSlot.head
+    if (globalCard.specialRule === SpecialRule.IncreaseMarketplace) {
+        gameState.setMarketSize(6)
+    } else {
+        gameState.setMarketSize(5)
     }
 })

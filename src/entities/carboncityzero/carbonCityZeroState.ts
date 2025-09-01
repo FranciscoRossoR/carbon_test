@@ -51,7 +51,7 @@ export default class CarbonCityZeroState extends GameState {
         this.landfillPile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)   // PLACEHOLDER
         this.landfillPile.addCard(new CarbonCityZeroCard("Landfill Placeholder Card"))  // PLACEHOLDER
         this.globalSlot = new CardHolder<CarbonCityZeroCard>
-        this.marketSize = 4
+        this.marketSize = 5
         this.turn = -1
         this.phase = 0
         makeObservable(this, {
@@ -70,7 +70,8 @@ export default class CarbonCityZeroState extends GameState {
             winGame: action,
             setWinner: action,
             passTurn: action,
-            goToBuyPhase: action
+            goToBuyPhase: action,
+            setMarketSize: action
         })
     }
 
@@ -222,6 +223,10 @@ export default class CarbonCityZeroState extends GameState {
     public winGame(player: CarbonCityZeroPlayer) {
         this.setWinner(player)
         this.status = "finished"
+    }
+
+    public setMarketSize(marketSize: number) {
+        this.marketSize = marketSize
     }
 
 }
