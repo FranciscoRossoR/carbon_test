@@ -81,7 +81,7 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                             {marketplace.cards.map((c, i) => {
                                 const canBeBought =
                                 (
-                                    c.cost <= player.income &&
+                                    c.getCost() <= player.income &&
                                     gameState.phase==1
                                 ) ||
                                 player.status === Status.LandfillMarketCard

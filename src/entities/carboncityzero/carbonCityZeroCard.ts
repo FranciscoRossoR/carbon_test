@@ -76,6 +76,7 @@ export class CarbonCityZeroCard extends Card {
 
         makeObservable(this, {
             hasActivated: observable,
+            cost: observable,
             setHasActivated: action,
             activate: action
         })
@@ -136,6 +137,13 @@ export class CarbonCityZeroCard extends Card {
         let player = gameState.currentPlayer
         player.drawDeck.moveCard(this, player.drawnCards)
         player.setSearch(Search.None)
+    }
+
+    public getCost(): number {
+        return this.cost > 1 &&
+            gameState.globalSlot.head.specialRule === SpecialRule.DecreaseCosts ?
+            this.cost -1 :
+            this.cost
     }
 
 }
