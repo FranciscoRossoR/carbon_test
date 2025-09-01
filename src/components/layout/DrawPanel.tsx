@@ -4,6 +4,7 @@ import { observer } from "mobx-react"
 import gameState from "pages/store"
 import React from "react"
 import PlayingCard from 'src/components/PlayingCard'
+import { SpecialRule } from "src/entities/carboncityzero/carbonCityZeroCard"
 import CarbonCityZeroPlayer, { Search, Status } from "src/entities/carboncityzero/carbonCityZeroPlayer"
 
 type IDrawPanelProps = {
@@ -96,6 +97,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                                 const canActivate =
                                     (
                                         c.specialRule &&
+                                        c.specialRule != SpecialRule.AnnulLinkAbilities &&
                                         !c.hasActivated &&
                                         player.status != Status.LandfillMarketCard &&
                                         gameState.phase==0
