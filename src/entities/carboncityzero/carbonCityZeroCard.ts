@@ -114,6 +114,9 @@ export class CarbonCityZeroCard extends Card {
             case 7:
                 player.setSearch(Search.DrawDeck)
                 break
+            case 8:
+                player.setSearch(Search.MarketDeckGlobal)
+                break
             default :
                 alert("ACTION")
                 break
@@ -136,6 +139,15 @@ export class CarbonCityZeroCard extends Card {
     public playFromDrawDeck() {
         let player = gameState.currentPlayer
         player.drawDeck.moveCard(this, player.drawnCards)
+        player.setSearch(Search.None)
+    }
+
+    public playGlobalFromMarketDeck() {
+        let player = gameState.currentPlayer
+        if (gameState.globalSlot.size > 0) {
+            gameState.globalSlot.moveCard(gameState.globalSlot.head, gameState.landfillPile)
+        }
+        gameState.marketDeck.moveCard(this, gameState.globalSlot)
         player.setSearch(Search.None)
     }
 

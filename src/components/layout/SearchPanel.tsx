@@ -5,7 +5,7 @@ import React from "react";
 import PlayingCard from "../PlayingCard";
 import { Search } from "src/entities/carboncityzero/carbonCityZeroPlayer";
 import OrderedCardHolder from "framework/entities/orderedcardholder";
-import { CarbonCityZeroCard } from "src/entities/carboncityzero/carbonCityZeroCard";
+import { CarbonCityZeroCard, Sector } from "src/entities/carboncityzero/carbonCityZeroCard";
 import CardHolder from "framework/entities/cardholder";
 
 type ISearchPanelProps = {
@@ -38,6 +38,10 @@ export default observer(class SearchPanel extends React.Component<ISearchPanelPr
                 searchPile = player.drawDeck
                 searchName = "Draw Deck"
             }
+            case Search.MarketDeckGlobal: {
+                searchPile = gameState.marketDeck
+                searchName = "Market Deck"
+            }
         }
 
         if (playerSearch != Search.None && searchPile && searchName) {
@@ -48,10 +52,18 @@ export default observer(class SearchPanel extends React.Component<ISearchPanelPr
     
                     <Center>
                         <HStack p="1em" spacing="0">
-                            {searchPile.cards.map((c, i) => {   // PLACEHOLDER PILE
+                            {searchPile.cards.map((c, i) => {
+                                const drawDeckSearch =
+                                    player.search === Search.DrawDeck
+                                const marketDeckSearchGlobal =
+                                    player.search === Search.MarketDeckGlobal &&
+                                    c.sector === Sector.Global
+                                const interactable = drawDeckSearch || marketDeckSearchGlobal
                                 const handleCardClick = () => {
-                                    if (player.search == Search.DrawDeck) {
+                                    if (drawDeckSearch) {
                                         c.playFromDrawDeck()
+                                    } else if (marketDeckSearchGlobal) {
+                                        c.playGlobalFromMarketDeck()
                                     }
                                 }
                                 return (
@@ -59,7 +71,7 @@ export default observer(class SearchPanel extends React.Component<ISearchPanelPr
                                         <Spacer w="1em" />
                                         <PlayingCard
                                             {...c}
-                                            interactableCardProps={player.search == Search.DrawDeck}
+                                            interactableCardProps={interactable}
                                             onClick={handleCardClick}
                                         />
                                     </React.Fragment>
