@@ -3,7 +3,7 @@ import { mergeWith } from '@chakra-ui/utils';
 import { ICarbonCityZeroCard } from "src/entities/carboncityzero/carbonCityZeroCard";
 
 
-type ICardProps = ICarbonCityZeroCard & ThemingProps & BoxProps & { interactableCardProps?: boolean }
+type ICardProps = Partial<ICarbonCityZeroCard> & ThemingProps & BoxProps & { interactableCardProps?: boolean }
 
 const PlayingCard = (props: ICardProps) => {
 
@@ -98,3 +98,18 @@ const PlayingCard = (props: ICardProps) => {
 }
 
 export default PlayingCard
+
+
+// // DEFAULT EMPTY CARD EXAMPLE
+
+// export const EmptyCard: ICarbonCityZeroCard = {
+//   name: "Empty",
+//   cost: 0,
+//   income: 0,
+//   carbon: 0,
+//   sector: "",
+//   linkAbility: "",
+//   _uid: "empty"
+// }
+
+// <PlayingCard {...(globalCard ?? EmptyCard)} />

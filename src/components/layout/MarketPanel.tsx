@@ -5,7 +5,7 @@ import gameState from "pages/store";
 import React from "react";
 import PlayingCard from "src/components/PlayingCard";
 import Card from 'src/components/PlayingCard'
-import { CarbonCityZeroCard } from "src/entities/carboncityzero/carbonCityZeroCard";
+import { CarbonCityZeroCard, SpecialRule } from "src/entities/carboncityzero/carbonCityZeroCard";
 import { Search, Status } from "src/entities/carboncityzero/carbonCityZeroPlayer";
 
 type IMarketPanelProps = {
@@ -29,6 +29,8 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
         const landfillPile = gameState.landfillPile
         const landfillPileSize = landfillPile.size
         const landfillPileCard = landfillPile.head
+        // Global Card
+        const globalCard = gameState.globalSlot.head
 
         const deckWidth = '70px'
         const deckStyle = {
@@ -60,6 +62,9 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
             <Box {...this.props} p="1em">
                 <Center>
                     <HStack>
+                        <PlayingCard
+                            {...globalCard}
+                        />
                         <Box m="1em" position="relative" w={deckWidth}>
                             <PlayingCard 
                                 sx={deckStyle}
@@ -76,7 +81,7 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                             {marketplace.cards.map((c, i) => {
                                 const canBeBought =
                                 (
-                                    c.cost <= player.income &&
+                                    c.getCost() <= player.income &&
                                     gameState.phase==1
                                 ) ||
                                 player.status === Status.LandfillMarketCard
@@ -141,5 +146,23 @@ autorun(() => {
     const gap = gameState.marketSize - gameState.marketplace.size
     if (gap > 0) {
         gameState.drawCards(gap)
+    }
+})
+
+reaction(() => gameState.globalSlot.head, () => {
+    const globalCard = gameState.globalSlot.head
+    if (globalCard.specialRule === SpecialRule.IncreaseMarketplace) {
+        gameState.setMarketSize(6)
+    } else {
+        gameState.setMarketSize(5)
+    }
+})
+
+reaction(() => gameState.globalSlot.head, () => {
+    const globalCard = gameState.globalSlot.head
+    if (globalCard.specialRule === SpecialRule.IncreaseDrawnCards) {
+        gameState.setPlayerDrawAmount(6)
+    } else {
+        gameState.setPlayerDrawAmount(5)
     }
 })

@@ -15,7 +15,9 @@ export default class CarbonCityZeroState extends GameState {
     marketDeck: CardHolder<CarbonCityZeroCard>
     marketplace: OrderedCardHolder<CarbonCityZeroCard>
     landfillPile: OrderedCardHolder<CarbonCityZeroCard>
+    globalSlot: CardHolder<CarbonCityZeroCard>
     marketSize: number
+    playerDrawAmount: number
     turn: number
     phase: number
     winner?: CarbonCityZeroPlayer
@@ -38,6 +40,9 @@ export default class CarbonCityZeroState extends GameState {
                     new CarbonCityZeroCard("Snag 1",        0,  0,  1,  4                   ),
                     new CarbonCityZeroCard("Snag 2",        0,  0,  1,  4                   ),
                     new CarbonCityZeroCard("Snag 3",        0,  0,  1,  4,  9               ),
+                    new CarbonCityZeroCard("Global 1",      0,  0,  0,  5,  10              ),
+                    new CarbonCityZeroCard("Global 2",      0,  0,  0,  5,  11              ),
+                    new CarbonCityZeroCard("Global 3",      0,  0,  0,  5,  12              ),
                     new CarbonCityZeroCard("Blessing",      0,  0,  -200                    ),
                     new CarbonCityZeroCard("Nuke",          0,  0,  200                     ),
                 ]
@@ -46,7 +51,9 @@ export default class CarbonCityZeroState extends GameState {
         this.marketplace = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)   // PLACEHOLDER
         this.landfillPile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)   // PLACEHOLDER
         this.landfillPile.addCard(new CarbonCityZeroCard("Landfill Placeholder Card"))  // PLACEHOLDER
-        this.marketSize = 4
+        this.globalSlot = new CardHolder<CarbonCityZeroCard>
+        this.marketSize = 5
+        this.playerDrawAmount = 5
         this.turn = -1
         this.phase = 0
         makeObservable(this, {
@@ -57,6 +64,8 @@ export default class CarbonCityZeroState extends GameState {
             marketDeck: observable,
             marketplace: observable,
             landfillPile: observable,
+            marketSize: observable,
+            playerDrawAmount: observable,
             turn: observable,
             phase: observable,
             currentPlayer: computed,
@@ -65,7 +74,9 @@ export default class CarbonCityZeroState extends GameState {
             winGame: action,
             setWinner: action,
             passTurn: action,
-            goToBuyPhase: action
+            goToBuyPhase: action,
+            setMarketSize: action,
+            setPlayerDrawAmount: action
         })
     }
 
@@ -123,24 +134,14 @@ export default class CarbonCityZeroState extends GameState {
         if (this.status === "open" && this.enoughPlayers) {
             this.turn = 0
             this.status = "playing"
-            this.startingDraw()
+            this.drawCards(this.marketSize, true)
             return true
         } else {
             return false
         }
     }
 
-    public startingDraw() {
-        while (this.marketplace.size < this.marketSize) {
-            const card = this.marketDeck.head
-            const target = card.sector === Sector.Snag ?
-                this.landfillPile :
-                this.marketplace
-            this.marketDeck.moveCard(this.marketDeck.head, target)
-        }
-    }
-
-    public drawCards(amount: number) {
+    public drawCards(amount: number, startingDraw: boolean = false) {
         for (let i = 0 ; i < amount ; i ++) {
             // Check if Market Deck is empty
             if (this.marketDeck.size == 0) {
@@ -154,50 +155,49 @@ export default class CarbonCityZeroState extends GameState {
             }
             // Draw card
             const card = this.marketDeck.head
-            const target = card.sector === Sector.Snag ? 
-                this.currentPlayer.recyclePile :
-                this.marketplace
+            const sector = card.sector
+            const player = this.currentPlayer
+            let target: CardHolder<CarbonCityZeroCard>
+            if (sector === Sector.Snag) {
+                if (startingDraw) {
+                    target = this.landfillPile
+                } else {
+                    target = player.recyclePile
+                }
+            } else if (sector === Sector.Global) {
+                if (this.globalSlot.size > 0) {
+                    this.globalSlot.moveCard(this.globalSlot.head, this.landfillPile)
+                }
+                target = this.globalSlot
+            } else {
+                target = this.marketplace
+            }
             this.marketDeck.moveCard(card, target)
         }
     }
 
-    // public drawCards(amount: number) {
-    //     for (let i = 0 ; i < amount ; i ++) {
-    //         // Check if Market Deck is empty
-    //         if (this.marketDeck.size == 0) {
-    //             // Move Landfill Pile into Market Deck
-    //             let landfill = this.landfillPile
-    //             while (landfill.size > 0) {
-    //                 landfill.moveCard(landfill.head, this.marketDeck)
-    //             }
-    //             // Shuffle Market Deck
-    //             this.marketDeck.shuffle()
-    //         }
-    //         // Draw card
-    //         const card = this.marketDeck.head
-    //         this.marketDeck.moveCard(card, this.marketplace)
-    //         // Give the card to current player if it's Snag
-    //         if (card.sector === Sector.Snag) {
-    //             const player = this.currentPlayer
-    //             this.marketplace.moveCard(card, player.recyclePile)
-    //         }
-    //     }
-    // }
-
     public buyCard(card: CarbonCityZeroCard) {
         let player = this.currentPlayer
+        player.setIncome(player.income - card.getCost())
         if (player.buyToTop) {
             this.marketplace.moveCard(card, player.drawDeck)
             player.setBuyToTop(false)
         } else {
             this.marketplace.moveCard(card, player.recyclePile)
         }
-        player.setIncome(player.income - card.cost)
     }
 
     public winGame(player: CarbonCityZeroPlayer) {
         this.setWinner(player)
         this.status = "finished"
+    }
+
+    public setMarketSize(marketSize: number) {
+        this.marketSize = marketSize
+    }
+
+    public setPlayerDrawAmount(playerDrawAmount: number) {
+        this.playerDrawAmount = playerDrawAmount
     }
 
 }

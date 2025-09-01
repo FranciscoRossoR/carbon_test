@@ -9,6 +9,7 @@ export enum Sector {
     Domestic,
     Government,
     Snag,
+    Global,
     Playtest
 }
 
@@ -19,6 +20,7 @@ export enum LinkAbility {
 }
 
 export enum SpecialRule {
+    // Regular Special Rules
     DrawCard1 = 1,
     DrawCard2,
     AnnulFactoryCarbon,
@@ -27,7 +29,12 @@ export enum SpecialRule {
     BuyToTop,
     SearchDrawDeck,
     SearchMarketDeckForGlobal,
-    AnnulLinkAbilities
+    // Snag Special Rule
+    AnnulLinkAbilities,
+    // Global Special Rules
+    IncreaseMarketplace,
+    DecreaseCosts,
+    IncreaseDrawnCards
 }
 
 export interface ICarbonCityZeroCard extends ICard {
@@ -69,6 +76,7 @@ export class CarbonCityZeroCard extends Card {
 
         makeObservable(this, {
             hasActivated: observable,
+            cost: observable,
             setHasActivated: action,
             activate: action
         })
@@ -129,6 +137,13 @@ export class CarbonCityZeroCard extends Card {
         let player = gameState.currentPlayer
         player.drawDeck.moveCard(this, player.drawnCards)
         player.setSearch(Search.None)
+    }
+
+    public getCost(): number {
+        return this.cost > 1 &&
+            gameState.globalSlot.head.specialRule === SpecialRule.DecreaseCosts ?
+            this.cost -1 :
+            this.cost
     }
 
 }
