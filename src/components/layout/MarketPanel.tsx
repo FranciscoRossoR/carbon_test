@@ -29,6 +29,8 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
         const landfillPile = gameState.landfillPile
         const landfillPileSize = landfillPile.size
         const landfillPileCard = landfillPile.head
+        // Global Card
+        const globalCard = gameState.globalSlot.head
 
         const deckWidth = '70px'
         const deckStyle = {
@@ -60,6 +62,9 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
             <Box {...this.props} p="1em">
                 <Center>
                     <HStack>
+                        <PlayingCard
+                            {...globalCard}
+                        />
                         <Box m="1em" position="relative" w={deckWidth}>
                             <PlayingCard 
                                 sx={deckStyle}

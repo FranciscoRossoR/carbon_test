@@ -15,6 +15,7 @@ export default class CarbonCityZeroState extends GameState {
     marketDeck: CardHolder<CarbonCityZeroCard>
     marketplace: OrderedCardHolder<CarbonCityZeroCard>
     landfillPile: OrderedCardHolder<CarbonCityZeroCard>
+    globalSlot: CardHolder<CarbonCityZeroCard>
     marketSize: number
     turn: number
     phase: number
@@ -49,6 +50,7 @@ export default class CarbonCityZeroState extends GameState {
         this.marketplace = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)   // PLACEHOLDER
         this.landfillPile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)   // PLACEHOLDER
         this.landfillPile.addCard(new CarbonCityZeroCard("Landfill Placeholder Card"))  // PLACEHOLDER
+        this.globalSlot = new CardHolder<CarbonCityZeroCard>
         this.marketSize = 4
         this.turn = -1
         this.phase = 0
@@ -126,7 +128,7 @@ export default class CarbonCityZeroState extends GameState {
         if (this.status === "open" && this.enoughPlayers) {
             this.turn = 0
             this.status = "playing"
-            this.startingDraw()
+            this.drawCards(this.marketSize, true)
             return true
         } else {
             return false
@@ -143,7 +145,7 @@ export default class CarbonCityZeroState extends GameState {
         }
     }
 
-    public drawCards(amount: number) {
+    public drawCards(amount: number, startingDraw: boolean = false) {
         for (let i = 0 ; i < amount ; i ++) {
             // Check if Market Deck is empty
             if (this.marketDeck.size == 0) {
@@ -157,9 +159,28 @@ export default class CarbonCityZeroState extends GameState {
             }
             // Draw card
             const card = this.marketDeck.head
-            const target = card.sector === Sector.Snag ? 
-                this.currentPlayer.recyclePile :
-                this.marketplace
+            const sector = card.sector
+            const player = this.currentPlayer
+            let target: CardHolder<CarbonCityZeroCard>
+            if (sector === Sector.Snag) {
+                if (startingDraw) {
+                    target = this.landfillPile
+                } else {
+                    target = player.recyclePile
+                }
+            } else if (sector === Sector.Global) {
+                if (this.globalSlot.size > 0) {
+                    this.globalSlot.moveCard(this.globalSlot.head, this.landfillPile)
+                }
+                target = this.globalSlot
+            } else {
+                target = this.marketplace
+            }
+                // card.sector === Sector.Snag ?
+                //     startingDraw ? 
+                //     this.landfillPile :
+                // this.currentPlayer.recyclePile :
+                // this.marketplace
             this.marketDeck.moveCard(card, target)
         }
     }
