@@ -71,7 +71,7 @@ export default observer(class SearchPanel extends React.Component<ISearchPanelPr
                                         <Spacer w="1em" />
                                         <PlayingCard
                                             {...c}
-                                            interactableCardProps={interactable}
+                                            interactable={interactable}
                                             onClick={handleCardClick}
                                         />
                                     </React.Fragment>

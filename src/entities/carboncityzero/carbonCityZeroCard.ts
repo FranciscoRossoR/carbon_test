@@ -43,7 +43,8 @@ export interface ICarbonCityZeroCard extends ICard {
     carbon: number,
     sector: Sector,
     specialRule?: SpecialRule,
-    linkAbility?: LinkAbility
+    linkAbility?: LinkAbility,
+    hasActivated: boolean
 }
 
 export class CarbonCityZeroCard extends Card {
