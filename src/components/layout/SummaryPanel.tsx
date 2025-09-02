@@ -73,11 +73,11 @@ export default observer(function SummaryPanel(props: IPanelProps) {
 })
 
 function onAddPlayer(event: React.MouseEvent<HTMLButtonElement>) {
-    // Lorem ipsum
+    gameState.addPlayer("Player " + (gameState.players.length + 1))
 }
 
 function onStart(event: React.MouseEvent<HTMLButtonElement>) {
-    gameState.startGame();
+    gameState.startGame()
 }
 
 // interface IDrawerProps {
