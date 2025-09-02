@@ -99,7 +99,7 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                                         <Spacer w="1em" />
                                         <PlayingCard
                                             {...c}
-                                            interactableCardProps={canBeBought}
+                                            interactable={canBeBought}
                                             onClick={handleCardClick}
                                         />
                                     </React.Fragment>

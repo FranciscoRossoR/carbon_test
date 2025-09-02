@@ -117,7 +117,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                                         <Spacer w="1em" />
                                         <PlayingCard
                                             {...c}
-                                            interactableCardProps={canActivate}
+                                            interactable={canActivate}
                                             onClick={handleCardClick}
                                         />
                                     </React.Fragment>

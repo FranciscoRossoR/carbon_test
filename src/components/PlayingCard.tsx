@@ -3,7 +3,7 @@ import { mergeWith } from '@chakra-ui/utils';
 import { ICarbonCityZeroCard } from "src/entities/carboncityzero/carbonCityZeroCard";
 
 
-type ICardProps = Partial<ICarbonCityZeroCard> & ThemingProps & BoxProps & { interactableCardProps?: boolean }
+type ICardProps = Partial<ICarbonCityZeroCard> & ThemingProps & BoxProps & { interactable?: boolean }
 
 const PlayingCard = (props: ICardProps) => {
 
@@ -20,7 +20,7 @@ const PlayingCard = (props: ICardProps) => {
         variant,
         sx,
         onClick,
-        interactableCardProps,
+        interactable,
         ...boxProps
     } = props
 
@@ -32,7 +32,7 @@ const PlayingCard = (props: ICardProps) => {
         position: 'relative',
         borderRadius: '10px'
     }
-    const interactableCardStyle = interactableCardProps ? {
+    const interactableCardStyle = interactable ? {
         border: '2px solid blue',
         cursor: 'pointer',
         _hover: {
