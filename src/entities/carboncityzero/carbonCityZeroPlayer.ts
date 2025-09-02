@@ -71,6 +71,7 @@ export default class CarbonCityZeroPlayer extends Player {
             discardAllDrawnCards: action,
             setIncome: action,
             getTotalIncome: observable,
+            setCarbon: action,
             setFactoriesIncreaseCarbon: action,
             setStatus: action,
             setBuyToTop: action,
@@ -106,15 +107,19 @@ export default class CarbonCityZeroPlayer extends Player {
             this.drawnCards.moveCard(card, this.recyclePile)
         }
     }
-
+    
     public setIncome(income: number) {
         this.income = income
     }
-
+    
     public getTotalIncome(): number {
         return this.drawnCards.cards.reduce((total, card) => {
             return total + (card.income ?? 0)
         }, 0)
+    }
+
+    public setCarbon(carbon: number) {
+        this.carbon = carbon
     }
 
     public addDrawnCardsCarbon() {
@@ -130,7 +135,7 @@ export default class CarbonCityZeroPlayer extends Player {
         }, 0)
         // Set carbon to the new total OR the max if it's exceeded (49)
         let totalCarbon = this.carbon + totalDrawnCardsCarbon + modifier
-        this.carbon = Math.min(49, totalCarbon)
+        this.setCarbon(Math.min(49, totalCarbon))
         // Reactivate factories
         this.factoriesIncreaseCarbon = true
         // Check if game is won
