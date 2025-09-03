@@ -1,10 +1,11 @@
 import { Box, Button, Center, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerOverlay, Flex, HStack, position, useDimensions, useDisclosure } from "@chakra-ui/react";
 import Player from "framework/entities/player";
 import { observer } from "mobx-react";
-import gameState, { callUpdatePlayers } from "pages/store";
+import gameState, { callUpdatePlayers, callUpdateTurn } from "pages/store";
 import React, { RefObject, useRef } from "react";
 import PlayerProfile from "../PlayerProfile";
 import CarbonCityZeroPlayer from "src/entities/carboncityzero/carbonCityZeroPlayer";
+import { reaction } from "mobx";
 
 export interface IPanelProps {}
 
@@ -72,6 +73,8 @@ export default observer(function SummaryPanel(props: IPanelProps) {
 
 })
 
+// Functions
+
 function onAddPlayer(event: React.MouseEvent<HTMLButtonElement>) {
     gameState.addPlayer("Player " + (gameState.players.length + 1))
     callUpdatePlayers(gameState.players)
@@ -81,22 +84,8 @@ function onStart(event: React.MouseEvent<HTMLButtonElement>) {
     gameState.startGame()
 }
 
-// interface IDrawerProps {
-//     onClose: () => void,
-//     isOpen: boolean
-// }
+// Reactions
 
-// function NewPlayerDrawer(props: IDrawerProps) {
-//     const { onClose, isOpen } = props;
-//     return (
-//         <Drawer placement="bottom" onClose={onClose} isOpen={isOpen}>
-//             <DrawerOverlay/>
-//             <DrawerContent>
-//                 <DrawerCloseButton/>
-//                 <DrawerBody>
-//                     Probando
-//                 </DrawerBody>
-//             </DrawerContent>
-//         </Drawer>
-//     )
-// }
+reaction(() => gameState.turn, () => {
+    callUpdateTurn(gameState.turn)
+})

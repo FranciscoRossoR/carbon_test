@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client';
-import GameState from "framework/entities/gameState";
+import GameState, { GameStatus } from "framework/entities/gameState";
 import Player from "framework/entities/player";
 import CarbonCityZeroPlayer from "src/entities/carboncityzero/carbonCityZeroPlayer";
 import CarbonCityZeroState from "src/entities/carboncityzero/carbonCityZeroState";
@@ -16,7 +16,9 @@ socket.on('connect', () => {
     console.log(`You connected with id: ${socket.id}`)
     // Load to the server the update types that will be called
     const updateTypes = new Map()
-    updateTypes.set('callUpdatePlayers', 'updatePlayers')
+    updateTypes .set('callUpdatePlayers', 'updatePlayers')
+                .set('callUpdateStatus', 'updateStatus')
+                .set('callUpdateTurn', 'updateTurn')
     socket.emit('loadUpdateTypes', Object.fromEntries(updateTypes))
 })
 
@@ -34,6 +36,10 @@ function callUpdate(name: String, update: any) {
 
 export function callUpdatePlayers(emittedPlayers: Player[]) {
     callUpdate('callUpdatePlayers', emittedPlayers)
+}
+
+export function callUpdateTurn(emittedTurn: number) {
+    callUpdate('callUpdateTurn', emittedTurn)
 }
 
 // Sync get functions
@@ -76,7 +82,7 @@ socket.on('updatePlayers', newPlayers => {
         player.setDrawnCards(drawnCards)
         // Set Recycle Pile
         const recyclePile = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)
-        for (const c of playerData.drawnCards.cards) {
+        for (const c of playerData.recyclePile.cards) {
             const newCard = new CarbonCityZeroCard(
                 c.name,
                 c.cost,
@@ -88,7 +94,7 @@ socket.on('updatePlayers', newPlayers => {
             )
             recyclePile.addCard(newCard)
         }
-        player.setDrawnCards(recyclePile)
+        player.setRecyclePile(recyclePile)
         // Set income, carbon, factoriesIncreaseCarbon, status, buyToTop, search
         player.setIncome(playerData.income)
         player.setCarbon(playerData.carbon)
@@ -100,4 +106,8 @@ socket.on('updatePlayers', newPlayers => {
         return player
     })
     gameState.setPlayers(players)
+})
+
+socket.on('updateTurn', newTurn => {
+    gameState.setTurn(newTurn)
 })

@@ -78,7 +78,9 @@ export default class CarbonCityZeroState extends GameState {
             setMarketSize: action,
             setPlayerDrawAmount: action,
             addPlayer: action,
-            setPlayers: action
+            setPlayers: action,
+            setStatus: action,
+            setTurn: action
         })
     }
 
@@ -208,8 +210,18 @@ export default class CarbonCityZeroState extends GameState {
         }
     }
 
+    // Setters
+
     public setPlayers(players: CarbonCityZeroPlayer[]) {
         this.players = players
+    }
+
+    public setStatus(status: GameStatus) {
+        this.status = status
+    }
+
+    public setTurn(turn: number) {
+        this.turn = turn
     }
 
 }
