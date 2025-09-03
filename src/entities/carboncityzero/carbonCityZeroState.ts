@@ -77,7 +77,8 @@ export default class CarbonCityZeroState extends GameState {
             goToBuyPhase: action,
             setMarketSize: action,
             setPlayerDrawAmount: action,
-            addPlayer: action
+            addPlayer: action,
+            setPlayers: action
         })
     }
 
@@ -205,6 +206,10 @@ export default class CarbonCityZeroState extends GameState {
         if (this.status === "open") {
             this.players.push(new CarbonCityZeroPlayer(name))
         }
+    }
+
+    public setPlayers(players: CarbonCityZeroPlayer[]) {
+        this.players = players
     }
 
 }
