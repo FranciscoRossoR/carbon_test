@@ -16,9 +16,10 @@ socket.on('connect', () => {
     console.log(`You connected with id: ${socket.id}`)
     // Load to the server the update types that will be called
     const updateTypes = new Map()
-    updateTypes .set('callUpdatePlayers', 'updatePlayers')
-                .set('callUpdateStatus', 'updateStatus')
-                .set('callUpdateTurn', 'updateTurn')
+    updateTypes 
+        .set('callUpdatePlayers', 'updatePlayers')
+        .set('callUpdateTurn', 'updateTurn')
+        .set('callUpdateStatus', 'updateStatus')
     socket.emit('loadUpdateTypes', Object.fromEntries(updateTypes))
 })
 
@@ -40,6 +41,10 @@ export function callUpdatePlayers(emittedPlayers: Player[]) {
 
 export function callUpdateTurn(emittedTurn: number) {
     callUpdate('callUpdateTurn', emittedTurn)
+}
+
+export function callUpdateStatus(emittedStatus: GameStatus) {
+    callUpdate('callUpdateStatus', emittedStatus)
 }
 
 // Sync get functions
@@ -110,4 +115,8 @@ socket.on('updatePlayers', newPlayers => {
 
 socket.on('updateTurn', newTurn => {
     gameState.setTurn(newTurn)
+})
+
+socket.on('updateStatus', newStatus => {
+    gameState.setStatus(newStatus)
 })
