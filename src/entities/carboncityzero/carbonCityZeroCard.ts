@@ -154,6 +154,7 @@ export class CarbonCityZeroCard extends Card {
 
     public getCost(): number {
         return this.cost > 1 &&
+            gameState.globalSlot.head &&
             gameState.globalSlot.head.specialRule === SpecialRule.DecreaseCosts ?
             this.cost -1 :
             this.cost
