@@ -20,6 +20,7 @@ socket.on('connect', () => {
         .set('callUpdatePlayers', 'updatePlayers')
         .set('callUpdateTurn', 'updateTurn')
         .set('callUpdateStatus', 'updateStatus')
+        .set('callUpdatePhase', 'updatePhase')
         .set('callUpdateMarketDeck', 'updateMarketDeck')
         .set('callUpdateMarketplace', 'updateMarketplace')
     socket.emit('loadUpdateTypes', Object.fromEntries(updateTypes))
@@ -47,6 +48,10 @@ export function callUpdateTurn(emittedTurn: number) {
 
 export function callUpdateStatus(emittedStatus: GameStatus) {
     callUpdate('callUpdateStatus', emittedStatus)
+}
+
+export function callUpdatePhase(emittedPhase: number) {
+    callUpdate('callUpdatePhase', emittedPhase)
 }
 
 export function callUpdateMarketDeck(emittedMarketDeck: CardHolder<CarbonCityZeroCard>) {
@@ -129,6 +134,10 @@ socket.on('updateTurn', newTurn => {
 
 socket.on('updateStatus', newStatus => {
     gameState.setStatus(newStatus)
+})
+
+socket.on('updatePhase', newPhase => {
+    gameState.setPhase(newPhase)
 })
 
 socket.on('updateMarketDeck', newMarketDeck => {

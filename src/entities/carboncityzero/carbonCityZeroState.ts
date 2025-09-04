@@ -82,6 +82,7 @@ export default class CarbonCityZeroState extends GameState {
             setPlayers: action,
             setStatus: action,
             setTurn: action,
+            setPhase: action,
             setMarketDeck: action,
             setMarketplace: action
         })
@@ -226,6 +227,10 @@ export default class CarbonCityZeroState extends GameState {
 
     public setTurn(turn: number) {
         this.turn = turn
+    }
+
+    public setPhase(phase: number) {
+        this.phase = phase
     }
 
     public setMarketDeck(marketDeck: CardHolder<CarbonCityZeroCard>) {
