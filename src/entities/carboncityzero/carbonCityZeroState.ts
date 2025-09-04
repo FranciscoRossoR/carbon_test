@@ -9,6 +9,7 @@ import OrderedCardHolder from "framework/entities/orderedcardholder";
 import { action, computed, makeObservable, observable, override, reaction } from "mobx";
 import { BuyAction, PassAction } from "./actions";
 import { CarbonCityZeroCard, Sector } from "./carbonCityZeroCard";
+import { callUpdateMarketDeck } from "pages/store";
 
 export default class CarbonCityZeroState extends GameState {
 
@@ -179,6 +180,7 @@ export default class CarbonCityZeroState extends GameState {
                 target = this.marketplace
             }
             this.marketDeck.moveCard(card, target)
+            if (!startingDraw) callUpdateMarketDeck(this.marketDeck)
         }
     }
 
