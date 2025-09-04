@@ -81,8 +81,8 @@ function onAddPlayer(event: React.MouseEvent<HTMLButtonElement>) {
 }
 
 function onStart(event: React.MouseEvent<HTMLButtonElement>) {
-    gameState.startGame()
     callUpdateMarketDeck(gameState.marketDeck)
+    gameState.startGame()
     callUpdatePlayers(gameState.players)
 }
 
