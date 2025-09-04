@@ -1,11 +1,11 @@
 import { Box, Button, Center, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerOverlay, Flex, HStack, position, useDimensions, useDisclosure } from "@chakra-ui/react";
 import Player from "framework/entities/player";
 import { observer } from "mobx-react";
-import gameState, { callUpdatePlayers, callUpdateStatus, callUpdateTurn } from "pages/store";
+import gameState, { callUpdateMarketDeck, callUpdatePlayers, callUpdateStatus, callUpdateTurn } from "pages/store";
 import React, { RefObject, useRef } from "react";
 import PlayerProfile from "../PlayerProfile";
 import CarbonCityZeroPlayer from "src/entities/carboncityzero/carbonCityZeroPlayer";
-import { reaction } from "mobx";
+import { autorun, reaction } from "mobx";
 
 export interface IPanelProps {}
 
@@ -82,6 +82,7 @@ function onAddPlayer(event: React.MouseEvent<HTMLButtonElement>) {
 
 function onStart(event: React.MouseEvent<HTMLButtonElement>) {
     gameState.startGame()
+    callUpdateMarketDeck(gameState.marketDeck)
 }
 
 // Reactions
