@@ -21,6 +21,7 @@ socket.on('connect', () => {
         .set('callUpdateTurn', 'updateTurn')
         .set('callUpdateStatus', 'updateStatus')
         .set('callUpdateMarketDeck', 'updateMarketDeck')
+        .set('callUpdateMarketplace', 'updateMarketplace')
     socket.emit('loadUpdateTypes', Object.fromEntries(updateTypes))
 })
 
@@ -50,6 +51,10 @@ export function callUpdateStatus(emittedStatus: GameStatus) {
 
 export function callUpdateMarketDeck(emittedMarketDeck: CardHolder<CarbonCityZeroCard>) {
     callUpdate('callUpdateMarketDeck', emittedMarketDeck)
+}
+
+export function callUpdateMarketplace(emittedMarketplace: OrderedCardHolder<CarbonCityZeroCard>) {
+    callUpdate('callUpdateMarketplace', emittedMarketplace)
 }
 
 // Sync get functions
@@ -141,4 +146,21 @@ socket.on('updateMarketDeck', newMarketDeck => {
         marketDeck.addCard(newCard)
     }
     gameState.setMarketDeck(marketDeck)
+})
+
+socket.on('updateMarketplace', newMarketplace => {
+    const marketplace = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)
+    for (const c of newMarketplace.cards) {
+        const newCard = new CarbonCityZeroCard(
+            c.name,
+            c.cost,
+            c.income,
+            c.carbon,
+            c.sector,
+            c.specialRule,
+            c.linkAbility
+        )
+        marketplace.addCard(newCard)
+    }
+    gameState.setMarketplace(marketplace)
 })
