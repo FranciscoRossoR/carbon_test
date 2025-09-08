@@ -140,16 +140,18 @@ export default class CarbonCityZeroState extends GameState {
 
     public startGame() : boolean {
         if (this.status === "open" && this.enoughPlayers) {
+            while (this.marketplace.size < this.marketSize) {
+                this.drawCards(this.marketSize-this.marketplace.size)
+            }
             this.turn = 0
             this.status = "playing"
-            this.drawCards(this.marketSize, true)
             return true
         } else {
             return false
         }
     }
 
-    public drawCards(amount: number, startingDraw: boolean = false) {
+    public drawCards(amount: number) {
         for (let i = 0 ; i < amount ; i ++) {
             // Check if Market Deck is empty
             if (this.marketDeck.size == 0) {
@@ -167,7 +169,7 @@ export default class CarbonCityZeroState extends GameState {
             const player = this.currentPlayer
             let target: CardHolder<CarbonCityZeroCard>
             if (sector === Sector.Snag) {
-                if (startingDraw) {
+                if (this.status === "open") {
                     target = this.landfillPile
                 } else {
                     target = player.recyclePile
