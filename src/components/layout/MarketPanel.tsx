@@ -142,7 +142,7 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
 // })
 
 autorun(() => {
-    if (!gameState.currentPlayer) return
+    if (!gameState.currentPlayer || gameState.status !== "playing") return
     const gap = gameState.marketSize - gameState.marketplace.size
     if (gap > 0) {
         gameState.drawCards(gap)
