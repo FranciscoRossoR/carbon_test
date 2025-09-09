@@ -21,8 +21,10 @@ socket.on('connect', () => {
         .set('callUpdateTurn', 'updateTurn')
         .set('callUpdateStatus', 'updateStatus')
         .set('callUpdatePhase', 'updatePhase')
+        .set('callUpdateMarketSize', 'updateMarketSize')
         .set('callUpdateMarketDeck', 'updateMarketDeck')
         .set('callUpdateMarketplace', 'updateMarketplace')
+        .set('callUpdateLandfillPile', 'updateLandfillPile')
     socket.emit('loadUpdateTypes', Object.fromEntries(updateTypes))
 })
 
@@ -54,6 +56,10 @@ export function callUpdatePhase(emittedPhase: number) {
     callUpdate('callUpdatePhase', emittedPhase)
 }
 
+export function callUpdateMarketSize(emittedMarketSize: number) {
+    callUpdate('callUpdateMarketSize', emittedMarketSize)
+}
+
 export function callUpdateMarketDeck(emittedMarketDeck: CardHolder<CarbonCityZeroCard>) {
     callUpdate('callUpdateMarketDeck', emittedMarketDeck)
 }
@@ -61,6 +67,11 @@ export function callUpdateMarketDeck(emittedMarketDeck: CardHolder<CarbonCityZer
 export function callUpdateMarketplace(emittedMarketplace: OrderedCardHolder<CarbonCityZeroCard>) {
     callUpdate('callUpdateMarketplace', emittedMarketplace)
 }
+
+export function callUpdateLandfillPile(emittedLandfillPile: OrderedCardHolder<CarbonCityZeroCard>) {
+    callUpdate('callUpdateLandfillPile', emittedLandfillPile)
+}
+
 
 // Sync get functions
 
@@ -140,6 +151,10 @@ socket.on('updatePhase', newPhase => {
     gameState.setPhase(newPhase)
 })
 
+socket.on('updateMarketSize', newMarketSize => {
+    gameState.setMarketSize(newMarketSize)
+})
+
 socket.on('updateMarketDeck', newMarketDeck => {
     const marketDeck = new CardHolder<CarbonCityZeroCard>()
     for (const c of newMarketDeck.cards) {
@@ -172,4 +187,21 @@ socket.on('updateMarketplace', newMarketplace => {
         marketplace.addCard(newCard)
     }
     gameState.setMarketplace(marketplace)
+})
+
+socket.on('updateLandfillPile', newLandfillPile => {
+    const landfillPile = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)
+    for (const c of newLandfillPile.cards) {
+        const newCard = new CarbonCityZeroCard(
+            c.name,
+            c.cost,
+            c.income,
+            c.carbon,
+            c.sector,
+            c.specialRule,
+            c.linkAbility
+        )
+        landfillPile.addCard(newCard)
+    }
+    gameState.setLandfillPile(landfillPile)
 })
