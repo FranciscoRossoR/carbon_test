@@ -1,7 +1,7 @@
 import { Badge, Box, Center, FlexProps, HStack, Spacer } from "@chakra-ui/react";
 import { autorun, reaction } from "mobx";
 import { observer } from "mobx-react";
-import gameState from "pages/store";
+import gameState, { callUpdateMarketplace } from "pages/store";
 import React from "react";
 import PlayingCard from "src/components/PlayingCard";
 import Card from 'src/components/PlayingCard'
@@ -146,6 +146,7 @@ autorun(() => {
     const gap = gameState.marketSize - gameState.marketplace.size
     if (gap > 0) {
         gameState.drawCards(gap)
+        callUpdateMarketplace(gameState.marketplace)
     }
 })
 

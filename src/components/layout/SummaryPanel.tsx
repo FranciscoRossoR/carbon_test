@@ -107,3 +107,15 @@ reaction(
     () => gameState.marketSize,
     () => callUpdateMarketSize(gameState.marketSize)
 )
+
+// reaction(
+//     () => gameState.marketplace.cards,
+//     () => callUpdateMarketplace(gameState.marketplace)
+// )
+
+// autorun(
+//     () => {
+//         if (gameState.status === "playing") callUpdateMarketplace(gameState.marketplace)
+//     }
+
+// )
