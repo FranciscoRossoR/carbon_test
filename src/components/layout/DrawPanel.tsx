@@ -100,7 +100,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                                         c.specialRule != SpecialRule.AnnulLinkAbilities &&
                                         !c.hasActivated &&
                                         player.status != Status.LandfillMarketCard &&
-                                        gameState.phase==0
+                                        gameState.phase === "activating"
                                     ) ||
                                     player.status === Status.LandfillDrawnCard
                                 const handleCardClick = () => {

@@ -1,7 +1,7 @@
 import { Box, Button, Center, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerOverlay, Flex, HStack, position, useDimensions, useDisclosure } from "@chakra-ui/react";
 import Player from "framework/entities/player";
 import { observer } from "mobx-react";
-import gameState, { callUpdateLandfillPile, callUpdateMarketDeck, callUpdateMarketplace, callUpdateMarketSize, callUpdatePhase, callUpdatePlayers, callUpdateStatus, callUpdateTurn } from "pages/store";
+import gameState, { callUpdateGlobalSlot, callUpdateLandfillPile, callUpdateMarketDeck, callUpdateMarketplace, callUpdateMarketSize, callUpdatePhase, callUpdatePlayers, callUpdateStatus, callUpdateTurn } from "pages/store";
 import React, { RefObject, useRef } from "react";
 import PlayerProfile from "../PlayerProfile";
 import CarbonCityZeroPlayer from "src/entities/carboncityzero/carbonCityZeroPlayer";
@@ -83,7 +83,10 @@ function onAddPlayer(event: React.MouseEvent<HTMLButtonElement>) {
 function onStart(event: React.MouseEvent<HTMLButtonElement>) {
     gameState.startGame()
     callUpdatePlayers(gameState.players)
+    callUpdateMarketDeck(gameState.marketDeck)
+    callUpdateMarketplace(gameState.marketplace)
     callUpdateLandfillPile(gameState.landfillPile)
+    callUpdateGlobalSlot(gameState.globalSlot)
 }
 
 // Reactions
@@ -109,13 +112,6 @@ reaction(
 )
 
 // reaction(
-//     () => gameState.marketplace.cards,
-//     () => callUpdateMarketplace(gameState.marketplace)
-// )
-
-// autorun(
-//     () => {
-//         if (gameState.status === "playing") callUpdateMarketplace(gameState.marketplace)
-//     }
-
+//     () => gameState.globalSlot.head,
+//     () => {if (gameState.phase !== "ready") callUpdateGlobalSlot(gameState.globalSlot)}
 // )

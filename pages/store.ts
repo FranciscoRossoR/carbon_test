@@ -2,7 +2,7 @@ import { io } from 'socket.io-client';
 import GameState, { GameStatus } from "framework/entities/gameState";
 import Player from "framework/entities/player";
 import CarbonCityZeroPlayer from "src/entities/carboncityzero/carbonCityZeroPlayer";
-import CarbonCityZeroState from "src/entities/carboncityzero/carbonCityZeroState";
+import CarbonCityZeroState, { Phase } from "src/entities/carboncityzero/carbonCityZeroState";
 import CardHolder from 'framework/entities/cardholder';
 import { CarbonCityZeroCard } from 'src/entities/carboncityzero/carbonCityZeroCard';
 import OrderedCardHolder from 'framework/entities/orderedcardholder';
@@ -25,6 +25,7 @@ socket.on('connect', () => {
         .set('callUpdateMarketDeck', 'updateMarketDeck')
         .set('callUpdateMarketplace', 'updateMarketplace')
         .set('callUpdateLandfillPile', 'updateLandfillPile')
+        .set('callUpdateGlobalSlot', 'updateGlobalSlot')
     socket.emit('loadUpdateTypes', Object.fromEntries(updateTypes))
 })
 
@@ -52,7 +53,7 @@ export function callUpdateStatus(emittedStatus: GameStatus) {
     callUpdate('callUpdateStatus', emittedStatus)
 }
 
-export function callUpdatePhase(emittedPhase: number) {
+export function callUpdatePhase(emittedPhase: Phase) {
     callUpdate('callUpdatePhase', emittedPhase)
 }
 
@@ -70,6 +71,10 @@ export function callUpdateMarketplace(emittedMarketplace: OrderedCardHolder<Carb
 
 export function callUpdateLandfillPile(emittedLandfillPile: OrderedCardHolder<CarbonCityZeroCard>) {
     callUpdate('callUpdateLandfillPile', emittedLandfillPile)
+}
+
+export function callUpdateGlobalSlot(emittedGlobalSlot: CardHolder<CarbonCityZeroCard>) {
+    callUpdate('callUpdateGlobalSlot', emittedGlobalSlot)
 }
 
 
@@ -204,4 +209,21 @@ socket.on('updateLandfillPile', newLandfillPile => {
         landfillPile.addCard(newCard)
     }
     gameState.setLandfillPile(landfillPile)
+})
+
+socket.on('updateGlobalSlot', newGlobalSlot => {
+    const globalSlot = new CardHolder<CarbonCityZeroCard>()
+    for (const c of newGlobalSlot.cards) {
+        const newCard = new CarbonCityZeroCard(
+            c.name,
+            c.cost,
+            c.income,
+            c.carbon,
+            c.sector,
+            c.specialRule,
+            c.linkAbility
+        )
+        globalSlot.addCard(newCard)
+    }
+    gameState.setGlobalSlot(globalSlot)
 })
