@@ -66,11 +66,11 @@ export function callUpdateMarketDeck(emittedMarketDeck: CardHolder<CarbonCityZer
     callUpdate('callUpdateMarketDeck', emittedMarketDeck)
 }
 
-export function callUpdateMarketplace(emittedMarketplace: OrderedCardHolder<CarbonCityZeroCard>) {
+export function callUpdateMarketplace(emittedMarketplace: CardHolder<CarbonCityZeroCard>) {
     callUpdate('callUpdateMarketplace', emittedMarketplace)
 }
 
-export function callUpdateLandfillPile(emittedLandfillPile: OrderedCardHolder<CarbonCityZeroCard>) {
+export function callUpdateLandfillPile(emittedLandfillPile: CardHolder<CarbonCityZeroCard>) {
     callUpdate('callUpdateLandfillPile', emittedLandfillPile)
 }
 
@@ -106,7 +106,7 @@ socket.on('updatePlayers', newPlayers => {
         }
         player.setDrawDeck(drawDeck)
         // Set Drawn Cards
-        const drawnCards = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)
+        const drawnCards = new CardHolder<CarbonCityZeroCard>()
         for (const c of playerData.drawnCards.cards) {
             const newCard = new CarbonCityZeroCard(
                 c.name,
@@ -122,7 +122,7 @@ socket.on('updatePlayers', newPlayers => {
         }
         player.setDrawnCards(drawnCards)
         // Set Recycle Pile
-        const recyclePile = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)
+        const recyclePile = new CardHolder<CarbonCityZeroCard>()
         for (const c of playerData.recyclePile.cards) {
             const newCard = new CarbonCityZeroCard(
                 c.name,
@@ -183,7 +183,7 @@ socket.on('updateMarketDeck', newMarketDeck => {
 })
 
 socket.on('updateMarketplace', newMarketplace => {
-    const marketplace = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)
+    const marketplace = new CardHolder<CarbonCityZeroCard>()
     for (const c of newMarketplace.cards) {
         const newCard = new CarbonCityZeroCard(
             c.name,
@@ -200,7 +200,7 @@ socket.on('updateMarketplace', newMarketplace => {
 })
 
 socket.on('updateLandfillPile', newLandfillPile => {
-    const landfillPile = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)
+    const landfillPile = new CardHolder<CarbonCityZeroCard>()
     for (const c of newLandfillPile.cards) {
         const newCard = new CarbonCityZeroCard(
             c.name,
