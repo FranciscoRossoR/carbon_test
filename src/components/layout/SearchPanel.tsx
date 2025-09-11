@@ -7,6 +7,7 @@ import { Search } from "src/entities/carboncityzero/carbonCityZeroPlayer";
 import OrderedCardHolder from "framework/entities/orderedcardholder";
 import { CarbonCityZeroCard, Sector } from "src/entities/carboncityzero/carbonCityZeroCard";
 import CardHolder from "framework/entities/cardholder";
+import { reaction } from "mobx";
 
 type ISearchPanelProps = {
 } & FlexProps
@@ -93,3 +94,19 @@ export default observer(class SearchPanel extends React.Component<ISearchPanelPr
     }
 
 })
+
+reaction(
+    () => gameState.currentPlayer?.search,
+    (search, previousSearch) => {
+        if (previousSearch !== Search.None) {
+            switch (previousSearch) {
+                case Search.DrawDeck:
+                    gameState.currentPlayer.drawDeck.shuffle()
+                    break
+                case Search.MarketDeckGlobal:
+                    gameState.marketDeck.shuffle()
+                    break
+            }
+        }
+    }
+)
