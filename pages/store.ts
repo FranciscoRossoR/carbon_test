@@ -122,7 +122,7 @@ socket.on('updatePlayers', newPlayers => {
         }
         player.setDrawnCards(drawnCards)
         // Set Recycle Pile
-        const recyclePile = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)
+        const recyclePile = new CardHolder<CarbonCityZeroCard>()
         for (const c of playerData.recyclePile.cards) {
             const newCard = new CarbonCityZeroCard(
                 c.name,
