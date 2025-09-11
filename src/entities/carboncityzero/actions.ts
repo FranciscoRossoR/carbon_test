@@ -3,6 +3,28 @@ import CarbonCityZeroPlayer, { Search } from "./carbonCityZeroPlayer";
 import GameState from "framework/entities/gameState";
 import CarbonCityZeroState from "./carbonCityZeroState";
 
+export class ReadyAction extends GameAction {
+
+    public constructor() {
+        super("Ready")
+    }
+
+    public execute(state: CarbonCityZeroState): CarbonCityZeroState {
+        return state.getReady()
+    }
+
+    // PLACEHOLDER
+    public undo(state: GameState): GameState {
+        throw new Error("Method not implemented.");
+    }
+
+    // PLACEHOLDER  
+    public toString(): string {
+        return "Ready phase"
+    }
+    
+}
+
 export class BuyAction extends GameAction {
 
     public constructor() {

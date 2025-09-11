@@ -65,6 +65,7 @@ export class CarbonCityZeroCard extends Card {
             sector: Sector = Sector.Playtest,
             specialRule?: SpecialRule,
             linkAbility?: LinkAbility,
+            hasActivated: boolean = false
         ) {
         super(name)
         this.cost = cost
@@ -73,7 +74,7 @@ export class CarbonCityZeroCard extends Card {
         this.sector = sector
         this.specialRule = specialRule
         this.linkAbility = linkAbility
-        this.hasActivated = false
+        this.hasActivated = hasActivated
 
         makeObservable(this, {
             hasActivated: observable,

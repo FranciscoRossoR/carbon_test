@@ -59,6 +59,8 @@ export default class CarbonCityZeroPlayer extends Player {
         this.search = Search.None
         makeObservable(this, {
             name: override,
+            color: override,
+            drawDeck: observable,
             drawnCards: observable,
             recyclePile: observable,
             income: observable,
@@ -69,8 +71,12 @@ export default class CarbonCityZeroPlayer extends Player {
             search: observable,
             drawCards: action,
             discardAllDrawnCards: action,
-            setIncome: action,
             getTotalIncome: observable,
+            setColor: action,
+            setDrawDeck: action,
+            setDrawnCards: action,
+            setRecyclePile: action,
+            setIncome: action,
             setCarbon: action,
             setFactoriesIncreaseCarbon: action,
             setStatus: action,
@@ -108,18 +114,10 @@ export default class CarbonCityZeroPlayer extends Player {
         }
     }
     
-    public setIncome(income: number) {
-        this.income = income
-    }
-    
     public getTotalIncome(): number {
         return this.drawnCards.cards.reduce((total, card) => {
             return total + (card.income ?? 0)
         }, 0)
-    }
-
-    public setCarbon(carbon: number) {
-        this.carbon = carbon
     }
 
     public addDrawnCardsCarbon() {
@@ -183,6 +181,32 @@ export default class CarbonCityZeroPlayer extends Player {
 
     public getHasMoreThanOneOfSector(sector: Sector): boolean {
         return this.drawnCards.cards.filter(c => c.sector === sector).length > 1
+    }
+
+    // Setters
+
+    public setColor(color: string) {
+        this.color = color
+    }
+
+    public setDrawDeck(drawDeck: CardHolder<CarbonCityZeroCard>) {
+        this.drawDeck = drawDeck
+    }
+
+    public setDrawnCards(drawnCards: OrderedCardHolder<CarbonCityZeroCard>) {
+        this.drawnCards = drawnCards
+    }
+
+    public setRecyclePile(recyclePile: OrderedCardHolder<CarbonCityZeroCard>) {
+        this.recyclePile = recyclePile
+    }
+        
+    public setIncome(income: number) {
+        this.income = income
+    }
+
+    public setCarbon(carbon: number) {
+        this.carbon = carbon
     }
 
     public setFactoriesIncreaseCarbon(factoriesIncreaseCarbon: boolean) {

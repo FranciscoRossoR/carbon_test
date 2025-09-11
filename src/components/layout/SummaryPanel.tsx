@@ -1,10 +1,11 @@
 import { Box, Button, Center, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerOverlay, Flex, HStack, position, useDimensions, useDisclosure } from "@chakra-ui/react";
 import Player from "framework/entities/player";
 import { observer } from "mobx-react";
-import gameState from "pages/store";
+import gameState, { callUpdateGlobalSlot, callUpdateLandfillPile, callUpdateMarketDeck, callUpdateMarketplace, callUpdateMarketSize, callUpdatePhase, callUpdatePlayers, callUpdateStatus, callUpdateTurn, callUpdateWinner } from "pages/store";
 import React, { RefObject, useRef } from "react";
 import PlayerProfile from "../PlayerProfile";
 import CarbonCityZeroPlayer from "src/entities/carboncityzero/carbonCityZeroPlayer";
+import { autorun, reaction } from "mobx";
 
 export interface IPanelProps {}
 
@@ -72,30 +73,63 @@ export default observer(function SummaryPanel(props: IPanelProps) {
 
 })
 
+// Functions
+
 function onAddPlayer(event: React.MouseEvent<HTMLButtonElement>) {
     gameState.addPlayer("Player " + (gameState.players.length + 1))
+    callUpdatePlayers(gameState.players)
 }
 
 function onStart(event: React.MouseEvent<HTMLButtonElement>) {
     gameState.startGame()
+    callUpdatePlayers(gameState.players)
+    callUpdateMarketDeck(gameState.marketDeck)
+    callUpdateMarketplace(gameState.marketplace)
+    callUpdateLandfillPile(gameState.landfillPile)
+    callUpdateGlobalSlot(gameState.globalSlot)
 }
 
-// interface IDrawerProps {
-//     onClose: () => void,
-//     isOpen: boolean
-// }
+// Reactions
 
-// function NewPlayerDrawer(props: IDrawerProps) {
-//     const { onClose, isOpen } = props;
-//     return (
-//         <Drawer placement="bottom" onClose={onClose} isOpen={isOpen}>
-//             <DrawerOverlay/>
-//             <DrawerContent>
-//                 <DrawerCloseButton/>
-//                 <DrawerBody>
-//                     Probando
-//                 </DrawerBody>
-//             </DrawerContent>
-//         </Drawer>
-//     )
-// }
+reaction(
+    () => gameState.turn,
+    () => callUpdateTurn(gameState.turn)
+)
+
+reaction(
+    () => gameState.status,
+    () => callUpdateStatus(gameState.status)
+)
+
+reaction(
+    () => gameState.phase,
+    () => callUpdatePhase(gameState.phase)
+)
+
+// reaction(
+//     () => gameState.winner,
+//     () => {if (gameState.winner){
+// callUpdateWinner(gameState.winner)
+// console.log("WINNER FOUND")
+//     } }
+// )
+
+// reaction(
+//     () => gameState.marketSize,
+//     () => callUpdateMarketSize(gameState.marketSize)
+// )
+
+// reaction(
+//     () => gameState.globalSlot.head,
+//     () => {
+//         if (gameState.phase !== "ready") {
+//             callUpdateGlobalSlot(gameState.globalSlot)
+//             callUpdateLandfillPile(gameState.landfillPile)
+//         }
+//     }
+// )
+
+// reaction(
+//     () => gameState.landfillPile.size,
+//     () => {if (gameState.phase !== "ready") callUpdateLandfillPile(gameState.landfillPile)}
+// )

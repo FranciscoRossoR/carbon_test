@@ -1,11 +1,11 @@
 import { Badge, Box, Center, FlexProps, HStack, Spacer } from "@chakra-ui/react";
-import { autorun, reaction } from "mobx";
+import { autorun, reaction, runInAction } from "mobx";
 import { observer } from "mobx-react";
-import gameState from "pages/store";
+import gameState, { callUpdateGlobalSlot, callUpdateLandfillPile, callUpdateMarketDeck, callUpdateMarketplace, callUpdatePlayers } from "pages/store";
 import React from "react";
 import PlayingCard from "src/components/PlayingCard";
 import Card from 'src/components/PlayingCard'
-import { CarbonCityZeroCard, SpecialRule } from "src/entities/carboncityzero/carbonCityZeroCard";
+import { CarbonCityZeroCard, Sector, SpecialRule } from "src/entities/carboncityzero/carbonCityZeroCard";
 import { Search, Status } from "src/entities/carboncityzero/carbonCityZeroPlayer";
 
 type IMarketPanelProps = {
@@ -82,9 +82,10 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                                 const canBeBought =
                                 (
                                     c.getCost() <= player.income &&
-                                    gameState.phase==1
+                                    gameState.phase === "buying"
                                 ) ||
                                 player.status === Status.LandfillMarketCard
+                                const headSector = marketDeckCard?.sector
                                 const handleCardClick = () => {
                                     if (canBeBought) {
                                         if (player.status === Status.LandfillMarketCard) {
@@ -92,6 +93,13 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                                         } else {
                                             gameState.buyCard(c)
                                         }
+                                    }
+                                    callUpdatePlayers(gameState.players)
+                                    callUpdateMarketDeck(gameState.marketDeck)
+                                    callUpdateMarketplace(gameState.marketplace)
+                                    if (headSector === Sector.Global || headSector === Sector.Snag) {
+                                        callUpdateLandfillPile(gameState.landfillPile)
+                                        callUpdateGlobalSlot(gameState.globalSlot)
                                     }
                                 }
                                 return (
@@ -142,14 +150,23 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
 // })
 
 autorun(() => {
-    if (!gameState.currentPlayer || gameState.status !== "playing") return
+    if (!gameState.currentPlayer /* || gameState.phase === "ready" */) return
     const gap = gameState.marketSize - gameState.marketplace.size
     if (gap > 0) {
-        gameState.drawCards(gap)
+        // runInAction(
+        //     () => {
+                gameState.drawCards(gap)
+                // callUpdateMarketDeck(gameState.marketDeck)
+                // callUpdateMarketplace(gameState.marketplace)
+                // callUpdateGlobalSlot(gameState.globalSlot)
+                // callUpdatePlayers(gameState.players)
+        //     }
+        // )
     }
 })
 
 reaction(() => gameState.globalSlot.head, () => {
+    // if (!gameState.globalSlot.head) return
     const globalCard = gameState.globalSlot.head
     if (globalCard.specialRule === SpecialRule.IncreaseMarketplace) {
         gameState.setMarketSize(6)
@@ -159,6 +176,7 @@ reaction(() => gameState.globalSlot.head, () => {
 })
 
 reaction(() => gameState.globalSlot.head, () => {
+    // if (!gameState.globalSlot.head) return
     const globalCard = gameState.globalSlot.head
     if (globalCard.specialRule === SpecialRule.IncreaseDrawnCards) {
         gameState.setPlayerDrawAmount(6)

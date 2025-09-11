@@ -7,8 +7,11 @@ import UniqueGameElement from "framework/entities/gameElement";
 import ComplexityAnalyst from "framework/entities/complexityAnalyst";
 import OrderedCardHolder from "framework/entities/orderedcardholder";
 import { action, computed, makeObservable, observable, override, reaction } from "mobx";
-import { BuyAction, PassAction } from "./actions";
+import { BuyAction, PassAction, ReadyAction } from "./actions";
 import { CarbonCityZeroCard, Sector } from "./carbonCityZeroCard";
+import { callUpdateLandfillPile, callUpdateMarketDeck, callUpdateMarketplace, callUpdatePlayers, callUpdateStatus } from "pages/store";
+
+export type Phase = "ready" | "activating" | "buying"
 
 export default class CarbonCityZeroState extends GameState {
 
@@ -19,8 +22,8 @@ export default class CarbonCityZeroState extends GameState {
     marketSize: number
     playerDrawAmount: number
     turn: number
-    phase: number
-    winner?: CarbonCityZeroPlayer
+    phase: Phase
+    winner: CarbonCityZeroPlayer | undefined
 
     public constructor(players?: CarbonCityZeroPlayer[], gameElements?: UniqueGameElement[], status?: GameStatus, complexAnalyst?: ComplexityAnalyst) {
         gameElements = []
@@ -55,7 +58,8 @@ export default class CarbonCityZeroState extends GameState {
         this.marketSize = 5
         this.playerDrawAmount = 5
         this.turn = -1
-        this.phase = 0
+        this.phase = "ready"
+        this.winner = undefined
         makeObservable(this, {
             availableActions: override,
             status: override,
@@ -64,21 +68,33 @@ export default class CarbonCityZeroState extends GameState {
             marketDeck: observable,
             marketplace: observable,
             landfillPile: observable,
+            globalSlot: observable,
             marketSize: observable,
             playerDrawAmount: observable,
             turn: observable,
             phase: observable,
+            winner: observable,
             currentPlayer: computed,
             nextPlayer: computed,
             previousPlayer: computed,
             winGame: action,
             setWinner: action,
+            getReady: action,
             passTurn: action,
             goToBuyPhase: action,
             setMarketSize: action,
             setPlayerDrawAmount: action,
-            addPlayer: action
+            addPlayer: action,
+            setPlayers: action,
+            setStatus: action,
+            setTurn: action,
+            setPhase: action,
+            setMarketDeck: action,
+            setMarketplace: action,
+            setLandfillPile: action,
+            setGlobalSlot: action
         })
+        callUpdateMarketDeck(this.marketDeck)
     }
 
     public setWinner(winner: CarbonCityZeroPlayer) {
@@ -104,10 +120,16 @@ export default class CarbonCityZeroState extends GameState {
     protected computeAvailableActions(): GameAction[] {
         const res: GameAction[] = []
         if (this.status === "playing") {
-            if (this.phase === 0) {
-                res.push(new BuyAction())
-            } else if (this.phase === 1) {
-                res.push(new PassAction())
+            switch (this.phase) {
+                case "ready":
+                    res.push(new ReadyAction())
+                    break
+                case "activating":
+                    res.push(new BuyAction())
+                    break
+                case "buying":
+                    res.push(new PassAction())
+                    break
             }
         }
         return res
@@ -118,12 +140,17 @@ export default class CarbonCityZeroState extends GameState {
         if (this.turn >= this.players.length) {
             this.turn = 0
         }
-        this.phase = 0
+        this.phase = "activating"
+        return this
+    }
+
+    public getReady(): CarbonCityZeroState {
+        this.phase = "activating"
         return this
     }
 
     public goToBuyPhase(): CarbonCityZeroState {
-        this.phase = 1
+        this.phase = "buying"
         let player = this.currentPlayer
         player.setIncome(player.getTotalIncome())
         player.setStatus(Status.Regular)
@@ -162,7 +189,7 @@ export default class CarbonCityZeroState extends GameState {
             const player = this.currentPlayer
             let target: CardHolder<CarbonCityZeroCard>
             if (sector === Sector.Snag) {
-                if (this.status === "open") {
+                if (this.phase === "ready") {
                     target = this.landfillPile
                 } else {
                     target = player.recyclePile
@@ -176,6 +203,7 @@ export default class CarbonCityZeroState extends GameState {
                 target = this.marketplace
             }
             this.marketDeck.moveCard(card, target)
+            // if (this.phase !== "ready") callUpdateMarketDeck(this.marketDeck)
         }
     }
 
@@ -193,6 +221,7 @@ export default class CarbonCityZeroState extends GameState {
     public winGame(player: CarbonCityZeroPlayer) {
         this.setWinner(player)
         this.status = "finished"
+        console.log("WINNER" + this.winner?.name)
     }
 
     public setMarketSize(marketSize: number) {
@@ -207,6 +236,40 @@ export default class CarbonCityZeroState extends GameState {
         if (this.status === "open") {
             this.players.push(new CarbonCityZeroPlayer(name))
         }
+    }
+
+    // Setters
+
+    public setPlayers(players: CarbonCityZeroPlayer[]) {
+        this.players = players
+    }
+
+    public setStatus(status: GameStatus) {
+        this.status = status
+    }
+
+    public setTurn(turn: number) {
+        this.turn = turn
+    }
+
+    public setPhase(phase: Phase) {
+        this.phase = phase
+    }
+
+    public setMarketDeck(marketDeck: CardHolder<CarbonCityZeroCard>) {
+        this.marketDeck = marketDeck
+    }
+
+    public setMarketplace(marketplace: OrderedCardHolder<CarbonCityZeroCard>) {
+        this.marketplace = marketplace
+    }
+
+    public setGlobalSlot(globalSlot: CardHolder<CarbonCityZeroCard>) {
+        this.globalSlot = globalSlot
+    }
+
+    public setLandfillPile(landfillPile: OrderedCardHolder<CarbonCityZeroCard>) {
+        this.landfillPile = landfillPile
     }
 
 }
