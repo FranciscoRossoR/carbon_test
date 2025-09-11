@@ -6,6 +6,7 @@ import { action, makeObservable, observable, override } from "mobx";
 import CardHolder from "framework/entities/cardholder";
 import { CarbonCityZeroCard, LinkAbility, Sector, SpecialRule } from "./carbonCityZeroCard";
 import gameState from "pages/store";
+import { playerStartingDeck } from "pages/cardStore";
 
 export enum Status {
     Regular = 0,
@@ -35,19 +36,20 @@ export default class CarbonCityZeroPlayer extends Player {
 
     public constructor(name: string) {
         super(name)
-        const cards = [
-            //                      name                    co  i   ca  s   sR                                        
-            new CarbonCityZeroCard("Budget 1",              1,  1,  0,  0),
-            new CarbonCityZeroCard("Budget 2",              1,  1,  0,  0),
-            new CarbonCityZeroCard("Budget 3",              1,  1,  0,  0),
-            new CarbonCityZeroCard("Budget 4",              1,  1,  0,  0),
-            new CarbonCityZeroCard("Budget 5",              1,  1,  0,  0),
-            new CarbonCityZeroCard("Global Market 1",       1,  1,  1,  0,  5),
-            new CarbonCityZeroCard("Global Market 2",       1,  1,  1,  0,  5),
-            new CarbonCityZeroCard("Poor Housing Stock 1",  0,  0,  1,  4),
-            new CarbonCityZeroCard("Remote Properties 1",   0,  0,  0,  4),
-        ]
-        this.drawDeck = new CardHolder<CarbonCityZeroCard>(cards) // PLACEHOLDER
+        // const cards = [
+        //     //                      name                    co  i   ca  s   sR                                        
+        //     new CarbonCityZeroCard("Budget 1",              1,  1,  0,  0),
+        //     new CarbonCityZeroCard("Budget 2",              1,  1,  0,  0),
+        //     new CarbonCityZeroCard("Budget 3",              1,  1,  0,  0),
+        //     new CarbonCityZeroCard("Budget 4",              1,  1,  0,  0),
+        //     new CarbonCityZeroCard("Budget 5",              1,  1,  0,  0),
+        //     new CarbonCityZeroCard("Global Market 1",       1,  1,  1,  0,  5),
+        //     new CarbonCityZeroCard("Global Market 2",       1,  1,  1,  0,  5),
+        //     new CarbonCityZeroCard("Poor Housing Stock 1",  0,  0,  1,  4),
+        //     new CarbonCityZeroCard("Remote Properties 1",   0,  0,  0,  4),
+        // ]
+        // this.drawDeck = new CardHolder<CarbonCityZeroCard>(cards) // PLACEHOLDER
+        this.drawDeck = playerStartingDeck
         this.drawDeck.shuffle()
         this.drawnCards = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)  // PLACEHOLDER
         this.recyclePile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)  // PLACEHOLDER
