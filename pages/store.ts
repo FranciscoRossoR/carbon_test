@@ -70,7 +70,7 @@ export function callUpdateMarketplace(emittedMarketplace: CardHolder<CarbonCityZ
     callUpdate('callUpdateMarketplace', emittedMarketplace)
 }
 
-export function callUpdateLandfillPile(emittedLandfillPile: OrderedCardHolder<CarbonCityZeroCard>) {
+export function callUpdateLandfillPile(emittedLandfillPile: CardHolder<CarbonCityZeroCard>) {
     callUpdate('callUpdateLandfillPile', emittedLandfillPile)
 }
 
@@ -200,7 +200,7 @@ socket.on('updateMarketplace', newMarketplace => {
 })
 
 socket.on('updateLandfillPile', newLandfillPile => {
-    const landfillPile = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)
+    const landfillPile = new CardHolder<CarbonCityZeroCard>()
     for (const c of newLandfillPile.cards) {
         const newCard = new CarbonCityZeroCard(
             c.name,

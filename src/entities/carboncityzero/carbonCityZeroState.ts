@@ -18,7 +18,7 @@ export default class CarbonCityZeroState extends GameState {
 
     marketDeck: CardHolder<CarbonCityZeroCard>
     marketplace: CardHolder<CarbonCityZeroCard>
-    landfillPile: OrderedCardHolder<CarbonCityZeroCard>
+    landfillPile: CardHolder<CarbonCityZeroCard>
     globalSlot: CardHolder<CarbonCityZeroCard>
     marketSize: number
     playerDrawAmount: number
@@ -32,7 +32,7 @@ export default class CarbonCityZeroState extends GameState {
         this.marketDeck = gameStartingDeck
         this.marketDeck.shuffle()
         this.marketplace = new CardHolder<CarbonCityZeroCard>()
-        this.landfillPile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)   // PLACEHOLDER
+        this.landfillPile = new CardHolder<CarbonCityZeroCard>()
         this.globalSlot = new CardHolder<CarbonCityZeroCard>
         this.marketSize = 5
         this.playerDrawAmount = 5
@@ -247,7 +247,7 @@ export default class CarbonCityZeroState extends GameState {
         this.globalSlot = globalSlot
     }
 
-    public setLandfillPile(landfillPile: OrderedCardHolder<CarbonCityZeroCard>) {
+    public setLandfillPile(landfillPile: CardHolder<CarbonCityZeroCard>) {
         this.landfillPile = landfillPile
     }
 
