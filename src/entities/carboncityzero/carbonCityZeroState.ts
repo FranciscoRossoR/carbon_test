@@ -17,7 +17,7 @@ export type Phase = "ready" | "activating" | "buying"
 export default class CarbonCityZeroState extends GameState {
 
     marketDeck: CardHolder<CarbonCityZeroCard>
-    marketplace: OrderedCardHolder<CarbonCityZeroCard>
+    marketplace: CardHolder<CarbonCityZeroCard>
     landfillPile: OrderedCardHolder<CarbonCityZeroCard>
     globalSlot: CardHolder<CarbonCityZeroCard>
     marketSize: number
@@ -31,7 +31,7 @@ export default class CarbonCityZeroState extends GameState {
         super(1, 4, players ? players : [], gameElements, status, complexAnalyst)
         this.marketDeck = gameStartingDeck
         this.marketDeck.shuffle()
-        this.marketplace = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)   // PLACEHOLDER
+        this.marketplace = new CardHolder<CarbonCityZeroCard>()
         this.landfillPile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)   // PLACEHOLDER
         this.globalSlot = new CardHolder<CarbonCityZeroCard>
         this.marketSize = 5
@@ -239,7 +239,7 @@ export default class CarbonCityZeroState extends GameState {
         this.marketDeck = marketDeck
     }
 
-    public setMarketplace(marketplace: OrderedCardHolder<CarbonCityZeroCard>) {
+    public setMarketplace(marketplace: CardHolder<CarbonCityZeroCard>) {
         this.marketplace = marketplace
     }
 

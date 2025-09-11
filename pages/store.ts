@@ -66,7 +66,7 @@ export function callUpdateMarketDeck(emittedMarketDeck: CardHolder<CarbonCityZer
     callUpdate('callUpdateMarketDeck', emittedMarketDeck)
 }
 
-export function callUpdateMarketplace(emittedMarketplace: OrderedCardHolder<CarbonCityZeroCard>) {
+export function callUpdateMarketplace(emittedMarketplace: CardHolder<CarbonCityZeroCard>) {
     callUpdate('callUpdateMarketplace', emittedMarketplace)
 }
 
@@ -183,7 +183,7 @@ socket.on('updateMarketDeck', newMarketDeck => {
 })
 
 socket.on('updateMarketplace', newMarketplace => {
-    const marketplace = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)
+    const marketplace = new CardHolder<CarbonCityZeroCard>()
     for (const c of newMarketplace.cards) {
         const newCard = new CarbonCityZeroCard(
             c.name,
