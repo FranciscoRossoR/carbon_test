@@ -106,7 +106,7 @@ socket.on('updatePlayers', newPlayers => {
         }
         player.setDrawDeck(drawDeck)
         // Set Drawn Cards
-        const drawnCards = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)
+        const drawnCards = new CardHolder<CarbonCityZeroCard>()
         for (const c of playerData.drawnCards.cards) {
             const newCard = new CarbonCityZeroCard(
                 c.name,

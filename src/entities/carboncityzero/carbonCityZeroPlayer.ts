@@ -25,7 +25,7 @@ export enum Search {
 export default class CarbonCityZeroPlayer extends Player {
 
     drawDeck: CardHolder<CarbonCityZeroCard>
-    drawnCards: OrderedCardHolder<CarbonCityZeroCard>
+    drawnCards: CardHolder<CarbonCityZeroCard>
     recyclePile: OrderedCardHolder<CarbonCityZeroCard>
     income: number
     carbon: number
@@ -51,7 +51,7 @@ export default class CarbonCityZeroPlayer extends Player {
         // this.drawDeck = new CardHolder<CarbonCityZeroCard>(cards) // PLACEHOLDER
         this.drawDeck = playerStartingDeck
         this.drawDeck.shuffle()
-        this.drawnCards = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)  // PLACEHOLDER
+        this.drawnCards = new CardHolder<CarbonCityZeroCard>()  // PLACEHOLDER
         this.recyclePile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)  // PLACEHOLDER
         this.income = 0
         this.carbon = 40
@@ -195,7 +195,7 @@ export default class CarbonCityZeroPlayer extends Player {
         this.drawDeck = drawDeck
     }
 
-    public setDrawnCards(drawnCards: OrderedCardHolder<CarbonCityZeroCard>) {
+    public setDrawnCards(drawnCards: CardHolder<CarbonCityZeroCard>) {
         this.drawnCards = drawnCards
     }
 
