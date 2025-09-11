@@ -73,7 +73,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                         <Box m="1em" position="relative" w={deckWidth}>
                             <PlayingCard
                                 sx={deckStyle}
-                                {...drawDeckCard}
+                                backgroundColor={'blue.500'}
                             />
                             <Badge
                                 variant="outline"
