@@ -1,4 +1,4 @@
-import { Badge, Box, Center, FlexProps, HStack, Spacer } from "@chakra-ui/react";
+import { background, Badge, Box, Center, FlexProps, HStack, Spacer } from "@chakra-ui/react";
 import { autorun, reaction, runInAction } from "mobx";
 import { observer } from "mobx-react";
 import gameState, { callUpdateGlobalSlot, callUpdateLandfillPile, callUpdateMarketDeck, callUpdateMarketplace, callUpdatePlayers } from "pages/store";
@@ -68,7 +68,7 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                         <Box m="1em" position="relative" w={deckWidth}>
                             <PlayingCard 
                                 sx={deckStyle}
-                                {...marketDeckCard}
+                                backgroundColor={'blue.500'}
                             />
                             <Badge
                                 variant="outline"
