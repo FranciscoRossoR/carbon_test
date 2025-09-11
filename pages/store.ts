@@ -115,7 +115,8 @@ socket.on('updatePlayers', newPlayers => {
                 c.carbon,
                 c.sector,
                 c.specialRule,
-                c.linkAbility
+                c.linkAbility,
+                c.hasActivated
             )
             drawnCards.addCard(newCard)
         }

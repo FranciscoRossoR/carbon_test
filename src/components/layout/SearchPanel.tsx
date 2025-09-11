@@ -1,6 +1,6 @@
 import { Box, Center, FlexProps, Heading, HStack, Spacer } from "@chakra-ui/react";
 import { observer } from "mobx-react";
-import gameState from "pages/store";
+import gameState, { callUpdateGlobalSlot, callUpdateLandfillPile, callUpdatePlayers } from "pages/store";
 import React from "react";
 import PlayingCard from "../PlayingCard";
 import { Search } from "src/entities/carboncityzero/carbonCityZeroPlayer";
@@ -37,10 +37,12 @@ export default observer(class SearchPanel extends React.Component<ISearchPanelPr
             case Search.DrawDeck:  {
                 searchPile = player.drawDeck
                 searchName = "Draw Deck"
+                break
             }
             case Search.MarketDeckGlobal: {
                 searchPile = gameState.marketDeck
                 searchName = "Market Deck"
+                break
             }
         }
 
@@ -62,8 +64,11 @@ export default observer(class SearchPanel extends React.Component<ISearchPanelPr
                                 const handleCardClick = () => {
                                     if (drawDeckSearch) {
                                         c.playFromDrawDeck()
+                                        callUpdatePlayers(gameState.players)
                                     } else if (marketDeckSearchGlobal) {
                                         c.playGlobalFromMarketDeck()
+                                        callUpdateGlobalSlot(gameState.globalSlot)
+                                        callUpdateLandfillPile(gameState.landfillPile)
                                     }
                                 }
                                 return (

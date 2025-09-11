@@ -1,7 +1,7 @@
 import { Badge, Box, Button, Center, FlexProps, HStack, Spacer } from "@chakra-ui/react"
 import { reaction } from "mobx"
 import { observer } from "mobx-react"
-import gameState, { callUpdatePlayers, callUpdateWinner } from "pages/store"
+import gameState, { callUpdateGlobalSlot, callUpdateLandfillPile, callUpdatePlayers, callUpdateWinner } from "pages/store"
 import React from "react"
 import PlayingCard from 'src/components/PlayingCard'
 import { SpecialRule } from "src/entities/carboncityzero/carbonCityZeroCard"
@@ -115,6 +115,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                                             c.activate()
                                         }
                                     }
+                                    callUpdatePlayers(gameState.players)
                                 }
                                 return (
                                     <React.Fragment key={c._uid}>
