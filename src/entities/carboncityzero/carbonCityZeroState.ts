@@ -10,6 +10,7 @@ import { action, computed, makeObservable, observable, override, reaction } from
 import { BuyAction, PassAction, ReadyAction } from "./actions";
 import { CarbonCityZeroCard, Sector } from "./carbonCityZeroCard";
 import { callUpdateLandfillPile, callUpdateMarketDeck, callUpdateMarketplace, callUpdatePlayers, callUpdateStatus } from "pages/store";
+import { gameStartingDeck } from "pages/cardStore";
 
 export type Phase = "ready" | "activating" | "buying"
 
@@ -28,32 +29,10 @@ export default class CarbonCityZeroState extends GameState {
     public constructor(players?: CarbonCityZeroPlayer[], gameElements?: UniqueGameElement[], status?: GameStatus, complexAnalyst?: ComplexityAnalyst) {
         gameElements = []
         super(1, 4, players ? players : [], gameElements, status, complexAnalyst)
-        // PLACEHOLDER
-        const cards = [
-                    //                      name            co  i   ca  s   sr          lA
-                    new CarbonCityZeroCard("Industry 1",    1,  1,  0,  1,  1,          3   ),
-                    new CarbonCityZeroCard("Industry 2",    2,  2,  5,  1,  2,          3   ),
-                    new CarbonCityZeroCard("Industry 3",    3,  3,  1,  1,  8,              ),
-                    new CarbonCityZeroCard("Domestic 1",    1,  1,  -2, 2,  3,          1   ),
-                    new CarbonCityZeroCard("Domestic 2",    2,  2,  -2, 2,  4,          2   ),
-                    new CarbonCityZeroCard("Domestic 3",    3,  3,  -2, 2,  5,          2   ),
-                    new CarbonCityZeroCard("Government 1",  1,  1,  -1, 3,  6,          1   ),
-                    new CarbonCityZeroCard("Government 2",  2,  2,  0,  3,  7,              ),
-                    new CarbonCityZeroCard("Government 3",  2,  2,  0,  3,  undefined,  3   ),
-                    new CarbonCityZeroCard("Snag 1",        0,  0,  1,  4                   ),
-                    new CarbonCityZeroCard("Snag 2",        0,  0,  1,  4                   ),
-                    new CarbonCityZeroCard("Snag 3",        0,  0,  1,  4,  9               ),
-                    new CarbonCityZeroCard("Global 1",      0,  0,  0,  5,  10              ),
-                    new CarbonCityZeroCard("Global 2",      0,  0,  0,  5,  11              ),
-                    new CarbonCityZeroCard("Global 3",      0,  0,  0,  5,  12              ),
-                    new CarbonCityZeroCard("Blessing",      0,  0,  -200                    ),
-                    new CarbonCityZeroCard("Nuke",          0,  0,  200                     ),
-                ]
-        this.marketDeck = new CardHolder<CarbonCityZeroCard>(cards)
+        this.marketDeck = gameStartingDeck
         this.marketDeck.shuffle()
         this.marketplace = new OrderedCardHolder<CarbonCityZeroCard>([], (a, b) => 1)   // PLACEHOLDER
         this.landfillPile = new OrderedCardHolder<CarbonCityZeroCard>([], (a,b) => 1)   // PLACEHOLDER
-        this.landfillPile.addCard(new CarbonCityZeroCard("Landfill Placeholder Card"))  // PLACEHOLDER
         this.globalSlot = new CardHolder<CarbonCityZeroCard>
         this.marketSize = 5
         this.playerDrawAmount = 5
