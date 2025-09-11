@@ -26,6 +26,7 @@ socket.on('connect', () => {
         .set('callUpdateMarketplace', 'updateMarketplace')
         .set('callUpdateLandfillPile', 'updateLandfillPile')
         .set('callUpdateGlobalSlot', 'updateGlobalSlot')
+        .set('callUpdateWinner', 'updateWinner')
     socket.emit('loadUpdateTypes', Object.fromEntries(updateTypes))
 })
 
@@ -77,6 +78,9 @@ export function callUpdateGlobalSlot(emittedGlobalSlot: CardHolder<CarbonCityZer
     callUpdate('callUpdateGlobalSlot', emittedGlobalSlot)
 }
 
+export function callUpdateWinner(emittedWinner: CarbonCityZeroPlayer) {
+    callUpdate('callUpdateWinner', emittedWinner)
+}
 
 // Sync get functions
 
@@ -226,4 +230,8 @@ socket.on('updateGlobalSlot', newGlobalSlot => {
         globalSlot.addCard(newCard)
     }
     gameState.setGlobalSlot(globalSlot)
+})
+
+socket.on('updateWinner', newWinner => {
+    gameState.setWinner(newWinner)
 })

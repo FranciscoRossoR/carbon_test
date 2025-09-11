@@ -1,7 +1,7 @@
 import { Box, Button, Center, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerOverlay, Flex, HStack, position, useDimensions, useDisclosure } from "@chakra-ui/react";
 import Player from "framework/entities/player";
 import { observer } from "mobx-react";
-import gameState, { callUpdateGlobalSlot, callUpdateLandfillPile, callUpdateMarketDeck, callUpdateMarketplace, callUpdateMarketSize, callUpdatePhase, callUpdatePlayers, callUpdateStatus, callUpdateTurn } from "pages/store";
+import gameState, { callUpdateGlobalSlot, callUpdateLandfillPile, callUpdateMarketDeck, callUpdateMarketplace, callUpdateMarketSize, callUpdatePhase, callUpdatePlayers, callUpdateStatus, callUpdateTurn, callUpdateWinner } from "pages/store";
 import React, { RefObject, useRef } from "react";
 import PlayerProfile from "../PlayerProfile";
 import CarbonCityZeroPlayer from "src/entities/carboncityzero/carbonCityZeroPlayer";
@@ -106,12 +106,30 @@ reaction(
     () => callUpdatePhase(gameState.phase)
 )
 
-reaction(
-    () => gameState.marketSize,
-    () => callUpdateMarketSize(gameState.marketSize)
-)
+// reaction(
+//     () => gameState.winner,
+//     () => {if (gameState.winner){
+// callUpdateWinner(gameState.winner)
+// console.log("WINNER FOUND")
+//     } }
+// )
+
+// reaction(
+//     () => gameState.marketSize,
+//     () => callUpdateMarketSize(gameState.marketSize)
+// )
 
 // reaction(
 //     () => gameState.globalSlot.head,
-//     () => {if (gameState.phase !== "ready") callUpdateGlobalSlot(gameState.globalSlot)}
+//     () => {
+//         if (gameState.phase !== "ready") {
+//             callUpdateGlobalSlot(gameState.globalSlot)
+//             callUpdateLandfillPile(gameState.landfillPile)
+//         }
+//     }
+// )
+
+// reaction(
+//     () => gameState.landfillPile.size,
+//     () => {if (gameState.phase !== "ready") callUpdateLandfillPile(gameState.landfillPile)}
 // )

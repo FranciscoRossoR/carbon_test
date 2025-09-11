@@ -1,7 +1,7 @@
 import { Badge, Box, Button, Center, FlexProps, HStack, Spacer } from "@chakra-ui/react"
 import { reaction } from "mobx"
 import { observer } from "mobx-react"
-import gameState from "pages/store"
+import gameState, { callUpdatePlayers, callUpdateWinner } from "pages/store"
 import React from "react"
 import PlayingCard from 'src/components/PlayingCard'
 import { SpecialRule } from "src/entities/carboncityzero/carbonCityZeroCard"
@@ -87,7 +87,11 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                             <Button
                                 key={action.actionName}
                                 sx={actionButtonStyle}
-                                m="1em" onClick={() => gameState.executeAction(action)}>
+                                m="1em" onClick={() => {
+                                    gameState.executeAction(action)
+                                    callUpdatePlayers(gameState.players)
+                                    if (gameState.winner) callUpdateWinner(gameState.winner)
+                                    }}>
                                     {action.actionName}
                             </Button>
                             : null}

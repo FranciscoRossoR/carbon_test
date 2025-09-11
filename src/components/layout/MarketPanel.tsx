@@ -1,11 +1,11 @@
 import { Badge, Box, Center, FlexProps, HStack, Spacer } from "@chakra-ui/react";
 import { autorun, reaction, runInAction } from "mobx";
 import { observer } from "mobx-react";
-import gameState, { callUpdateGlobalSlot, callUpdateMarketDeck, callUpdateMarketplace, callUpdatePlayers } from "pages/store";
+import gameState, { callUpdateGlobalSlot, callUpdateLandfillPile, callUpdateMarketDeck, callUpdateMarketplace, callUpdatePlayers } from "pages/store";
 import React from "react";
 import PlayingCard from "src/components/PlayingCard";
 import Card from 'src/components/PlayingCard'
-import { CarbonCityZeroCard, SpecialRule } from "src/entities/carboncityzero/carbonCityZeroCard";
+import { CarbonCityZeroCard, Sector, SpecialRule } from "src/entities/carboncityzero/carbonCityZeroCard";
 import { Search, Status } from "src/entities/carboncityzero/carbonCityZeroPlayer";
 
 type IMarketPanelProps = {
@@ -85,6 +85,7 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                                     gameState.phase === "buying"
                                 ) ||
                                 player.status === Status.LandfillMarketCard
+                                const headSector = marketDeckCard?.sector
                                 const handleCardClick = () => {
                                     if (canBeBought) {
                                         if (player.status === Status.LandfillMarketCard) {
@@ -92,6 +93,13 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                                         } else {
                                             gameState.buyCard(c)
                                         }
+                                    }
+                                    callUpdatePlayers(gameState.players)
+                                    callUpdateMarketDeck(gameState.marketDeck)
+                                    callUpdateMarketplace(gameState.marketplace)
+                                    if (headSector === Sector.Global || headSector === Sector.Snag) {
+                                        callUpdateLandfillPile(gameState.landfillPile)
+                                        callUpdateGlobalSlot(gameState.globalSlot)
                                     }
                                 }
                                 return (
