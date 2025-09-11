@@ -93,13 +93,13 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
                                         } else {
                                             gameState.buyCard(c)
                                         }
-                                    }
-                                    callUpdatePlayers(gameState.players)
-                                    callUpdateMarketDeck(gameState.marketDeck)
-                                    callUpdateMarketplace(gameState.marketplace)
-                                    if (headSector === Sector.Global || headSector === Sector.Snag) {
-                                        callUpdateLandfillPile(gameState.landfillPile)
-                                        callUpdateGlobalSlot(gameState.globalSlot)
+                                        callUpdatePlayers(gameState.players)
+                                        callUpdateMarketDeck(gameState.marketDeck)
+                                        callUpdateMarketplace(gameState.marketplace)
+                                        if (headSector === Sector.Global || headSector === Sector.Snag) {
+                                            callUpdateLandfillPile(gameState.landfillPile)
+                                            callUpdateGlobalSlot(gameState.globalSlot)
+                                        }
                                     }
                                 }
                                 return (

@@ -114,8 +114,8 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
                                         } else {
                                             c.activate()
                                         }
+                                        callUpdatePlayers(gameState.players)
                                     }
-                                    callUpdatePlayers(gameState.players)
                                 }
                                 return (
                                     <React.Fragment key={c._uid}>
