@@ -1,6 +1,6 @@
 import { border, Box, BoxProps, Heading, Text, ThemingProps, useStyleConfig } from "@chakra-ui/react"
 import { mergeWith } from '@chakra-ui/utils';
-import { ICarbonCityZeroCard, LinkAbility, SpecialRule } from "src/entities/carboncityzero/carbonCityZeroCard";
+import { ICarbonCityZeroCard, LinkAbility, Sector, SpecialRule } from "src/entities/carboncityzero/carbonCityZeroCard";
 
 
 type ICardProps = Partial<ICarbonCityZeroCard> & ThemingProps & BoxProps & { interactable?: boolean }
@@ -113,7 +113,7 @@ const PlayingCard = (props: ICardProps) => {
             <Text sx={linkAbilityStyle}>{LinkAbility.toString(linkAbility)}</Text>
             <Text sx={incomeStyle}>{income}</Text>
             <Text sx={carbonStyle}>{carbon}</Text>
-            <Text sx={sectorStyle}>{sector}</Text>
+            <Text sx={sectorStyle}>{sector !== undefined ? Sector[sector] : ""}</Text>
         </Box>
     )
 
