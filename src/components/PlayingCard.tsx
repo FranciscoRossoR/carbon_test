@@ -77,14 +77,15 @@ const PlayingCard = (props: ICardProps) => {
     const costStyle = {
         fontSize: 'xs',
         position: 'absolute',
-        right: 0
+        right: "3%",
+        top: 0
     }
 
     // Income Style
     const incomeStyle = {
         fontSize: 'xs',
         position: 'absolute',
-        right: 0,
+        right: "3%",
         bottom: 0
     }
 
@@ -92,15 +93,15 @@ const PlayingCard = (props: ICardProps) => {
     const carbonStyle = {
         fontSize: 'xs',
         position: 'absolute',
-        left: 0,
-        bottom:0
+        left: "3%",
+        bottom: 0
     }
 
     // Sector Style
     const sectorStyle = {
         fontSize: 'xs',
         position: 'absolute',
-        left: 0,
+        left: "3%",
         top: 0
     }
 
