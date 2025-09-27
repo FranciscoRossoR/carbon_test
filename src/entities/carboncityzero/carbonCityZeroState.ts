@@ -120,6 +120,7 @@ export default class CarbonCityZeroState extends GameState {
             this.turn = 0
         }
         this.phase = "activating"
+        if (this.players.length === 1) this.currentPlayer.drawCards(this.playerDrawAmount)
         return this
     }
 
