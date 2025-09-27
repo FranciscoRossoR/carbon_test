@@ -33,10 +33,10 @@ const PlayingCard = (props: ICardProps) => {
         borderRadius: '10px'
     }
     const interactableCardStyle = interactable ? {
-        border: '2px solid blue',
+        outline: '3px solid blue',
         cursor: 'pointer',
         _hover: {
-            transform: 'translateY(-2px)',
+            transform: 'translateY(-10px)',
             boxShadow: 'lg'
         }  
     } : {
@@ -60,7 +60,8 @@ const PlayingCard = (props: ICardProps) => {
         position: 'absolute',
         top: '50%',
         textAlign: 'center',
-        width: '100%'
+        width: '100%',
+        px: 0
     }
 
     // Link Ability Style
