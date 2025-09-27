@@ -1,6 +1,6 @@
 import { border, Box, BoxProps, Heading, Text, ThemingProps, useStyleConfig } from "@chakra-ui/react"
 import { mergeWith } from '@chakra-ui/utils';
-import { ICarbonCityZeroCard } from "src/entities/carboncityzero/carbonCityZeroCard";
+import { ICarbonCityZeroCard, LinkAbility, Sector, SpecialRule } from "src/entities/carboncityzero/carbonCityZeroCard";
 
 
 type ICardProps = Partial<ICarbonCityZeroCard> & ThemingProps & BoxProps & { interactable?: boolean }
@@ -33,10 +33,10 @@ const PlayingCard = (props: ICardProps) => {
         borderRadius: '10px'
     }
     const interactableCardStyle = interactable ? {
-        border: '2px solid blue',
+        outline: '3px solid blue',
         cursor: 'pointer',
         _hover: {
-            transform: 'translateY(-2px)',
+            transform: 'translateY(-10px)',
             boxShadow: 'lg'
         }  
     } : {
@@ -44,56 +44,78 @@ const PlayingCard = (props: ICardProps) => {
 
     const boxStyle = mergeWith({}, PlayingCardStyle, cardStyle, interactableCardStyle, boxProps, sx)
 
-    // Card text style
-    const textStyle = {
+    // Card name style
+    const nameStyle = {
+        fontSize: 'sm',
+        fontWeight: 'bold',
+        position: 'absolute',
+        top: '20%',
+        textAlign: 'center',
+        width: '100%'
+    }
+
+    // Card special rule style
+    const specialRuleStyle = {
+        fontSize: 'xs',
         position: 'absolute',
         top: '50%',
-        transform: 'translateY(-50%)',
+        textAlign: 'center',
+        width: '100%',
+        px: 0
+    }
+
+    // Link Ability Style
+    const linkAbilityStyle = {
+        fontSize: 'xs',
+        color: 'white',
+        position: 'absolute',
+        top: '80%',
         textAlign: 'center',
         width: '100%'
     }
 
     // Cost style
     const costStyle = {
+        fontSize: 'xs',
         position: 'absolute',
-        right: 0
+        right: "3%",
+        top: 0
     }
 
     // Income Style
     const incomeStyle = {
+        fontSize: 'xs',
         position: 'absolute',
-        right: 0,
+        right: "3%",
         bottom: 0
     }
 
     // Carbon Style
     const carbonStyle = {
+        fontSize: 'xs',
         position: 'absolute',
-        left: 0,
-        bottom:0
+        left: "3%",
+        bottom: 0
     }
 
     // Sector Style
     const sectorStyle = {
+        fontSize: 'xs',
         position: 'absolute',
-        left: 0,
+        left: "3%",
         top: 0
     }
 
-    const linkAbilityStyle = {
-        position: 'absolute',
-        left: '50%',
-        bottom: 0
-    }
 
     return (
         <Box sx={boxStyle} onClick={onClick} {...boxProps}>
             <Text sx={costStyle}>{cost}</Text>
-            <Text sx={textStyle}>{name}</Text>
+            <Text sx={nameStyle}>{name}</Text>
+            <Text sx={specialRuleStyle}>{SpecialRule.toString(specialRule)}</Text>
+            <Text sx={linkAbilityStyle}>{LinkAbility.toString(linkAbility)}</Text>
             <Text sx={incomeStyle}>{income}</Text>
             <Text sx={carbonStyle}>{carbon}</Text>
-            <Text sx={sectorStyle}>{sector}</Text>
-            <Text sx={linkAbilityStyle}>{linkAbility}</Text>
+            <Text sx={sectorStyle}>{sector !== undefined ? Sector[sector] : ""}</Text>
         </Box>
     )
 

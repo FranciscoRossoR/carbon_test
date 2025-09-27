@@ -31,8 +31,8 @@ const theme = extendTheme({
                 borderStyle: 'solid',
                 color: 'cards.100',
                 boxShadow: '0px 0px 10px rgba(0, 0, 0.8, 0.1)',
-                h: '100px',
-                w: '70px',
+                h: '200px',
+                w: '140px',
             }),
             variants: {
                 0: {

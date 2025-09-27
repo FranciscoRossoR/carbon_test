@@ -32,7 +32,7 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
         // Global Card
         const globalCard = gameState.globalSlot.head
 
-        const deckWidth = '70px'
+        const deckWidth = '140px'
         const deckStyle = {
             borderBottom: '5px double',
             borderRight: '5px double',

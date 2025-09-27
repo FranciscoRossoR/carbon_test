@@ -32,7 +32,7 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
         const recyclePileSize = recyclePile.size
         const recyclePileCard = recyclePile.head
 
-        const deckWidth = '70px'
+        const deckWidth = '140px'
         const deckStyle = {
             borderBottom: '5px double',
             borderRight: '5px double',

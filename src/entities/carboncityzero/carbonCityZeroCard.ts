@@ -19,6 +19,21 @@ export enum LinkAbility {
     AnnulFactoryCarbon
 }
 
+export namespace LinkAbility {
+    export function toString(linkAbility: LinkAbility | undefined): string {
+        switch(linkAbility) {
+            case LinkAbility.DecreaseCarbon1:
+                return "Decrease carbon by 1"
+            case LinkAbility.DecreaseCarbon2:
+                return "Decrease carbon by 2"
+            case LinkAbility.AnnulFactoryCarbon:
+                return "Factories do not increase carbon"
+            default:
+                return ""
+        }
+    }
+}
+
 export enum SpecialRule {
     // Regular Special Rules
     DrawCard1 = 1,
@@ -35,6 +50,39 @@ export enum SpecialRule {
     IncreaseMarketplace,
     DecreaseCosts,
     IncreaseDrawnCards
+}
+
+export namespace SpecialRule {
+    export function toString(specialRule: SpecialRule | undefined): string {
+        switch (specialRule) {
+            case SpecialRule.DrawCard1:
+                return "Draw 1 card."
+            case SpecialRule.DrawCard2:
+                return "Draw 2 cards."
+            case SpecialRule.AnnulFactoryCarbon:
+                return "Factories do not increase carbon."
+            case SpecialRule.LandfillDrawnCard:
+                return "Landfill 1 card played this turn."
+            case SpecialRule.LandfillMarketCard:
+                return "Landfill 1 card from Marketplace. Refill Marketplace."
+            case SpecialRule.BuyToTop:
+                return "Place the next card you buy on top of your Draw Deck."
+            case SpecialRule.SearchDrawDeck:
+                return "Search your Draw Deck for any 1 card and play it now. Shuffle your Draw Deck."
+            case SpecialRule.SearchMarketDeckForGlobal:
+                return "Search the Market Deck for 1 Global Card and play it now. Shuffle the Market Deck."
+            case SpecialRule.AnnulLinkAbilities:
+                return "Cards cannot link this turn."
+            case SpecialRule.IncreaseMarketplace:
+                return "Increase Marketplace to 6 cards."
+            case SpecialRule.DecreaseCosts:
+                return "Decrease all costs by 1 (minimum cost 1)."
+            case SpecialRule.IncreaseDrawnCards:
+                return "In the Draw phase, players draw 6 cards."
+            default:
+                return ""
+        }
+    }
 }
 
 export interface ICarbonCityZeroCard extends ICard {
