@@ -23,11 +23,21 @@ export default observer(class HeadingPanel extends React.Component<IHeadingProps
                     </>
                 : null}
                 {(gameState.status === "playing") ?
+                    (gameState.players.length === 1) ?
+                        <>
+                            <Heading>Remaining Turns: {gameState.counter}</Heading>
+                        </>
+                    :
                     <>
                         <Heading>{currentPlayer.name}</Heading>
                     </>
                 : null} 
                 {(gameState.status === "finished") ?
+                    (gameState.counter < 1 && gameState.currentPlayer.carbon > 0) ?
+                        <>
+                            <Heading>Game lost</Heading>
+                        </>
+                    :
                     <>
                         <Heading>Game finished</Heading>
                         <Text>Winner: {gameState.winner?.name}</Text>

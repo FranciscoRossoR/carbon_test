@@ -25,6 +25,7 @@ export default class CarbonCityZeroState extends GameState {
     turn: number
     phase: Phase
     winner: CarbonCityZeroPlayer | undefined
+    counter: number
 
     public constructor(players?: CarbonCityZeroPlayer[], gameElements?: UniqueGameElement[], status?: GameStatus, complexAnalyst?: ComplexityAnalyst) {
         gameElements = []
@@ -39,6 +40,7 @@ export default class CarbonCityZeroState extends GameState {
         this.turn = -1
         this.phase = "ready"
         this.winner = undefined
+        this.counter = 10
         makeObservable(this, {
             availableActions: override,
             status: override,
@@ -120,7 +122,11 @@ export default class CarbonCityZeroState extends GameState {
             this.turn = 0
         }
         this.phase = "activating"
-        if (this.players.length === 1) this.currentPlayer.drawCards(this.playerDrawAmount)
+        if (this.players.length === 1) {
+            this.counter -= 1
+            if (this.counter < 1) this.setStatus("finished")
+            this.currentPlayer.drawCards(this.playerDrawAmount)
+        }
         return this
     }
 
