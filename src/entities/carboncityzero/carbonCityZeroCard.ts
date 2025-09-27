@@ -19,6 +19,21 @@ export enum LinkAbility {
     AnnulFactoryCarbon
 }
 
+export namespace LinkAbility {
+    export function toString(linkAbility: LinkAbility | undefined): string {
+        switch(linkAbility) {
+            case LinkAbility.DecreaseCarbon1:
+                return "Decrease carbon by 1"
+            case LinkAbility.DecreaseCarbon2:
+                return "Decrease carbon by 2"
+            case LinkAbility.AnnulFactoryCarbon:
+                return "Factories do not increase carbon"
+            default:
+                return ""
+        }
+    }
+}
+
 export enum SpecialRule {
     // Regular Special Rules
     DrawCard1 = 1,

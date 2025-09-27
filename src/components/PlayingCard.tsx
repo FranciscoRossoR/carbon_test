@@ -1,6 +1,6 @@
 import { border, Box, BoxProps, Heading, Text, ThemingProps, useStyleConfig } from "@chakra-ui/react"
 import { mergeWith } from '@chakra-ui/utils';
-import { ICarbonCityZeroCard, SpecialRule } from "src/entities/carboncityzero/carbonCityZeroCard";
+import { ICarbonCityZeroCard, LinkAbility, SpecialRule } from "src/entities/carboncityzero/carbonCityZeroCard";
 
 
 type ICardProps = Partial<ICarbonCityZeroCard> & ThemingProps & BoxProps & { interactable?: boolean }
@@ -49,8 +49,7 @@ const PlayingCard = (props: ICardProps) => {
         fontSize: 'sm',
         fontWeight: 'bold',
         position: 'absolute',
-        top: '30%',
-        transform: 'translateY(-50%)',
+        top: '20%',
         textAlign: 'center',
         width: '100%'
     }
@@ -59,8 +58,17 @@ const PlayingCard = (props: ICardProps) => {
     const specialRuleStyle = {
         fontSize: 'xs',
         position: 'absolute',
-        top: '70%',
-        transform: 'translateY(-50%)',
+        top: '50%',
+        textAlign: 'center',
+        width: '100%'
+    }
+
+    // Link Ability Style
+    const linkAbilityStyle = {
+        fontSize: 'xs',
+        color: 'white',
+        position: 'absolute',
+        top: '80%',
         textAlign: 'center',
         width: '100%'
     }
@@ -96,22 +104,16 @@ const PlayingCard = (props: ICardProps) => {
         top: 0
     }
 
-    const linkAbilityStyle = {
-        fontSize: 'xs',
-        position: 'absolute',
-        left: '50%',
-        bottom: 0
-    }
 
     return (
         <Box sx={boxStyle} onClick={onClick} {...boxProps}>
             <Text sx={costStyle}>{cost}</Text>
             <Text sx={nameStyle}>{name}</Text>
             <Text sx={specialRuleStyle}>{SpecialRule.toString(specialRule)}</Text>
+            <Text sx={linkAbilityStyle}>{LinkAbility.toString(linkAbility)}</Text>
             <Text sx={incomeStyle}>{income}</Text>
             <Text sx={carbonStyle}>{carbon}</Text>
             <Text sx={sectorStyle}>{sector}</Text>
-            <Text sx={linkAbilityStyle}>{linkAbility}</Text>
         </Box>
     )
 
