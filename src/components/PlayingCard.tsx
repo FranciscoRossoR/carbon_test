@@ -58,7 +58,7 @@ const PlayingCard = (props: ICardProps) => {
     const specialRuleStyle = {
         fontSize: 'xs',
         position: 'absolute',
-        top: '50%',
+        top: '40%',
         textAlign: 'center',
         width: '100%',
         px: 0
