@@ -1,15 +1,13 @@
-import Card from "framework/entities/card";
 import CardHolder from "framework/entities/cardholder";
 import GameAction from "framework/entities/gameAction";
 import GameState, { GameStatus } from "framework/entities/gameState";
 import CarbonCityZeroPlayer, { Search, Status } from "./carbonCityZeroPlayer";
 import UniqueGameElement from "framework/entities/gameElement";
 import ComplexityAnalyst from "framework/entities/complexityAnalyst";
-import OrderedCardHolder from "framework/entities/orderedcardholder";
-import { action, computed, makeObservable, observable, override, reaction } from "mobx";
+import { action, computed, makeObservable, observable, override } from "mobx";
 import { BuyAction, PassAction, ReadyAction } from "./actions";
 import { CarbonCityZeroCard, Sector } from "./carbonCityZeroCard";
-import { callUpdateLandfillPile, callUpdateMarketDeck, callUpdateMarketplace, callUpdatePlayers, callUpdateStatus } from "pages/store";
+import { callUpdateMarketDeck } from "pages/store";
 import { gameStartingDeck } from "pages/cardStore";
 
 export type Phase = "ready" | "activating" | "buying"

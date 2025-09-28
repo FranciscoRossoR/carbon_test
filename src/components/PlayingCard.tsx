@@ -124,16 +124,3 @@ const PlayingCard = (props: ICardProps) => {
 export default PlayingCard
 
 
-// // DEFAULT EMPTY CARD EXAMPLE
-
-// export const EmptyCard: ICarbonCityZeroCard = {
-//   name: "Empty",
-//   cost: 0,
-//   income: 0,
-//   carbon: 0,
-//   sector: "",
-//   linkAbility: "",
-//   _uid: "empty"
-// }
-
-// <PlayingCard {...(globalCard ?? EmptyCard)} />

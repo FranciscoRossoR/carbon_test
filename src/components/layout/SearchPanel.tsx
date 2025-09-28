@@ -4,7 +4,6 @@ import gameState, { callUpdateGlobalSlot, callUpdateLandfillPile, callUpdateMark
 import React from "react";
 import PlayingCard from "../PlayingCard";
 import { Search } from "src/entities/carboncityzero/carbonCityZeroPlayer";
-import OrderedCardHolder from "framework/entities/orderedcardholder";
 import { CarbonCityZeroCard, Sector } from "src/entities/carboncityzero/carbonCityZeroCard";
 import CardHolder from "framework/entities/cardholder";
 import { reaction } from "mobx";

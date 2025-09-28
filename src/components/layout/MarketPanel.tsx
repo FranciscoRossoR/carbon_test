@@ -1,11 +1,10 @@
-import { background, Badge, Box, Center, FlexProps, HStack, Spacer } from "@chakra-ui/react";
+import { Badge, Box, Center, FlexProps, HStack, Spacer } from "@chakra-ui/react";
 import { autorun, reaction, runInAction } from "mobx";
 import { observer } from "mobx-react";
 import gameState, { callUpdateGlobalSlot, callUpdateLandfillPile, callUpdateMarketDeck, callUpdateMarketplace, callUpdatePlayers } from "pages/store";
 import React from "react";
 import PlayingCard from "src/components/PlayingCard";
-import Card from 'src/components/PlayingCard'
-import { CarbonCityZeroCard, Sector, SpecialRule } from "src/entities/carboncityzero/carbonCityZeroCard";
+import { Sector, SpecialRule } from "src/entities/carboncityzero/carbonCityZeroCard";
 import { Search, Status } from "src/entities/carboncityzero/carbonCityZeroPlayer";
 
 type IMarketPanelProps = {
@@ -145,42 +144,36 @@ export default observer(class MarketPanel extends React.Component<IMarketPanelPr
 
 })
 
-// reaction(() => gameState.marketplace.size, () => {
-//     gameState.drawCards(gameState.marketSize - gameState.marketplace.size)
-// })
-
-autorun(() => {
-    if (!gameState.currentPlayer /* || gameState.phase === "ready" */) return
-    const gap = gameState.marketSize - gameState.marketplace.size
-    if (gap > 0) {
-        // runInAction(
-        //     () => {
-                gameState.drawCards(gap)
-                // callUpdateMarketDeck(gameState.marketDeck)
-                // callUpdateMarketplace(gameState.marketplace)
-                // callUpdateGlobalSlot(gameState.globalSlot)
-                // callUpdatePlayers(gameState.players)
-        //     }
-        // )
+autorun(
+    () => {
+        if (!gameState.currentPlayer) return
+        const gap = gameState.marketSize - gameState.marketplace.size
+        if (gap > 0) {
+            gameState.drawCards(gap)
+        }
     }
-})
+)
 
-reaction(() => gameState.globalSlot.head, () => {
-    // if (!gameState.globalSlot.head) return
-    const globalCard = gameState.globalSlot.head
-    if (globalCard.specialRule === SpecialRule.IncreaseMarketplace) {
-        gameState.setMarketSize(6)
-    } else {
-        gameState.setMarketSize(5)
+reaction(
+    () => gameState.globalSlot.head,
+    () => {
+        const globalCard = gameState.globalSlot.head
+        if (globalCard.specialRule === SpecialRule.IncreaseMarketplace) {
+            gameState.setMarketSize(6)
+        } else {
+            gameState.setMarketSize(5)
+        }
     }
-})
+)
 
-reaction(() => gameState.globalSlot.head, () => {
-    // if (!gameState.globalSlot.head) return
-    const globalCard = gameState.globalSlot.head
-    if (globalCard.specialRule === SpecialRule.IncreaseDrawnCards) {
-        gameState.setPlayerDrawAmount(6)
-    } else {
-        gameState.setPlayerDrawAmount(5)
+reaction(
+    () => gameState.globalSlot.head,
+    () => {
+        const globalCard = gameState.globalSlot.head
+        if (globalCard.specialRule === SpecialRule.IncreaseDrawnCards) {
+            gameState.setPlayerDrawAmount(6)
+        } else {
+            gameState.setPlayerDrawAmount(5)
+        }
     }
-})
+)
