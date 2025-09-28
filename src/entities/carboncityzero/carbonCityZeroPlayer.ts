@@ -1,7 +1,4 @@
 import Player from "framework/entities/player";
-import ResourcesPool from "framework/entities/resourcesPool";
-import OrderedCardHolder from "framework/entities/orderedcardholder";
-import Card from "framework/entities/card";
 import { action, makeObservable, observable, override } from "mobx";
 import CardHolder from "framework/entities/cardholder";
 import { CarbonCityZeroCard, LinkAbility, Sector, SpecialRule } from "./carbonCityZeroCard";
@@ -36,19 +33,6 @@ export default class CarbonCityZeroPlayer extends Player {
 
     public constructor(name: string) {
         super(name)
-        // const cards = [
-        //     //                      name                    co  i   ca  s   sR                                        
-        //     new CarbonCityZeroCard("Budget 1",              1,  1,  0,  0),
-        //     new CarbonCityZeroCard("Budget 2",              1,  1,  0,  0),
-        //     new CarbonCityZeroCard("Budget 3",              1,  1,  0,  0),
-        //     new CarbonCityZeroCard("Budget 4",              1,  1,  0,  0),
-        //     new CarbonCityZeroCard("Budget 5",              1,  1,  0,  0),
-        //     new CarbonCityZeroCard("Global Market 1",       1,  1,  1,  0,  5),
-        //     new CarbonCityZeroCard("Global Market 2",       1,  1,  1,  0,  5),
-        //     new CarbonCityZeroCard("Poor Housing Stock 1",  0,  0,  1,  4),
-        //     new CarbonCityZeroCard("Remote Properties 1",   0,  0,  0,  4),
-        // ]
-        // this.drawDeck = new CardHolder<CarbonCityZeroCard>(cards) // PLACEHOLDER
         this.drawDeck = playerStartingDeck
         this.drawDeck.shuffle()
         this.drawnCards = new CardHolder<CarbonCityZeroCard>()

@@ -1,7 +1,7 @@
 import { Badge, Box, Button, Center, FlexProps, HStack, Spacer } from "@chakra-ui/react"
 import { reaction } from "mobx"
 import { observer } from "mobx-react"
-import gameState, { callUpdateGlobalSlot, callUpdateLandfillPile, callUpdatePlayers, callUpdateWinner } from "pages/store"
+import gameState, { callUpdatePlayers, callUpdateWinner } from "pages/store"
 import React from "react"
 import PlayingCard from 'src/components/PlayingCard'
 import { SpecialRule } from "src/entities/carboncityzero/carbonCityZeroCard"
@@ -159,12 +159,8 @@ export default observer (class DrawPanel extends React.Component<IDrawPanelProps
 
 })
 
-// function safeProps<T extends object>(obj: T): Partial<T> {
-//         const entries = Object.entries(obj).filter(
-//             ([_, value]) => typeof value !== 'function')
-//         return Object.fromEntries(entries) as Partial<T>
-//     }
-
-reaction(() => gameState.turn, () => {
-    gameState.currentPlayer.drawCards(gameState.playerDrawAmount)
+reaction(
+    () => gameState.turn,
+    () => {
+        gameState.currentPlayer.drawCards(gameState.playerDrawAmount)
 })

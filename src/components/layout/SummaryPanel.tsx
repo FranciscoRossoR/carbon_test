@@ -1,11 +1,11 @@
-import { Box, Button, Center, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerOverlay, Flex, HStack, position, useDimensions, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Center, Flex, HStack, useDimensions } from "@chakra-ui/react";
 import Player from "framework/entities/player";
 import { observer } from "mobx-react";
-import gameState, { callUpdateGlobalSlot, callUpdateLandfillPile, callUpdateMarketDeck, callUpdateMarketplace, callUpdateMarketSize, callUpdatePhase, callUpdatePlayers, callUpdateStatus, callUpdateTurn, callUpdateWinner } from "pages/store";
+import gameState, { callUpdateGlobalSlot, callUpdateLandfillPile, callUpdateMarketDeck, callUpdateMarketplace, callUpdatePhase, callUpdatePlayers, callUpdateStatus, callUpdateTurn } from "pages/store";
 import React, { RefObject, useRef } from "react";
 import PlayerProfile from "../PlayerProfile";
 import CarbonCityZeroPlayer from "src/entities/carboncityzero/carbonCityZeroPlayer";
-import { autorun, reaction } from "mobx";
+import { reaction } from "mobx";
 
 export interface IPanelProps {}
 
@@ -19,7 +19,6 @@ export default observer(function SummaryPanel(props: IPanelProps) {
         width: "full",
         bottom: 0,
     }
-    // const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
         <Box ref={boxRef} __css={isMiniVersion ? sticky : {}} bgColor="brand.50">
@@ -57,7 +56,6 @@ export default observer(function SummaryPanel(props: IPanelProps) {
                                 <Button bgColor="brand.500" onClick={(e) => { onAddPlayer(e) }}>
                                     Add player
                                 </Button>
-                                {/* <NewPlayerDrawer isOpen={isOpen} onClose={onClose} /> */}
                             </>
                         : null}
                         {gameState.enoughPlayers ?
@@ -105,31 +103,3 @@ reaction(
     () => gameState.phase,
     () => callUpdatePhase(gameState.phase)
 )
-
-// reaction(
-//     () => gameState.winner,
-//     () => {if (gameState.winner){
-// callUpdateWinner(gameState.winner)
-// console.log("WINNER FOUND")
-//     } }
-// )
-
-// reaction(
-//     () => gameState.marketSize,
-//     () => callUpdateMarketSize(gameState.marketSize)
-// )
-
-// reaction(
-//     () => gameState.globalSlot.head,
-//     () => {
-//         if (gameState.phase !== "ready") {
-//             callUpdateGlobalSlot(gameState.globalSlot)
-//             callUpdateLandfillPile(gameState.landfillPile)
-//         }
-//     }
-// )
-
-// reaction(
-//     () => gameState.landfillPile.size,
-//     () => {if (gameState.phase !== "ready") callUpdateLandfillPile(gameState.landfillPile)}
-// )
