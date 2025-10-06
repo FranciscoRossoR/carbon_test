@@ -7,8 +7,12 @@ const handle = app.getRequestHandler();
 const PORT = process.env.PORT || 3000;
 
 app.prepare().then(() => {
-  const server = require('express')();
-  const httpServer = createServer(server);
+  // const server = require('express')();
+  // const httpServer = createServer(server);
+  const httpServer = createServer(async (req, res) => {
+    // Todas las rutas las maneja Next.js
+    handle(req, res);
+  });
 
   // Tu código de Socket.io
   const io = new Server(httpServer, { cors: { origin: '*' } });
@@ -29,7 +33,7 @@ app.prepare().then(() => {
   });
 
   // Next.js handler
-server.use((req, res) => handle(req, res));
+// server.use((req, res) => handle(req, res));
 
   httpServer.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
 });
